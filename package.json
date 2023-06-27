@@ -1,0 +1,13 @@
+{
+  "name": "talker-manager-ts",
+  "version": "1.0.0",
+  "description": "## Intro",
+  "main": "index.js",
+  "scripts": {
+    "dc-up": "docker-compose -f docker-compose-dev.yml up -d --build",
+    "dc-down": "docker-compose -f docker-compose-dev.yml down"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

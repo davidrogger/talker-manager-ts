@@ -1,4 +1,4 @@
-USE talker_manager_db
+USE talker_manager_db;
 
 CREATE TABLE user (
   id VARCHAR(10) PRIMARY KEY,

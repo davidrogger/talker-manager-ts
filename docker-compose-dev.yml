@@ -1,0 +1,42 @@
+version: "3"
+
+services:
+  db:
+    container_name: talker_manager_db
+    image: mysql:8.0.33
+    restart: always
+    ports:
+      - ${DB_PORT}:3306
+    volumes:
+      - ./migration.sql:/docker-entrypoint-initdb.d/migration.sql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASS}
+      - MYSQL_DATABASE=${DB_NAME}
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 3
+  
+  talker_api:
+    container_name: talker_manager_api
+    build:
+      dockerfile: ./backend/Dockerfile
+      context: .
+    restart: always
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+    ports:
+      - ${API_PORT}:3001
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - API_PORT=${API_PORT}
+      - API_HOSTNAME=${API_HOSTNAME}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}
+      - DB_PORT=${DB_PORT}
+    command: npm run dev
+
