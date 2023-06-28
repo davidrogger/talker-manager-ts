@@ -1,4 +1,9 @@
 export type Login = {
-  email: string
+  email: string,
   password: string,
 };
+
+export type User = {
+  id: number,
+  name: string,
+} & Login;
