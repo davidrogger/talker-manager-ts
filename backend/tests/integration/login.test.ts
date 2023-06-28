@@ -9,6 +9,8 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 describe('Route /login', () => {
+  beforeEach(sinon.restore);
+
   describe('Login with success', () => {
     it('Should return status 200 and a token', async () => {
       sinon.stub(jwt, 'sign').resolves('validtoken');
@@ -39,6 +41,25 @@ describe('Route /login', () => {
 
       expect(status).to.be.equal(400);
       expect(body.message).to.be.equal('Missing password field');
+    });
+  });
+
+  describe('Valid email and password', () => {
+    it('Should return status 409 message "Unauthorized Access" when the user is not registered', async () => {
+      const badPayloads = [
+        { email: 'not@registered.com', password: 'anything' },
+        { email: 'admin@admin.com', password: 'wrongPassword' },
+      ];
+      await Promise.all(
+        badPayloads.map(async (login) => {
+          const { status, body } = await chai
+            .request(app)
+            .post('/login')
+            .send(login);
+          expect(status).to.be.equal(409);
+          expect(body.message).to.be.equal('Unauthorized Access');
+        }),
+      );
     });
   });
 });
