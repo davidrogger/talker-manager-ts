@@ -1,4 +1,5 @@
 import app from './app';
+import 'dotenv/config';
 
 const PORT = Number(process.env.API_PORT) || 3001;
 const HOSTNAME = process.env.API_HOSTNAME || 'localhost';
