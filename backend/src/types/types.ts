@@ -1,9 +1,11 @@
-export type Login = {
+import { RowDataPacket } from 'mysql2';
+
+export type ILogin = {
   email: string,
   password: string,
 };
 
-export type User = {
+export type IUser = {
   id: number,
-  name: string,
-} & Login;
+  firstName: string,
+} & ILogin & RowDataPacket;
