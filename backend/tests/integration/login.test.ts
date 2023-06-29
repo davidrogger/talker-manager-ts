@@ -3,6 +3,7 @@ import chaiHttp from 'chai-http';
 import sinon from 'sinon';
 
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 import app from '../../src/app';
 import connection from '../../src/models/connection.model';
 import { IUser } from '../../src/types/types';
@@ -25,6 +26,8 @@ describe('Route /login', () => {
 
       sinon.stub(jwt, 'sign').resolves('validtoken');
       sinon.stub(connection, 'execute').resolves([[mockedUser], []]);
+      sinon.stub(bcrypt, 'compare').resolves(true);
+
       const { status, body } = await chai
         .request(app)
         .post('/login')
