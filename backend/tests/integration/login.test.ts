@@ -56,20 +56,22 @@ describe('Route /login', () => {
 
   describe('Valid email and password', () => {
     it('Should return status 409 message "Unauthorized Access" when the user is not registered', async () => {
-      const badPayloads = [
-        { email: 'not@registered.com', password: 'anything' },
-        { email: 'admin@admin.com', password: 'wrongPassword' },
-      ];
-      await Promise.all(
-        badPayloads.map(async (login) => {
-          const { status, body } = await chai
-            .request(app)
-            .post('/login')
-            .send(login);
-          expect(status).to.be.equal(409);
-          expect(body.message).to.be.equal('Unauthorized Access');
-        }),
-      );
+      sinon.stub(connection, 'execute').resolves([[], []]);
+      const { status, body } = await chai
+        .request(app)
+        .post('/login')
+        .send({ email: 'not@registered.com', password: 'anything' });
+      expect(status).to.be.equal(409);
+      expect(body.message).to.be.equal('Unauthorized Access');
+    });
+    it('Should return status 409 message "Unauthorized Access" when the password is wrong', async () => {
+      sinon.stub(connection, 'execute').resolves([[{ password: 'mockPassword' } as IUser], []]);
+      const { status, body } = await chai
+        .request(app)
+        .post('/login')
+        .send({ email: 'admin@admin.com', password: 'wrongPassword' });
+      expect(status).to.be.equal(409);
+      expect(body.message).to.be.equal('Unauthorized Access');
     });
   });
 });

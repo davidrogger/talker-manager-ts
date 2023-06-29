@@ -4,6 +4,6 @@ import { ILogin } from '../types/types';
 
 export async function checkUserCredentials(user:ILogin) {
   const userFound = await userModel.findUserByEmail(user.email);
-  if (userFound) return userFound;
+  if (userFound && userFound.password === user.password) return userFound;
   throw new Unauthorized();
 }
