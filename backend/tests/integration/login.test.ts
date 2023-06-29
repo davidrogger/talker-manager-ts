@@ -18,7 +18,8 @@ describe('Route /login', () => {
       const loginInput = { email: 'valid@email.com', password: 'validpassword' };
       const mockedUser = {
         id: 1,
-        firstName: 'Jonas Doe',
+        firstName: 'Jonas',
+        lastName: 'Doe',
         ...loginInput,
       } as IUser;
 

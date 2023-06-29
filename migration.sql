@@ -2,7 +2,8 @@ USE talker_manager_db;
 
 CREATE TABLE user (
   id VARCHAR(10) PRIMARY KEY,
-  name VARCHAR(10) NOT NULL,
+  first_name VARCHAR(15) NOT NULL,
+  last_name VARCHAR(15) NOT NULL,
   email VARCHAR(100) NOT NULL,
   password VARCHAR(50) NOT NULL
 );
