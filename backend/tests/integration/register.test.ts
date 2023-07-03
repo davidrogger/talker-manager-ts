@@ -38,8 +38,6 @@ describe('Route /register', () => {
 
   describe('Required fields to create a new User', () => {
     it('Should return status 400 message "Missing xx field"', async () => {
-      sinon.stub(connection, 'execute').resolves();
-
       const missingFields = [
         {
           field: 'firstName',
