@@ -8,3 +8,7 @@ export async function createUser(user:IUser): Promise<IUserPublic> {
     id, firstName, lastName, email,
   };
 }
+
+export async function findUserByEmail(email:string) {
+  return userModel.findUserByEmail(email);
+}

@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken';
 import { ResultSetHeader } from 'mysql2';
 import app from '../../src/app';
 import connection from '../../src/models/connection.model';
+import { IUser } from '../../src/types/types';
 
 chai.use(chaiHttp);
 const { expect } = chai;
@@ -19,7 +20,9 @@ describe('Route /register', () => {
   describe('Create a new user', () => {
     it('Should return status 201 with a token', async () => {
       sinon.stub(jwt, 'sign').resolves('validtoken');
-      sinon.stub(connection, 'execute').resolves([{ insertId: 1 } as ResultSetHeader, []]);
+      const mysqlStub = sinon.stub(connection, 'execute');
+      mysqlStub.onFirstCall().resolves([[], []]);
+      mysqlStub.onSecondCall().resolves([{ insertId: 1 } as ResultSetHeader, []]);
 
       const { status, body } = await chai
         .request(app)
@@ -88,10 +91,19 @@ describe('Route /register', () => {
 
   describe('Email need to be unique', () => {
     it('Should return status 409 message "Email address already in use"', async () => {
+      const user = {
+        firstName: 'Jonas',
+        lastName: 'Doe',
+        email: 'jonas@doe.com',
+        password: '123456',
+      };
+
+      sinon.stub(connection, 'execute').resolves([[{ id: 1, ...user } as IUser], []]);
+
       const { status, body } = await chai
         .request(app)
         .post(registerEndpoint)
-        .send({});
+        .send(user);
       expect(status).to.be.equal(409);
       expect(body.message).to.be.equal('Email address already in use');
     });
