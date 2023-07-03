@@ -1,10 +1,10 @@
 import {
-  Router, jwtService, loginRequiredFields, authService,
+  Router, jwtService, requiredField, authService,
 } from '.';
 
 const route = Router();
 
-route.post('/', loginRequiredFields, async (req, res, next) => {
+route.post('/', requiredField.login, async (req, res, next) => {
   const loginInput = req.body;
   try {
     const user = await authService.checkUserCredentials(loginInput);

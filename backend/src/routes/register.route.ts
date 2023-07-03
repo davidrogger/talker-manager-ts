@@ -1,10 +1,10 @@
 import {
-  Router, jwtService, userService,
+  Router, jwtService, userService, requiredField,
 } from '.';
 
 const route = Router();
 
-route.post('/', async (req, res, next) => {
+route.post('/', requiredField.newUser, async (req, res, next) => {
   const registerInput = req.body;
   try {
     const user = await userService.createUser(registerInput);
