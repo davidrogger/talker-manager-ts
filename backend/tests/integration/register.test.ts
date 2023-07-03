@@ -85,4 +85,15 @@ describe('Route /register', () => {
       );
     });
   });
+
+  describe('Email need to be unique', () => {
+    it('Should return status 409 message "Email address already in use"', async () => {
+      const { status, body } = await chai
+        .request(app)
+        .post(registerEndpoint)
+        .send({});
+      expect(status).to.be.equal(409);
+      expect(body.message).to.be.equal('Email address already in use');
+    });
+  });
 });
