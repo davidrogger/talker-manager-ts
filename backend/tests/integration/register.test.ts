@@ -4,7 +4,9 @@ import chaiHttp from 'chai-http';
 import sinon from 'sinon';
 import jwt from 'jsonwebtoken';
 
+import { ResultSetHeader } from 'mysql2';
 import app from '../../src/app';
+import connection from '../../src/models/connection.model';
 
 chai.use(chaiHttp);
 const { expect } = chai;
@@ -12,11 +14,12 @@ const { expect } = chai;
 const registerEndpoint = '/register';
 
 describe('Route /register', () => {
-  afterEach(sinon.restore);
+  beforeEach(sinon.restore);
 
   describe('Create a new user', () => {
     it('Should return status 201 with a token', async () => {
       sinon.stub(jwt, 'sign').resolves('validtoken');
+      sinon.stub(connection, 'execute').resolves([{ insertId: 1 } as ResultSetHeader, []]);
 
       const { status, body } = await chai
         .request(app)
