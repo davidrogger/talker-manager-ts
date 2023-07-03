@@ -1,13 +1,14 @@
 import Unauthorized from '../errors/Unauthorized';
 import * as userModel from '../models/user.model';
-import { ILogin, IUser } from '../types/types';
+import { ILogin, IUser, IUserPublic } from '../types/types';
 import * as encryptService from './encrypt.service';
 
-function normalize(user: IUser): IUser {
+function normalize(user: IUser): IUserPublic {
   return {
-    ...user,
+    id: user.id,
     firstName: user.first_name,
     lastName: user.last_name,
+    email: user.email,
   };
 }
 
