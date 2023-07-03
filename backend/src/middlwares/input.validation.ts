@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import BadRequest from '../errors/BadRequest';
+import * as userService from '../services/user.service';
+import Conflic from '../errors/Conflic';
 
 export function newUserRequiredFields(req:Request, _res:Response, next:NextFunction) {
   const user = req.body;
@@ -21,7 +23,12 @@ export function loginRequiredFields(req:Request, _res:Response, next:NextFunctio
   next();
 }
 
-export default {
-  login: loginRequiredFields,
-  newUser: newUserRequiredFields,
-};
+export async function emailUnique(req:Request, _res:Response, next:NextFunction) {
+  const { email } = req.body;
+
+  const userFound = await userService.findUserByEmail(email);
+
+  if (userFound) next(new Conflic('Email address already in use'));
+
+  next();
+}
