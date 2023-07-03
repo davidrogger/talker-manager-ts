@@ -35,4 +35,56 @@ describe('Route /register', () => {
       expect(body.token).to.be.equal('validtoken');
     });
   });
+
+  describe('Required fields to create a new User', () => {
+    it('Should return status 400 message "Missing xx field"', async () => {
+      sinon.stub(connection, 'execute').resolves();
+
+      const missingFields = [
+        {
+          field: 'firstName',
+          requestBody: {
+            lastName: 'Doe',
+            email: 'jonas@doe.com',
+            password: '123456',
+          },
+        },
+        {
+          field: 'lastName',
+          requestBody: {
+            firstName: 'Jonas',
+            email: 'jonas@doe.com',
+            password: '123456',
+          },
+        },
+        {
+          field: 'email',
+          requestBody: {
+            firstName: 'Jonas',
+            lastName: 'Doe',
+            password: '123456',
+          },
+        },
+        {
+          field: 'password',
+          requestBody: {
+            firstName: 'Jonas',
+            lastName: 'Doe',
+            email: 'jonas@doe.com',
+          },
+        },
+      ];
+
+      await Promise.all(
+        missingFields.map(async ({ requestBody, field }) => {
+          const { status, body } = await chai
+            .request(app)
+            .post(registerEndpoint)
+            .send(requestBody);
+          expect(status).to.be.equal(400);
+          expect(body.message).to.be.equal(`Missing ${field} field`);
+        }),
+      );
+    });
+  });
 });
