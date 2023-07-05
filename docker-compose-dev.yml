@@ -2,7 +2,7 @@ version: "3"
 
 services:
   db:
-    container_name: talker_manager_db
+    container_name: talker_db
     image: mysql:8.0.33
     restart: always
     ports:
@@ -17,8 +17,8 @@ services:
       timeout: 5s
       retries: 3
   
-  talker_api:
-    container_name: talker_manager_api
+  backend:
+    container_name: talker_backend
     build:
       dockerfile: ./backend/Dockerfile
       context: .
@@ -39,4 +39,23 @@ services:
       - DB_NAME=${DB_NAME}
       - DB_PORT=${DB_PORT}
     command: npm run dev
-
+    healthcheck:
+      test: ["CMD", "lsof", "-t", "-i:3001"]
+      timeout: 5s
+      retries: 3
+  
+  frontend:
+    container_name: talker_web
+    build:
+      dockerfile: ./frontend/Dockerfile
+      context: .
+    restart: always
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    ports:
+      - ${WEB_PORT}:3000
+    depends_on:
+      backend:
+        condition: service_healthy
+    command: npm run dev
