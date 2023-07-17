@@ -1,6 +1,8 @@
 function Header() {
   return (
-    <div>Header</div>
+    <div>
+      <h1>Talker Manager</h1>
+    </div>
   )
 }
 
