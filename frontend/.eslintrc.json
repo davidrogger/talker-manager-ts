@@ -12,12 +12,10 @@
     "plugin:testing-library/react"
   ],
   "rules": {
-    "import/extensions": ["error", "ignorePackages", {
-      "js": "never",
-      "jsx": "never",
-      "ts": "never",
-      "tsx": "never",
-      "mjs": "never"
-    }]
+    "import/no-extraneous-dependencies": [
+      "error", {
+        "includeInternal": true,
+        "includeTypes": true
+        }]
   }
 }
