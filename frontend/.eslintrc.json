@@ -4,7 +4,6 @@
     "jest": true,
     "browser": true
   },
-  "plugins": ["sonarjs"],
   "extends": [
     "next/core-web-vitals",
     "airbnb-base",
