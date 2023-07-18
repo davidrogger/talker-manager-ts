@@ -1,11 +1,10 @@
-import nextJest from 'next/jest.js';
-import { Config } from 'jest';
+import nextJest from 'next/jest';
 
 const createJestConfig = nextJest({
   dir: './',
 });
 
-const config:Config = {
+const config: import('jest').Config = {
   preset: 'ts-jest',
   testEnvironment: 'jest-environment-jsdom',
   testPathIgnorePatterns: ['./node_modules', './.next'],
@@ -13,6 +12,9 @@ const config:Config = {
   moduleNameMapper: {
     '^@/src/(.*)$': '<rootDir>/src/$1',
   },
+  coverageProvider: 'v8',
+  collectCoverage: true,
+  collectCoverageFrom: ['<rootDir>/src/**/*.tsx'],
 };
 
 export default createJestConfig(config);
