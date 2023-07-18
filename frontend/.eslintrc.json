@@ -9,12 +9,5 @@
     "airbnb-base",
     "plugin:jest-dom/recommended",
     "plugin:testing-library/react"
-  ],
-  "rules": {
-    "import/no-extraneous-dependencies": [
-      "error", {
-        "includeInternal": true,
-        "includeTypes": true
-        }]
-  }
+  ]
 }
