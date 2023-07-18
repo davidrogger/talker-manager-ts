@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import AnimatedLink from './AnimatedLink';
 
 function Header() {
   return (
@@ -12,15 +12,12 @@ function Header() {
         Talker Manager
       </h1>
 
-      <Link
-        data-testid='header-login-id'
-        className='relative inline-block hover:after'
-        href="/login"
-      >
-        <span className='hover-underline-animation'>
-          Login
-        </span>
-      </Link>
+      <AnimatedLink
+        href='/login'
+        testId='header-login-id'
+        title='Login'
+        underlineColor='white'
+      />
     </div>
   );
 }
