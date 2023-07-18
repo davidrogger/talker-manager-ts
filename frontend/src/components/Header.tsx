@@ -13,6 +13,7 @@ function Header() {
       </h1>
 
       <Link
+        data-testid='header-login-id'
         className='relative inline-block hover:after'
         href="/login"
       >
