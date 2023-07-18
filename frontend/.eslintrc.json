@@ -9,5 +9,14 @@
     "airbnb-base",
     "plugin:jest-dom/recommended",
     "plugin:testing-library/react"
-  ]
+  ],
+  "rules": {
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "tsx": "never"
+      }
+    ]
+  }
 }
