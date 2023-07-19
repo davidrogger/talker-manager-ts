@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 describe('Testing Component <InputPass />', () => {
   it('It should change the input type when clicked in the exchange button', async () => {
-    render(<InputPass />);
+    render(<InputPass placeholder='Password' />);
 
     const inputPass = screen.getByPlaceholderText('Password');
     const btnExchange = screen.getByRole('img');
