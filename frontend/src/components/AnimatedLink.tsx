@@ -14,7 +14,7 @@ function AnimatedLink({
   return (
     <Link
     data-testid={ testId }
-    className={`relative inline-block hover:after ${className}`}
+    className={`relative inline-block opacity-50 ${className} hover:after hover:opacity-100`}
     href={ href }
   >
     <span className={`hover-underline-animation after:bg-${underlineColor}`}>
