@@ -5,10 +5,10 @@ import InputText from '@/components/InputText';
 export default function Login() {
   return (
     <div
-      className="flex justify-center items-center absolute top-0 bg-white h-screen w-screen"
+      className="flex justify-center items-center absolute top-0 bg-zinc-100 h-screen w-screen bg-opacity-80"
     >
       <div
-        className="flex flex-col items-center justify-between h-96 w-80 border-2 shadow-md rounded"
+        className="flex flex-col items-center justify-between h-96 w-80 border-2 shadow-md rounded bg-white"
       >
         <h1
           className='text-2xl mt-10'
