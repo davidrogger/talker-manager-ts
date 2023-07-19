@@ -1,6 +1,8 @@
 import Login from '@/app/login/page';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import axios from 'axios';
+import { mockSuccessLogin } from '../mockData';
 
 describe('Testing page Login', () => {
   it('Should render all elements from page Login', () => {
@@ -27,5 +29,24 @@ describe('Testing page Login', () => {
 
     const warningMsg = await screen.findByText(/please you need to fill the email and password/i);
     expect(warningMsg).toBeInTheDocument();
+  });
+
+  it('Should request authentication to the API and go to the dashboard', async () => {
+    const mockResponse = mockSuccessLogin<{token:string}>({ token: 'validToken' });
+    const mockFetch = jest.spyOn(axios, 'post').mockResolvedValue(mockResponse);
+    render(<Login />);
+
+    const inputEmail = screen.getByPlaceholderText('Email');
+    const inputPassword = screen.getByPlaceholderText('Password');
+    const btnEnter = screen.getByRole('button', { name: 'Enter' });
+
+    await userEvent.type(inputEmail, 'teste@teste.com');
+    await userEvent.type(inputPassword, '123456');
+    await userEvent.click(btnEnter);
+
+    expect(mockFetch).toHaveBeenCalledTimes(1);
+
+    const dashboardTitle = await screen.findByRole('heading', { name: 'Dashboard' });
+    expect(dashboardTitle).toBeInTheDocument();
   });
 });
