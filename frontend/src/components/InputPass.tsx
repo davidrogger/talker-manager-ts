@@ -8,9 +8,13 @@ import closeEye from '@/images/closeEye.svg';
 
 import InputText from './InputText';
 
+type InputPassProps = {
+  placeholder: string,
+}
+
 type InputTypes = 'password' | 'text';
 
-function InputPass() {
+function InputPass({ placeholder }:InputPassProps) {
   const [inputType, setInputType] = useState<InputTypes>('password');
 
   const passIco = {
@@ -30,7 +34,7 @@ function InputPass() {
   return (
     <div className='relative'>
       <InputText
-        placeholder='Password'
+        placeholder={ placeholder }
         type={inputType}
       />
 
