@@ -1,5 +1,6 @@
 import Login from '@/app/login/page';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 describe('Testing page Login', () => {
   it('Should render all elements from page Login', () => {
@@ -17,5 +18,15 @@ describe('Testing page Login', () => {
     expect(btnEnter).toHaveAttribute('href', '/dashboard');
     expect(btnHome).toBeInTheDocument();
     expect(btnHome).toHaveAttribute('href', '/');
+  });
+
+  it('Should render a error message when trying to login without input any value', async () => {
+    render(<Login />);
+
+    const btnEnter = screen.getByRole('link', { name: 'Enter' });
+    await userEvent.click(btnEnter);
+
+    const warningMsg = await screen.findByText(/please you need to fill the email and password/i);
+    expect(warningMsg).toBeInTheDocument();
   });
 });
