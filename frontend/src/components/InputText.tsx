@@ -7,6 +7,8 @@ function InputText({ placeholder, type = 'text' }: InputTextProps) {
   return (
     <input
       type={type}
+      id={placeholder.toLowerCase()}
+      name={placeholder.toLowerCase()}
       placeholder={ placeholder }
       className="border rounded p-1 h-8 focus:border-opacity-80 m-1"
     />
