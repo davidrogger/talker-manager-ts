@@ -1,18 +1,18 @@
 'use client';
 
+import React from 'react';
+
 import AnimatedLink from '@/components/AnimatedLink';
 import InputPass from '@/components/InputPass';
 import InputText from '@/components/InputText';
 import WarningMsg from '@/components/WarningMsg';
-import React, { useState } from 'react';
 
-type LoginInput = {
-  email: string,
-  password: string,
-}
+import { useAuthContext } from '@/contexts/Auth';
+
+import { LoginInput } from '@/types';
 
 export default function Login() {
-  const [warning, setWarning] = useState<string>('');
+  const { loginMsg, setLoginMsg, signIn } = useAuthContext();
 
   function isFilledOut({ email, password }:LoginInput):boolean {
     return !!email && !!password;
@@ -21,12 +21,13 @@ export default function Login() {
   function handlerSubmit(event:React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
-    const loginInput = Object.fromEntries(formData);
-    if (isFilledOut(loginInput as LoginInput)) {
-      // Not Implemted yet
+    const loginInput = Object.fromEntries(formData) as LoginInput;
+
+    if (isFilledOut(loginInput)) {
+      signIn(loginInput);
     } else {
-      setWarning('Please you need to fill the email and password');
-      setTimeout(() => setWarning(''), 5000);
+      setLoginMsg('Please you need to fill the email and password');
+      setTimeout(() => setLoginMsg(''), 5000);
     }
   }
   return (
@@ -44,9 +45,9 @@ export default function Login() {
 
         <div className='flex flex-col relative border p-2 rounded'>
 
-          { warning && (
+          { loginMsg && (
             <WarningMsg
-              message='Please you need to fill the email and password'
+              message={ loginMsg }
             />
           ) }
 
