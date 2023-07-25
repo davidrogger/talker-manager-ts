@@ -1,6 +1,7 @@
-import {
-  Router, jwtService, userService, validate,
-} from '.';
+import { Router } from '.';
+
+import { jwtService, userService, encryptService } from '../services';
+import { validate } from '../middlwares';
 
 const route = Router();
 
@@ -11,7 +12,8 @@ route.post(
   async (req, res, next) => {
     const registerInput = req.body;
     try {
-      const user = await userService.createUser(registerInput);
+      const encryptedPassword = await encryptService.encryptPassword(registerInput.password);
+      const user = await userService.createUser({ ...registerInput, password: encryptedPassword });
       const token = await jwtService.tokenGenerator(user);
       res.status(201).json({ token });
     } catch (error) {

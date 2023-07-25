@@ -1,6 +1,7 @@
-import {
-  Router, jwtService, validate, authService,
-} from '.';
+import { Router } from '.';
+
+import { jwtService, authService } from '../services';
+import { validate } from '../middlwares';
 
 const route = Router();
 
