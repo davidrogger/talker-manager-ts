@@ -1,11 +1,11 @@
 USE talker_manager_db;
 
 CREATE TABLE user (
-  id VARCHAR(10) PRIMARY KEY,
+  id VARCHAR(50) PRIMARY KEY,
   first_name VARCHAR(15) NOT NULL,
   last_name VARCHAR(15) NOT NULL,
   email VARCHAR(100) UNIQUE NOT NULL,
-  password VARCHAR(50) NOT NULL
+  password VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE talker (
@@ -21,3 +21,6 @@ CREATE TABLE lecture (
 
   FOREIGN KEY (talker_id) REFERENCES talker(id)
 );
+
+INSERT INTO user (id, first_name, last_name, email, password)
+VALUES ('387f4c72-c314-456c-b00f-bd63a0a7ebd7', 'Talker', 'Manager', 'talker@manager.com', '123pass');
