@@ -4,6 +4,7 @@ import sinon from 'sinon';
 
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+
 import app from '../../src/app';
 import connection from '../../src/models/connection.model';
 import { IUser } from '../../src/types/types';
@@ -18,7 +19,7 @@ describe('Route /login', () => {
     it('Should return status 200 and a token', async () => {
       const loginInput = { email: 'valid@email.com', password: 'validpassword' };
       const mockedUser = {
-        id: 1,
+        id: 'generated-id',
         firstName: 'Jonas',
         lastName: 'Doe',
         ...loginInput,

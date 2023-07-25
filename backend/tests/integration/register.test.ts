@@ -1,7 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-
 import sinon from 'sinon';
+
 import jwt from 'jsonwebtoken';
 
 import { ResultSetHeader } from 'mysql2';
@@ -98,7 +98,7 @@ describe('Route /register', () => {
         password: '123456',
       };
 
-      sinon.stub(connection, 'execute').resolves([[{ id: 1, ...user } as IUser], []]);
+      sinon.stub(connection, 'execute').resolves([[{ id: 'generated-id', ...user } as IUser], []]);
 
       const { status, body } = await chai
         .request(app)

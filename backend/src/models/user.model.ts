@@ -12,11 +12,10 @@ export async function findUserByEmail(email:string): Promise<IUser | undefined> 
 }
 
 export async function createUser({
-  firstName, lastName, email, password,
+  id, firstName, lastName, email, password,
 }:IUser) {
-  const [{ insertId }] = await connection.execute<ResultSetHeader>(
-    'INSERT INTO user(first_name, last_name, email, password) VALUES (?, ?, ?, ?)',
-    [firstName, lastName, email, password],
+  await connection.execute<ResultSetHeader>(
+    'INSERT INTO user(id, first_name, last_name, email, password) VALUES (?, ?, ?, ?, ?)',
+    [id, firstName, lastName, email, password],
   );
-  return insertId;
 }

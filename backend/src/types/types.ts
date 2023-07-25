@@ -6,7 +6,7 @@ export type ILogin = {
 };
 
 export type IUser = {
-  id: number,
+  id: string,
   firstName: string,
   lastName: string,
 } & ILogin & RowDataPacket;

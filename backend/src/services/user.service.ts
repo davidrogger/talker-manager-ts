@@ -1,8 +1,11 @@
+import { v4 as uuid } from 'uuid';
+
 import { IUser, IUserPublic } from '../types/types';
 import * as userModel from '../models/user.model';
 
 export async function createUser(user:IUser): Promise<IUserPublic> {
-  const id = await userModel.createUser(user);
+  const id = uuid();
+  await userModel.createUser({ ...user, id });
   const { firstName, lastName, email } = user;
   return {
     id, firstName, lastName, email,
