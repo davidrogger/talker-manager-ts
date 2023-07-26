@@ -14,7 +14,10 @@ const config: import('jest').Config = {
   },
   coverageProvider: 'v8',
   collectCoverage: true,
-  collectCoverageFrom: ['<rootDir>/src/**/*.tsx'],
+  collectCoverageFrom: [
+    '<rootDir>/src/**/*.tsx',
+    '!<rootDir>/src/app/layout.tsx',
+  ],
 };
 
 export default createJestConfig(config);
