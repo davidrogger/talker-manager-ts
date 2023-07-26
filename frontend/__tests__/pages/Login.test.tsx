@@ -2,7 +2,10 @@ import Login from '@/app/login/page';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import axios from 'axios';
-import { mockSuccessLogin } from '../mockData';
+import { AuthProvider } from '@/contexts/Auth';
+
+import { RouterContext } from 'next/dist/shared/lib/router-context';
+import createMockRouter from '../utils/createMockRouter';
 
 describe('Testing page Login', () => {
   it('Should render all elements from page Login', () => {
@@ -22,7 +25,13 @@ describe('Testing page Login', () => {
   });
 
   it('Should render a error message when trying to login without input any value', async () => {
-    render(<Login />);
+    render(
+      <RouterContext.Provider value={createMockRouter({})}>
+        <AuthProvider>
+          <Login />
+        </AuthProvider>,
+      </RouterContext.Provider>,
+    );
 
     const btnEnter = screen.getByRole('button', { name: 'Enter' });
     await userEvent.click(btnEnter);
@@ -32,9 +41,14 @@ describe('Testing page Login', () => {
   });
 
   it('Should request authentication to the API and go to the dashboard', async () => {
-    const mockResponse = mockSuccessLogin<{token:string}>({ token: 'validToken' });
-    const mockFetch = jest.spyOn(axios, 'post').mockResolvedValue(mockResponse);
-    render(<Login />);
+    const mockFetch = jest.spyOn(axios, 'post').mockResolvedValue({ data: {} });
+    render(
+      <RouterContext.Provider value={createMockRouter({})}>
+        <AuthProvider>
+          <Login />
+        </AuthProvider>,
+      </RouterContext.Provider>,
+    );
 
     const inputEmail = screen.getByPlaceholderText('Email');
     const inputPassword = screen.getByPlaceholderText('Password');

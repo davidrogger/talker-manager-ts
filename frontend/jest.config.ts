@@ -7,7 +7,7 @@ const createJestConfig = nextJest({
 const config: import('jest').Config = {
   preset: 'ts-jest',
   testEnvironment: 'jest-environment-jsdom',
-  testPathIgnorePatterns: ['./node_modules', './.next'],
+  testPathIgnorePatterns: ['./node_modules', './.next', './__tests__/utils'],
   setupFilesAfterEnv: ['<rootDir>/.jest/setup.ts'],
   moduleNameMapper: {
     '^@/src/(.*)$': '<rootDir>/src/$1',

@@ -2,7 +2,7 @@
 
 import { loginAuth } from '@/services/api';
 import { LoginInput } from '@/types';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 import {
   ReactNode, createContext, useContext, useState,
 } from 'react';
