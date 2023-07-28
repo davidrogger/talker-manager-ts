@@ -8,7 +8,7 @@ import { AuthProvider } from '@/contexts/Auth';
 import RenderMockContextProviderNavigation from '../utils/RenderMockNavigationProvider';
 
 describe('Testing page Login', () => {
-  afterAll(() => jest.restoreAllMocks());
+  afterEach(() => jest.restoreAllMocks());
 
   it('Should render all elements from page Login', () => {
     render(<Login />);
@@ -62,5 +62,33 @@ describe('Testing page Login', () => {
 
     expect(mockApi).toHaveBeenCalledWith('/login', userInput);
     expect(mockRouter.push).toHaveBeenCalledWith('/dashboard');
+  });
+
+  it('Should show the axios response error when reject by the api', async () => {
+    const expectedMsg = 'Unauthorized Access';
+
+    jest.spyOn(api, 'post')
+      .mockRejectedValue({ response: { data: { message: expectedMsg } } });
+
+    const { user, mockRouter } = RenderMockContextProviderNavigation(
+      <AuthProvider>
+        <Login />
+      </AuthProvider>,
+    );
+
+    const userInput = { email: 'unauthorized@email.com', password: '123456' };
+
+    const inputEmail = screen.getByPlaceholderText('Email');
+    const inputPassword = screen.getByPlaceholderText('Password');
+    const btnEnter = screen.getByRole('button', { name: 'Enter' });
+
+    await user.type(inputEmail, userInput.email);
+    await user.type(inputPassword, userInput.password);
+    await user.click(btnEnter);
+
+    const warningMsg = await screen.findByText(expectedMsg);
+
+    expect(warningMsg).toBeInTheDocument();
+    expect(mockRouter.push).not.toHaveBeenCalledWith('/dashboard');
   });
 });
