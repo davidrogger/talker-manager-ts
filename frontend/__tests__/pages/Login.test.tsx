@@ -3,7 +3,9 @@ import { render, screen } from '@testing-library/react';
 import Login from '@/app/login/page';
 
 import { api } from '@/services/api';
-import { renderWithProviders } from '../utils/mockRouter';
+
+import { AuthProvider } from '@/contexts/Auth';
+import RenderMockContextProviderNavigation from '../utils/RenderMockNavigationProvider';
 
 describe('Testing page Login', () => {
   afterAll(() => jest.restoreAllMocks());
@@ -25,7 +27,11 @@ describe('Testing page Login', () => {
   });
 
   it('Should render a error message when trying to login without input any value', async () => {
-    const { user } = renderWithProviders(<Login />);
+    const { user } = RenderMockContextProviderNavigation(
+      <AuthProvider>
+        <Login />
+      </AuthProvider>,
+    );
 
     const btnEnter = screen.getByRole('button', { name: 'Enter' });
     await user.click(btnEnter);
@@ -38,7 +44,11 @@ describe('Testing page Login', () => {
     const mockApi = jest.spyOn(api, 'post')
       .mockResolvedValue({ data: { token: 'valid-token' } });
 
-    const { user, router } = renderWithProviders(<Login />);
+    const { user, mockRouter } = RenderMockContextProviderNavigation(
+      <AuthProvider>
+        <Login />
+      </AuthProvider>,
+    );
 
     const userInput = { email: 'teste@teste.com', password: '123456' };
 
@@ -50,7 +60,7 @@ describe('Testing page Login', () => {
     await user.type(inputPassword, userInput.password);
     await user.click(btnEnter);
 
-    expect(mockApi).toHaveBeenCalledWith('/users', userInput);
-    expect(router.push).toHaveBeenCalledWith('/dashboard');
+    expect(mockApi).toHaveBeenCalledWith('/login', userInput);
+    expect(mockRouter.push).toHaveBeenCalledWith('/dashboard');
   });
 });

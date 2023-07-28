@@ -2,10 +2,14 @@
 
 import { loginAuth } from '@/services/api';
 import { LoginInput } from '@/types';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import {
   ReactNode, createContext, useContext, useState,
 } from 'react';
+
+type LoggedUser = {
+  token?: string;
+}
 
 type IAuthContext = {
   isAuthenticated: boolean;
@@ -22,10 +26,11 @@ type AuthProviderProps = {
 
 export function AuthProvider({ children }:AuthProviderProps) {
   const [loginMsg, setLoginMsg] = useState('');
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<null | LoggedUser>(null);
 
-  const isAuthenticated = false;
   const router = useRouter();
+
+  const isAuthenticated = !!user;
 
   async function signIn({ email, password }: LoginInput) {
     const { token, error } = await loginAuth({ email, password });
@@ -37,6 +42,7 @@ export function AuthProvider({ children }:AuthProviderProps) {
     if (token) {
       console.log('talker-cookies', token);
       router.push('/dashboard');
+      setUser({ token });
     }
   }
 
