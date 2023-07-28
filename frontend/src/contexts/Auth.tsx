@@ -40,10 +40,8 @@ export function AuthProvider({ children }:AuthProviderProps) {
     }
 
     if (token) {
-      console.log('talker-cookies', token);
       router.push('/dashboard');
       setUser({ token });
-      console.log('authenticated', isAuthenticated);
     }
   }
 

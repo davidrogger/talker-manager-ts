@@ -1,4 +1,4 @@
-import AnimatedLink from './AnimatedLink';
+import HeaderBtns from './HeaderBtns';
 
 function Header() {
   return (
@@ -12,12 +12,8 @@ function Header() {
         Talker Manager
       </h1>
 
-      <AnimatedLink
-        href='/login'
-        testId='header-login-id'
-        title='Login'
-        underlineColor='white'
-      />
+      <HeaderBtns />
+
     </div>
   );
 }

@@ -20,8 +20,8 @@ describe('Testing Component <Header />', () => {
       </AuthContext.Provider>,
     );
 
-    const logout = screen.getByText('Logout');
-    const dashboard = screen.getByText('dashboard');
+    const logout = screen.getByTestId('header-logout-id');
+    const dashboard = screen.getByTestId('header-dashboard-id');
 
     expect(logout).toBeInTheDocument();
     expect(dashboard).toBeInTheDocument();
