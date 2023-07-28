@@ -19,8 +19,12 @@ export async function loginAuth(user:LoginInput):Promise<LoginReponse> {
     return { token };
   } catch (error) {
     const axiosError = error as AxiosErrorResponse;
-    const { data: { message } } = axiosError.response;
 
-    return { error: { message } } as LoginReponse;
+    if (axiosError.response) {
+      const { data: { message } } = axiosError.response;
+      return { error: { message } } as LoginReponse;
+    }
+
+    return { error } as LoginReponse;
   }
 }
