@@ -11,14 +11,14 @@ type LoggedUser = {
   token?: string;
 }
 
-type IAuthContext = {
+export type IAuthContext = {
   isAuthenticated: boolean;
   loginMsg: string;
   signIn: (login:LoginInput) => Promise<void>;
   setLoginMsg: (phrase:string) => void;
 }
 
-const Context = createContext({} as IAuthContext);
+export const AuthContext = createContext({} as IAuthContext);
 
 type AuthProviderProps = {
   children: ReactNode;
@@ -43,16 +43,17 @@ export function AuthProvider({ children }:AuthProviderProps) {
       console.log('talker-cookies', token);
       router.push('/dashboard');
       setUser({ token });
+      console.log('authenticated', isAuthenticated);
     }
   }
 
   return (
-    <Context.Provider value={ {
+    <AuthContext.Provider value={ {
       isAuthenticated, loginMsg, signIn, setLoginMsg,
     } }>
       { children }
-    </Context.Provider>
+    </AuthContext.Provider>
   );
 }
 
-export const useAuthContext = () => useContext(Context);
+export const useAuthContext = () => useContext(AuthContext);
