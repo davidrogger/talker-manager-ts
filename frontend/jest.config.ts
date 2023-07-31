@@ -1,10 +1,11 @@
 import nextJest from 'next/jest';
+import type { Config } from 'jest';
 
 const createJestConfig = nextJest({
   dir: './',
 });
 
-const config: import('jest').Config = {
+const config:Config = {
   preset: 'ts-jest',
   testEnvironment: 'jest-environment-jsdom',
   testPathIgnorePatterns: ['./node_modules', './.next', './__tests__/utils'],
