@@ -1,17 +1,15 @@
-import { render, screen } from '@testing-library/react';
-
-import Login from '@/app/login/page';
+import { screen } from '@testing-library/react';
 
 import { api } from '@/services/api';
 
-import { AuthProvider } from '@/contexts/Auth';
-import RenderMockContextProviderNavigation from '../utils/RenderMockNavigationProvider';
+import RenderPage from '../utils/RenderPage';
 
 describe('Testing page Login', () => {
   afterEach(() => jest.restoreAllMocks());
 
   it('Should render all elements from page Login', () => {
-    render(<Login />);
+    RenderPage({ route: '/login' });
+
     const title = screen.getByRole('heading', { name: 'Manager Login' });
     const inputEmail = screen.getByPlaceholderText('Email');
     const inputPassword = screen.getByPlaceholderText('Password');
@@ -27,11 +25,7 @@ describe('Testing page Login', () => {
   });
 
   it('Should render a error message when trying to login without input any value', async () => {
-    const { user } = RenderMockContextProviderNavigation(
-      <AuthProvider>
-        <Login />
-      </AuthProvider>,
-    );
+    const { user } = RenderPage({ route: '/login' });
 
     const btnEnter = screen.getByRole('button', { name: 'Enter' });
     await user.click(btnEnter);
@@ -44,11 +38,7 @@ describe('Testing page Login', () => {
     const mockApi = jest.spyOn(api, 'post')
       .mockResolvedValue({ data: { token: 'valid-token' } });
 
-    const { user, mockRouter } = RenderMockContextProviderNavigation(
-      <AuthProvider>
-        <Login />
-      </AuthProvider>,
-    );
+    const { user, mockRouter } = RenderPage({ route: '/login' });
 
     const userInput = { email: 'teste@teste.com', password: '123456' };
 
@@ -70,11 +60,7 @@ describe('Testing page Login', () => {
     jest.spyOn(api, 'post')
       .mockRejectedValue({ response: { data: { message: expectedMsg } } });
 
-    const { user, mockRouter } = RenderMockContextProviderNavigation(
-      <AuthProvider>
-        <Login />
-      </AuthProvider>,
-    );
+    const { user, mockRouter } = RenderPage({ route: '/login' });
 
     const userInput = { email: 'unauthorized@email.com', password: '123456' };
 
