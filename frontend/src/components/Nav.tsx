@@ -12,16 +12,22 @@ export default function Nav() {
 
   return (
     isAuthenticated
-      ? (<div>
+      ? (<div className='w-56 flex justify-between'>
+      <AnimatedLink
+          href='/'
+          testId='header-home-nav-id'
+          title='Home'
+          underlineColor='white'
+        />
       <AnimatedLink
           href='/dashboard'
-          testId='header-dashboard-id'
+          testId='header-dashboard-nav-id'
           title='Dashboard'
           underlineColor='white'
         />
       <button
-          data-testid='header-logout-id'
-          className='opacity-50 hover:opacity-100 ml-4'
+          data-testid='header-logout-nav-id'
+          className='opacity-50 hover:opacity-100'
           onClick={logoutHandler}
         >
           Logout
@@ -29,7 +35,7 @@ export default function Nav() {
       </ div>)
       : (<AnimatedLink
         href='/login'
-        testId='header-login-id'
+        testId='header-login-nav-id'
         title='Login'
         underlineColor='white'
       />)
