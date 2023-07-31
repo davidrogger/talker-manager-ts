@@ -1,4 +1,4 @@
-import HeaderBtns from './HeaderBtns';
+import Nav from './Nav';
 
 function Header() {
   return (
@@ -12,7 +12,7 @@ function Header() {
         Talker Manager
       </h1>
 
-      <HeaderBtns />
+      <Nav />
 
     </div>
   );

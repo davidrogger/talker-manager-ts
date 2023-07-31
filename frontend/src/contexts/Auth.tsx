@@ -16,6 +16,7 @@ export type IAuthContext = {
   loginMsg: string;
   signIn: (login:LoginInput) => Promise<void>;
   setLoginMsg: (phrase:string) => void;
+  signOut: () => void;
 }
 
 export const AuthContext = createContext({} as IAuthContext);
@@ -32,6 +33,10 @@ export function AuthProvider({ children }:AuthProviderProps) {
 
   const isAuthenticated = !!user;
 
+  async function getUserData(token) {
+    //
+  }
+
   async function signIn({ email, password }: LoginInput) {
     const { token, error } = await loginAuth({ email, password });
 
@@ -45,9 +50,14 @@ export function AuthProvider({ children }:AuthProviderProps) {
     }
   }
 
+  async function signOut() {
+    router.push('/');
+    setUser(null);
+  }
+
   return (
     <AuthContext.Provider value={ {
-      isAuthenticated, loginMsg, signIn, setLoginMsg,
+      isAuthenticated, loginMsg, signIn, setLoginMsg, signOut,
     } }>
       { children }
     </AuthContext.Provider>
