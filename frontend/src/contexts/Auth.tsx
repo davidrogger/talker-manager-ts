@@ -1,15 +1,11 @@
 'use client';
 
-import { loginAuth } from '@/services/api';
-import { LoginInput } from '@/types';
+import { getUserData, loginAuth } from '@/services/api';
+import { LoggedUser, LoginInput } from '@/types';
 import { useRouter } from 'next/navigation';
 import {
-  ReactNode, createContext, useContext, useState,
+  ReactNode, createContext, useContext, useEffect, useState,
 } from 'react';
-
-type LoggedUser = {
-  token?: string;
-}
 
 const LOCAL_TOKEN_KEY = 'talker-token';
 
@@ -19,6 +15,7 @@ export type IAuthContext = {
   signIn: (login:LoginInput) => Promise<void>;
   setLoginMsg: (phrase:string) => void;
   signOut: () => void;
+  user: null | LoggedUser;
 }
 
 export const AuthContext = createContext({} as IAuthContext);
@@ -35,9 +32,28 @@ export function AuthProvider({ children }:AuthProviderProps) {
 
   const isAuthenticated = !!user;
 
-  async function getUserData(token) {
-    //
+  function getStoredToken() {
+    return localStorage.getItem(LOCAL_TOKEN_KEY);
   }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  async function authStoredToken():Promise<void> {
+    const token = getStoredToken();
+
+    if (token) {
+      const validUser = await getUserData(token);
+
+      if (validUser) {
+        setUser(validUser);
+      } else {
+        router.push('/');
+      }
+    }
+  }
+
+  useEffect(() => {
+    authStoredToken();
+  }, [authStoredToken]);
 
   async function signIn({ email, password }: LoginInput) {
     const { token, error } = await loginAuth({ email, password });
@@ -60,7 +76,7 @@ export function AuthProvider({ children }:AuthProviderProps) {
 
   return (
     <AuthContext.Provider value={ {
-      isAuthenticated, loginMsg, signIn, setLoginMsg, signOut,
+      isAuthenticated, loginMsg, signIn, setLoginMsg, signOut, user,
     } }>
       { children }
     </AuthContext.Provider>

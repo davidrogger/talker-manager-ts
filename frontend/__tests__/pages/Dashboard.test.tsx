@@ -2,6 +2,7 @@ import Dashboard from '@/app/dashboard/page';
 import { AuthProvider } from '@/contexts/Auth';
 import { api } from '@/services/api';
 import { render, screen } from '@testing-library/react';
+import RenderWithAuthProvider from '../utils/RenderWithAuthProvider';
 
 describe('Testing page Dashboard', () => {
   it('Should render dashboard elements', () => {
@@ -14,22 +15,24 @@ describe('Testing page Dashboard', () => {
 
   it('Should render the name of the manager logged in the dashboard painel', async () => {
     const mockUser = {
-      firstName: 'Jonas',
-      lastName: 'Doe',
-      email: 'jonasdoe@testes.com',
+      data: {
+        user: {
+          firstName: 'Jonas',
+          lastName: 'Doe',
+          email: 'jonasdoe@testes.com',
+        },
+      },
     };
 
-    const mockLocalStorage = jest.spyOn(Object.getPrototypeOf(window.localStorage), 'get').mockReturnValue('');
-    const mockAPI = jest.spyOn(api, 'getUserData').mockResolvedValue(mockUser);
+    jest.mock('axios');
 
-    render(
-      <AuthProvider>
-        <Dashboard />
-      </AuthProvider>,
-    );
+    const mockLocalStorage = jest.spyOn(Object.getPrototypeOf(window.localStorage), 'getItem').mockReturnValue('valid-token');
+    const mockAPI = jest.spyOn(api, 'get').mockResolvedValue(mockUser);
+
+    RenderWithAuthProvider(<Dashboard />);
 
     expect(mockLocalStorage).toHaveBeenCalled();
     expect(mockAPI).toHaveBeenCalled();
-    expect(await screen.findByText('Jonas Doe')).toBeInTheDocument();
+    expect(await screen.findByTestId('welcome-name-id')).toBeInTheDocument();
   });
 });

@@ -9,3 +9,9 @@ export type LoginReponse = {
   };
   token?: string;
 }
+
+export type LoggedUser = {
+  firstName: string;
+  lastName: string;
+  email: string;
+}

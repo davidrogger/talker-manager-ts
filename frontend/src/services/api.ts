@@ -1,4 +1,4 @@
-import { LoginReponse, LoginInput } from '@/types';
+import { LoginReponse, LoginInput, LoggedUser } from '@/types';
 import axios from 'axios';
 
 type AxiosErrorResponse = {
@@ -26,5 +26,14 @@ export async function loginAuth(user:LoginInput):Promise<LoginReponse> {
     }
 
     return { error } as LoginReponse;
+  }
+}
+
+export async function getUserData(token:string):Promise<LoggedUser | null> {
+  try {
+    const { data: { user } } = await api.get('/me', { headers: { Authorization: token } });
+    return user;
+  } catch (error) {
+    return null;
   }
 }
