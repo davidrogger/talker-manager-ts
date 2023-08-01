@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken';
 import { ResultSetHeader } from 'mysql2';
 import app from '../../src/app';
 import connection from '../../src/models/connection.model';
-import { IUser } from '../../src/types/types';
+import { IUser } from '../types';
 
 chai.use(chaiHttp);
 const { expect } = chai;

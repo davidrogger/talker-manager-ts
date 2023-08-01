@@ -7,7 +7,8 @@ import bcrypt from 'bcrypt';
 
 import app from '../../src/app';
 import connection from '../../src/models/connection.model';
-import { IUser } from '../../src/types/types';
+import { IUser } from '../../src/types';
+import { loginInput, mockedUser } from './_mockData';
 
 chai.use(chaiHttp);
 const { expect } = chai;
@@ -17,14 +18,6 @@ describe('Route /login', () => {
 
   describe('Login with success', () => {
     it('Should return status 200 and a token', async () => {
-      const loginInput = { email: 'valid@email.com', password: 'validpassword' };
-      const mockedUser = {
-        id: 'generated-id',
-        firstName: 'Jonas',
-        lastName: 'Doe',
-        ...loginInput,
-      } as IUser;
-
       sinon.stub(jwt, 'sign').resolves('validtoken');
       sinon.stub(connection, 'execute').resolves([[mockedUser], []]);
       sinon.stub(bcrypt, 'compare').resolves(true);

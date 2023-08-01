@@ -1,5 +1,4 @@
 import Dashboard from '@/app/dashboard/page';
-import { AuthProvider } from '@/contexts/Auth';
 import { api } from '@/services/api';
 import { render, screen } from '@testing-library/react';
 import RenderWithAuthProvider from '../utils/RenderWithAuthProvider';
@@ -33,6 +32,6 @@ describe('Testing page Dashboard', () => {
 
     expect(mockLocalStorage).toHaveBeenCalled();
     expect(mockAPI).toHaveBeenCalled();
-    expect(await screen.findByTestId('welcome-name-id')).toBeInTheDocument();
+    expect(await screen.findByTestId('welcome-name-id')).toHaveTextContent('Olá, Jonas Doe!');
   });
 });

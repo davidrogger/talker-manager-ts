@@ -6,6 +6,7 @@ import Login from '@/app/login/page';
 import RenderWithAuthProvider from '../utils/RenderWithAuthProvider';
 
 describe('Testing page Login', () => {
+  beforeEach(() => jest.spyOn(Object.getPrototypeOf(window.localStorage), 'getItem').mockReturnValue(''));
   afterEach(() => jest.restoreAllMocks());
 
   it('Should render all elements from page Login', () => {
