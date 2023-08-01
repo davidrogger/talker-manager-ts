@@ -19,7 +19,7 @@ describe('Testing page Dashboard', () => {
       email: 'jonasdoe@testes.com',
     };
 
-    const mockLocalStorage = jest.spyOn(localStorage, 'get').mockReturnValue('');
+    const mockLocalStorage = jest.spyOn(Object.getPrototypeOf(window.localStorage), 'get').mockReturnValue('');
     const mockAPI = jest.spyOn(api, 'getUserData').mockResolvedValue(mockUser);
 
     render(
