@@ -6,8 +6,8 @@ import AnimatedLink from './AnimatedLink';
 export default function Nav() {
   const { isAuthenticated, signOut } = useAuthContext();
 
-  async function logoutHandler() {
-    await signOut();
+  function logoutHandler() {
+    signOut();
   }
 
   return (

@@ -4,7 +4,7 @@ import { getUserData, loginAuth } from '@/services/api';
 import { LoggedUser, LoginInput } from '@/types';
 import { useRouter } from 'next/navigation';
 import {
-  ReactNode, createContext, useContext, useEffect, useState,
+  ReactNode, createContext, useContext, useState,
 } from 'react';
 
 const LOCAL_TOKEN_KEY = 'talker-token';
@@ -16,6 +16,7 @@ export type IAuthContext = {
   setLoginMsg: (phrase:string) => void;
   signOut: () => void;
   user: null | LoggedUser;
+  authStoredToken: () => void;
 }
 
 export const AuthContext = createContext({} as IAuthContext);
@@ -36,24 +37,23 @@ export function AuthProvider({ children }:AuthProviderProps) {
     return localStorage.getItem(LOCAL_TOKEN_KEY);
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  async function authStoredToken():Promise<void> {
-    const token = getStoredToken();
-
-    if (token) {
-      const validUser = await getUserData(token);
-
-      if (validUser) {
-        setUser(validUser);
-      } else {
-        router.push('/');
-      }
-    }
+  function signOut() {
+    localStorage.clear();
+    setUser(null);
+    router.push('/');
   }
 
-  useEffect(() => {
-    authStoredToken();
-  }, [authStoredToken]);
+  function authStoredToken():void {
+    const token = getStoredToken();
+    if (token) {
+      getUserData(token)
+        .then((response) => {
+          setUser(response);
+        });
+    } else {
+      router.push('/');
+    }
+  }
 
   async function signIn({ email, password }: LoginInput) {
     const { token, error } = await loginAuth({ email, password });
@@ -64,19 +64,13 @@ export function AuthProvider({ children }:AuthProviderProps) {
 
     if (token) {
       router.push('/dashboard');
-      localStorage.setItem(LOCAL_TOKEN_KEY, JSON.stringify({ token }));
+      localStorage.setItem(LOCAL_TOKEN_KEY, token);
     }
-  }
-
-  async function signOut() {
-    localStorage.clear();
-    router.push('/');
-    setUser(null);
   }
 
   return (
     <AuthContext.Provider value={ {
-      isAuthenticated, loginMsg, signIn, setLoginMsg, signOut, user,
+      isAuthenticated, loginMsg, signIn, setLoginMsg, signOut, user, authStoredToken,
     } }>
       { children }
     </AuthContext.Provider>

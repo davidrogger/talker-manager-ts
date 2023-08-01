@@ -56,7 +56,7 @@ describe('Testing page Login', () => {
 
     expect(mockApi).toHaveBeenCalledWith('/login', userInput);
     expect(mockRouter.push).toHaveBeenCalledWith('/dashboard');
-    expect(mockLocalStorage).toHaveBeenCalledWith('talker-token', JSON.stringify({ token: 'valid-token' }));
+    expect(mockLocalStorage).toHaveBeenCalledWith('talker-token', 'valid-token');
   });
 
   it('Should show the axios response error when reject by the api', async () => {

@@ -1,13 +1,13 @@
 import Dashboard from '@/app/dashboard/page';
 import { api } from '@/services/api';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import RenderWithAuthProvider from '../utils/RenderWithAuthProvider';
 
 describe('Testing page Dashboard', () => {
-  it('Should render dashboard elements', () => {
-    render(<Dashboard />);
+  it('Should render dashboard elements', async () => {
+    RenderWithAuthProvider(<Dashboard />);
 
-    const title = screen.getByRole('heading', { name: 'Dashboard' });
+    const title = await screen.findByRole('heading', { name: 'Dashboard' });
 
     expect(title).toBeInTheDocument();
   });
