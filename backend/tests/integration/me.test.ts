@@ -38,4 +38,16 @@ describe('Testing route "/me"', () => {
     expect(status).to.be.equal(400);
     expect(body.message).to.be.deep.equal('Invalid Token');
   });
+
+  it('Should return "Missing Token", when the token is missing in the headers', async () => {
+    sinon.stub(jwt, 'verify').rejects();
+
+    const { status, body } = await chai
+      .request(app)
+      .get('/me')
+      .set('Authorization', 'invalid-token');
+
+    expect(status).to.be.equal(400);
+    expect(body.message).to.be.deep.equal('Missing Token');
+  });
 });
