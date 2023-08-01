@@ -11,6 +11,8 @@ type LoggedUser = {
   token?: string;
 }
 
+const LOCAL_TOKEN_KEY = 'talker-token';
+
 export type IAuthContext = {
   isAuthenticated: boolean;
   loginMsg: string;
@@ -46,11 +48,12 @@ export function AuthProvider({ children }:AuthProviderProps) {
 
     if (token) {
       router.push('/dashboard');
-      setUser({ token });
+      localStorage.setItem(LOCAL_TOKEN_KEY, JSON.stringify({ token }));
     }
   }
 
   async function signOut() {
+    localStorage.clear();
     router.push('/');
     setUser(null);
   }
