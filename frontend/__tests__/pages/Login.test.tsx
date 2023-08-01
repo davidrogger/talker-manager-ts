@@ -2,13 +2,14 @@ import { screen } from '@testing-library/react';
 
 import { api } from '@/services/api';
 
-import RenderPage from '../utils/RenderPage';
+import Login from '@/app/login/page';
+import RenderWithAuthProvider from '../utils/RenderWithAuthProvider';
 
 describe('Testing page Login', () => {
   afterEach(() => jest.restoreAllMocks());
 
   it('Should render all elements from page Login', () => {
-    RenderPage({ route: '/login' });
+    RenderWithAuthProvider(<Login />);
 
     const title = screen.getByRole('heading', { name: 'Manager Login' });
     const inputEmail = screen.getByPlaceholderText('Email');
@@ -25,7 +26,7 @@ describe('Testing page Login', () => {
   });
 
   it('Should render a error message when trying to login without input any value', async () => {
-    const { user } = RenderPage({ route: '/login' });
+    const { user } = RenderWithAuthProvider(<Login />);
 
     const btnEnter = screen.getByRole('button', { name: 'Enter' });
     await user.click(btnEnter);
@@ -38,7 +39,7 @@ describe('Testing page Login', () => {
     const mockApi = jest.spyOn(api, 'post')
       .mockResolvedValue({ data: { token: 'valid-token' } });
 
-    const { user, mockRouter } = RenderPage({ route: '/login' });
+    const { user, mockRouter } = RenderWithAuthProvider(<Login />);
 
     const userInput = { email: 'teste@teste.com', password: '123456' };
 
@@ -60,7 +61,7 @@ describe('Testing page Login', () => {
     jest.spyOn(api, 'post')
       .mockRejectedValue({ response: { data: { message: expectedMsg } } });
 
-    const { user, mockRouter } = RenderPage({ route: '/login' });
+    const { user, mockRouter } = RenderWithAuthProvider(<Login />);
 
     const userInput = { email: 'unauthorized@email.com', password: '123456' };
 

@@ -1,16 +1,12 @@
 import { AuthProvider } from '@/contexts/Auth';
-import Header from '@/components/Header';
 
+import React from 'react';
 import RenderMockContextProviderNavigation from './RenderMockNavigationProvider';
-import pages from './pages';
 
-export default function RenderPage({ route = '/' } = {}) {
-  const Page = pages[route];
-
+export default function RenderWithAuthProvider(children:React.JSX.Element) {
   return RenderMockContextProviderNavigation(
     <AuthProvider>
-      <Header />
-      { Page }
+      { children }
     </AuthProvider>,
   );
 }
