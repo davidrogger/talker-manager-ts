@@ -16,7 +16,7 @@ describe('Testing route "/me"', () => {
   beforeEach(sinon.restore);
 
   it('Should return the user data', async () => {
-    sinon.stub(jwt, 'verify').resolves(mockPublicUserData);
+    sinon.stub(jwt, 'verify').callsFake(() => mockPublicUserData);
 
     const { status, body } = await chai
       .request(app)
@@ -28,7 +28,7 @@ describe('Testing route "/me"', () => {
   });
 
   it('Should return invalid token, when the token is invalid', async () => {
-    sinon.stub(jwt, 'verify').rejects();
+    sinon.stub(jwt, 'verify').throws();
 
     const { status, body } = await chai
       .request(app)
@@ -45,7 +45,7 @@ describe('Testing route "/me"', () => {
     const { status, body } = await chai
       .request(app)
       .get('/me')
-      .set('Authorization', 'invalid-token');
+      .set('Authorization', '');
 
     expect(status).to.be.equal(400);
     expect(body.message).to.be.deep.equal('Missing Token');

@@ -15,6 +15,7 @@ export const mockedUser = {
 } as IUser;
 
 export const mockPublicUserData = {
+  id: tester.id,
   firstName: tester.firstName,
   lastName: tester.lastName,
   email: tester.email,
