@@ -39,6 +39,8 @@ describe('Testing page Login', () => {
     const mockApi = jest.spyOn(api, 'post')
       .mockResolvedValue({ data: { token: 'valid-token' } });
 
+    const mockLocalStorage = jest.spyOn(localStorage, 'setItem');
+
     const { user, mockRouter } = RenderWithAuthProvider(<Login />);
 
     const userInput = { email: 'teste@teste.com', password: '123456' };
@@ -53,6 +55,7 @@ describe('Testing page Login', () => {
 
     expect(mockApi).toHaveBeenCalledWith('/login', userInput);
     expect(mockRouter.push).toHaveBeenCalledWith('/dashboard');
+    expect(mockLocalStorage).toHaveBeenCalled();
   });
 
   it('Should show the axios response error when reject by the api', async () => {
