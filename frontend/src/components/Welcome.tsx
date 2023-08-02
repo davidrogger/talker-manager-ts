@@ -13,6 +13,4 @@ export default function Welcome() {
       </div>
     );
   }
-
-  return null;
 }
