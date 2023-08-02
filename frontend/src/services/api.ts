@@ -29,11 +29,13 @@ export async function loginAuth(user:LoginInput):Promise<LoginReponse> {
   }
 }
 
-export async function getUserData(token:string):Promise<LoggedUser | null> {
+export async function getUserData(token:string | null):Promise<LoggedUser | null> {
+  if (!token) return null;
   try {
     const { data: { user } } = await api.get('/me', { headers: { Authorization: token } });
     return user;
   } catch (error) {
+    localStorage.clear();
     return null;
   }
 }
