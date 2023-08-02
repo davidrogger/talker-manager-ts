@@ -8,8 +8,10 @@ function Dashboard() {
   const { isAuthenticated, authStoredToken } = useAuthContext();
 
   useEffect(() => {
-    authStoredToken();
-  }, []);
+    if (!isAuthenticated) {
+      authStoredToken();
+    }
+  }, [isAuthenticated, authStoredToken]);
 
   if (isAuthenticated) {
     return (
