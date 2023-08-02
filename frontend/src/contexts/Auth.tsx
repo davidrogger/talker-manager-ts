@@ -45,11 +45,12 @@ export function AuthProvider({ children }:AuthProviderProps) {
 
   async function authStoredToken():Promise<void> {
     const token = getStoredToken();
-    const userData = await getUserData(token);
 
-    if (userData) {
+    try {
+      const userData = await getUserData(token);
       setUser(userData);
-    } else {
+    } catch (error) {
+      localStorage.clear();
       router.push('/');
     }
   }
