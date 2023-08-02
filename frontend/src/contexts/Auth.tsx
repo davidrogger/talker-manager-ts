@@ -43,13 +43,12 @@ export function AuthProvider({ children }:AuthProviderProps) {
     router.push('/');
   }
 
-  function authStoredToken():void {
+  async function authStoredToken():Promise<void> {
     const token = getStoredToken();
-    if (token) {
-      getUserData(token)
-        .then((response) => {
-          setUser(response);
-        });
+    const userData = await getUserData(token);
+
+    if (userData) {
+      setUser(userData);
     } else {
       router.push('/');
     }
@@ -63,8 +62,8 @@ export function AuthProvider({ children }:AuthProviderProps) {
     }
 
     if (token) {
-      router.push('/dashboard');
       localStorage.setItem(LOCAL_TOKEN_KEY, token);
+      router.push('/dashboard');
     }
   }
 
