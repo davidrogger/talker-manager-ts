@@ -1,26 +1,21 @@
 import Dashboard from '@/app/dashboard/page';
 import { api } from '@/services/api';
 import { screen } from '@testing-library/react';
+import Header from '@/components/Header';
 import RenderWithAuthProvider from '../utils/RenderWithAuthProvider';
+import { mockUserDataResponse } from '../utils/_mockData';
 
 describe('Testing page Dashboard', () => {
-  beforeEach(() => jest.restoreAllMocks());
+  beforeEach(
+    () => {
+      jest.restoreAllMocks();
+      jest.mock('axios');
+    },
+  );
 
   it('Should render the name of the manager logged in the dashboard painel', async () => {
-    const mockUser = {
-      data: {
-        user: {
-          firstName: 'Jonas',
-          lastName: 'Doe',
-          email: 'jonasdoe@testes.com',
-        },
-      },
-    };
-
-    jest.mock('axios');
-
     const mockLocalStorage = jest.spyOn(Object.getPrototypeOf(window.localStorage), 'getItem').mockReturnValue('valid-token');
-    const mockAPI = jest.spyOn(api, 'get').mockResolvedValue(mockUser);
+    const mockAPI = jest.spyOn(api, 'get').mockResolvedValue(mockUserDataResponse);
 
     RenderWithAuthProvider(<Dashboard />);
 
@@ -49,5 +44,33 @@ describe('Testing page Dashboard', () => {
 
     await expect(mockAPI).toHaveBeenCalled();
     expect(mockRouter.push).toHaveBeenCalledWith('/');
+  });
+
+  it('Should be able to navigate to "home" and "dashboard" from the header when logged', async () => {
+    jest.spyOn(Object.getPrototypeOf(window.localStorage), 'getItem').mockReturnValue('valid-token');
+    const mockClear = jest.spyOn(Object.getPrototypeOf(window.localStorage), 'clear');
+
+    jest.spyOn(api, 'get').mockResolvedValue(mockUserDataResponse);
+
+    const defaultRouterNextParams = { forceOptimisticNavigation: false, scroll: true };
+
+    const { user, mockRouter } = RenderWithAuthProvider(
+    <>
+      <Header />
+      <Dashboard />
+    </>,
+    );
+
+    const logout = await screen.findByTestId('header-logout-nav-id');
+    const dashboard = await screen.findByTestId('header-dashboard-nav-id');
+    const home = await screen.findByTestId('header-home-nav-id');
+
+    await user.click(home);
+    expect(mockRouter.push).toHaveBeenCalledWith('/', defaultRouterNextParams);
+    await user.click(dashboard);
+    expect(mockRouter.push).toHaveBeenCalledWith('/dashboard', defaultRouterNextParams);
+    await user.click(logout);
+    expect(mockRouter.push).toHaveBeenCalledWith('/');
+    expect(mockClear).toHaveBeenCalled();
   });
 });
