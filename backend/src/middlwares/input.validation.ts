@@ -42,3 +42,11 @@ export function emailFormat(req: Request, _res:Response, next:NextFunction) {
 
   next();
 }
+
+export function passwordFormat(req: Request, _res:Response, next:NextFunction) {
+  const { password } = req.body;
+
+  if (password.length < 6) next(new BadRequest('Password need to have at least 6 characters'));
+
+  next();
+}

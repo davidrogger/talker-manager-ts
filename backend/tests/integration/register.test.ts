@@ -139,8 +139,6 @@ describe('Route /register', () => {
     });
 
     it('Should return status 400 when the password has less than 6 characters', async () => {
-      sinon.stub(connection, 'execute').resolves([[], []]);
-
       const newUser = {
         firstName: 'Jonas',
         lastName: 'Doe',

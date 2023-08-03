@@ -9,6 +9,7 @@ route.post(
   '/',
   validate.newUserRequiredFields,
   validate.emailFormat,
+  validate.passwordFormat,
   validate.emailUnique,
   async (req, res, next) => {
     const registerInput = req.body;
