@@ -22,7 +22,6 @@ describe('Route /register', () => {
       sinon.stub(jwt, 'sign').resolves('validtoken');
       const mysqlStub = sinon.stub(connection, 'execute');
       mysqlStub.onFirstCall().resolves([[], []]);
-      mysqlStub.onSecondCall().resolves([{ insertId: 1 } as ResultSetHeader, []]);
 
       const { status, body } = await chai
         .request(app)
