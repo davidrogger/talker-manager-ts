@@ -35,7 +35,7 @@ describe('Testing route "/me"', () => {
       .get('/me')
       .set('Authorization', 'invalid-token');
 
-    expect(status).to.be.equal(400);
+    expect(status).to.be.equal(401);
     expect(body.message).to.be.deep.equal('Invalid Token');
   });
 
@@ -47,7 +47,7 @@ describe('Testing route "/me"', () => {
       .get('/me')
       .set('Authorization', '');
 
-    expect(status).to.be.equal(400);
+    expect(status).to.be.equal(401);
     expect(body.message).to.be.deep.equal('Missing Token');
   });
 });
