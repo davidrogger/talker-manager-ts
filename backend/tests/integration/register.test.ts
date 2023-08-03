@@ -112,32 +112,29 @@ describe('Route /register', () => {
     it('Should return status 400 when the email is in a bad format', async () => {
       sinon.stub(connection, 'execute').resolves([[], []]);
 
-      const badEmails = [
+      const newUser = {
+        firstName: 'Jonas',
+        lastName: 'Doe',
+        password: '123456',
+      };
+
+      const badEmailsTest = [
         {
-          firstName: 'Jonas1',
-          lastName: 'Doe1',
           email: 'invalidemail.com',
-          password: '123456',
         },
         {
-          firstName: 'Jonas2',
-          lastName: 'Doe2',
           email: 'invalidemailcom',
-          password: '123456',
         },
         {
-          firstName: 'Jonas3',
-          lastName: 'Doe3',
           email: 'invalid@emailcom',
-          password: '123456',
         },
       ];
 
-      await Promise.all(badEmails.map(async (newAccount) => {
+      await Promise.all(badEmailsTest.map(async ({ email }) => {
         const { status, body } = await chai
           .request(app)
           .post(registerEndpoint)
-          .send(newAccount);
+          .send({ ...newUser, email });
 
         expect(status).to.be.equal(400);
         expect(body.message).to.be.equal('Invalid Email format');
