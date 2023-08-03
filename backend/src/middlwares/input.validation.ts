@@ -32,3 +32,13 @@ export async function emailUnique(req:Request, _res:Response, next:NextFunction)
 
   next();
 }
+
+export function emailFormat(req: Request, _res:Response, next:NextFunction) {
+  const { email } = req.body;
+
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+  if (!emailRegex.test(email)) next(new BadRequest('Invalid Email format'));
+
+  next();
+}

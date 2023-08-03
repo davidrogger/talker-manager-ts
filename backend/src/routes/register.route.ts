@@ -8,6 +8,7 @@ const route = Router();
 route.post(
   '/',
   validate.newUserRequiredFields,
+  validate.emailFormat,
   validate.emailUnique,
   async (req, res, next) => {
     const registerInput = req.body;
