@@ -1,4 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
+import Unauthorized from '@src/errors/Unauthorized';
+import { jwtService } from '@src/services';
 import BadRequest from '../errors/BadRequest';
 import * as userService from '../services/user.service';
 import Conflic from '../errors/Conflic';
@@ -47,6 +49,22 @@ export function passwordFormat(req: Request, _res:Response, next:NextFunction) {
   const { password } = req.body;
 
   if (password.length < 6) next(new BadRequest('Password need to have at least 6 characters'));
+
+  next();
+}
+
+export function tokenRequired(req: Request, _res: Response, next:NextFunction) {
+  const { authorization } = req.headers;
+
+  if (!authorization) next(new Unauthorized('Missing Token'));
+
+  next();
+}
+
+export function tokenAuthenticity(req: Request, _res: Response, next:NextFunction) {
+  const { authorization } = req.headers;
+
+  jwtService.verifyToken(authorization as string);
 
   next();
 }

@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
 
+import Unauthorized from '@src/errors/Unauthorized';
 import { IUserPublic } from '../types';
-import BadRequest from '../errors/BadRequest';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'secret2';
 
@@ -11,13 +11,12 @@ async function tokenGenerator(payload: IUserPublic) {
   throw new Error('Missing Secretkey in the enviroment');
 }
 
-function verifyToken(token:string | undefined) {
-  if (!token) throw new BadRequest('Missing Token');
+function verifyToken(token:string) {
   try {
     const user = jwt.verify(token, JWT_SECRET);
     return user;
   } catch (error) {
-    throw new BadRequest('Invalid Token');
+    throw new Unauthorized('Invalid Token');
   }
 }
 

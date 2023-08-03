@@ -5,7 +5,7 @@ export default class Unauthorized extends HttpError {
 
   status = 401;
 
-  constructor() {
-    super('Unauthorized Access');
+  constructor(message = 'Unauthorized Access') {
+    super(message);
   }
 }
