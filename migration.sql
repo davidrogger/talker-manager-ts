@@ -10,12 +10,13 @@ CREATE TABLE user (
 
 CREATE TABLE talker (
   id VARCHAR(10) PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
   age INT NOT NULL
 );
 
 CREATE TABLE lecture (
-  id VARCHAR(10) PRIMARY KEY,
-  talker_id VARCHAR(10) NOT NULL,
+  id VARCHAR(50) PRIMARY KEY,
+  talker_id VARCHAR(50) NOT NULL,
   title VARCHAR(50) NOT NULL,
   watchedAt CHAR(10) NOT NULL,
 

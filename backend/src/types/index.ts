@@ -14,11 +14,7 @@ export type IUser = {
 export type IUserPublic = Omit<IUser, 'password'>;
 
 export type ITalker = {
+  id: string,
   name: string,
   age: number,
-  id: string,
-  talk: {
-    watchedAt: string,
-    rate: number,
-  }
-};
+} & RowDataPacket;
