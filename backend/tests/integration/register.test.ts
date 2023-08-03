@@ -4,7 +4,6 @@ import sinon from 'sinon';
 
 import jwt from 'jsonwebtoken';
 
-import { ResultSetHeader } from 'mysql2';
 import app from '../../src/app';
 import connection from '../../src/models/connection.model';
 import { IUser } from '../../src/types';
