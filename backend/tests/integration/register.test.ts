@@ -109,8 +109,6 @@ describe('Route /register', () => {
 
   describe('Email and password need to follow a standard format', () => {
     it('Should return status 400 when the email is in a bad format', async () => {
-      sinon.stub(connection, 'execute').resolves([[], []]);
-
       const newUser = {
         firstName: 'Jonas',
         lastName: 'Doe',
@@ -137,6 +135,44 @@ describe('Route /register', () => {
 
         expect(status).to.be.equal(400);
         expect(body.message).to.be.equal('Invalid Email format');
+      }));
+    });
+
+    it('Should return status 400 when the password has less than 6 characters', async () => {
+      sinon.stub(connection, 'execute').resolves([[], []]);
+
+      const newUser = {
+        firstName: 'Jonas',
+        lastName: 'Doe',
+        email: 'jonas@doe.com',
+      };
+
+      const badPasswordsTest = [
+        {
+          password: '12345',
+        },
+        {
+          password: '1234',
+        },
+        {
+          password: '123',
+        },
+        {
+          password: '12',
+        },
+        {
+          password: '1',
+        },
+      ];
+
+      await Promise.all(badPasswordsTest.map(async ({ password }) => {
+        const { status, body } = await chai
+          .request(app)
+          .post(registerEndpoint)
+          .send({ ...newUser, password });
+
+        expect(status).to.be.equal(400);
+        expect(body.message).to.be.equal('Password need to have at least 6 characters');
       }));
     });
   });
