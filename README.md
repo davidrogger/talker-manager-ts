@@ -2,7 +2,7 @@
 
 ## Intro
 
-Replicando o projeto [**Talker Manager**](https://github.com/davidrogger/trybe-project-talker-manager), realizado na trybe, usando typescript e desenvolvendo um frontend.
+Inspirado no projeto [**Talker Manager**](https://github.com/davidrogger/trybe-project-talker-manager), realizado na trybe, usando typescript e desenvolvendo um frontend.
 
 ## Tecnologias e ferramentas
 
