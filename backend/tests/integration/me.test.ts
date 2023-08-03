@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import jwt from 'jsonwebtoken';
 
-import app from '../../src/app';
+import app from '@src/app';
 import { mockPublicUserData } from './_mockData';
 
 const { expect } = chai;

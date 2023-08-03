@@ -5,9 +5,9 @@ import sinon from 'sinon';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
-import app from '../../src/app';
-import connection from '../../src/models/connection.model';
-import { IUser } from '../../src/types';
+import app from '@src/app';
+import connection from '@src/models/connection.model';
+import { IUser } from '@src/types';
 import { loginInput, mockedUser } from './_mockData';
 
 chai.use(chaiHttp);
