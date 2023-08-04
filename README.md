@@ -1,8 +1,8 @@
-# Talker Manager
+# Talker Manager 🚧⏳
 
 ## Intro
 
-Inspirado no projeto [**Talker Manager**](https://github.com/davidrogger/trybe-project-talker-manager), realizado na trybe, usando typescript e desenvolvendo um frontend.
+Inspirado no projeto [**Talker Manager**](https://github.com/davidrogger/trybe-project-talker-manager), realizado na trybe, usando typescript e desenvolvendo um frontend testando nextjs.
 
 ## Tecnologias e ferramentas
 
