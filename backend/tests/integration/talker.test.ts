@@ -88,7 +88,7 @@ describe('Testing route /talker', () => {
             .send(bodyTest);
 
           expect(status).to.be.equal(400);
-          expect(body.missing).to.be.equal(`Missing ${field} field required`);
+          expect(body.message).to.be.equal(`Missing ${field} field`);
         }));
       });
     });

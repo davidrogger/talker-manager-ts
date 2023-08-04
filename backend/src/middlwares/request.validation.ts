@@ -68,3 +68,12 @@ export function tokenAuthenticity(req: Request, _res: Response, next:NextFunctio
 
   next();
 }
+
+export function talkerFieldsRequired(req: Request, _res: Response, next:NextFunction) {
+  const { name, age } = req.body;
+
+  if (!name) next(new BadRequest('Missing name field'));
+  if (!age) next(new BadRequest('Missing age field'));
+
+  next();
+}

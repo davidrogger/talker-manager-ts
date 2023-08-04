@@ -68,7 +68,7 @@ export const badTalkersPostTest = [
     },
   },
   {
-    missingField: 'age',
+    field: 'age',
     bodyTest: {
       name: 'Marcos Costa',
     },
