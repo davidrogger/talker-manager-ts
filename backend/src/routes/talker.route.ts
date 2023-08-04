@@ -18,4 +18,14 @@ route.get(
   },
 );
 
+route.post(
+  '/',
+  validate.tokenRequired,
+  validate.tokenAuthenticity,
+  async (req, res) => {
+    const talker = req.body;
+    res.status(201).json({ talker });
+  },
+);
+
 export default route;
