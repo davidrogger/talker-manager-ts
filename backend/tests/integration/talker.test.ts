@@ -8,7 +8,9 @@ import jwt from 'jsonwebtoken';
 import connection from '@src/models/connection.model';
 import app from '@src/app';
 
-import { mockPublicUserData, mockTalkers } from './_mockData';
+import {
+  badTokensTest, mockPublicUserData, mockTalkers, talkerPostTest,
+} from './_mockData';
 
 chai.use(chaiHttp);
 const { expect } = chai;
@@ -36,18 +38,7 @@ describe('Testing route /talker', () => {
       sinon.stub(connection, 'execute').resolves([[], []]); // to avoid ping the mysql in the first tests
       sinon.stub(jwt, 'verify').throws();
 
-      const tokensTest = [
-        {
-          token: '',
-          expectMessage: 'Missing Token',
-        },
-        {
-          token: 'invalid-token',
-          expectMessage: 'Invalid Token',
-        },
-      ];
-
-      await Promise.all(tokensTest.map(async ({ token, expectMessage }) => {
+      await Promise.all(badTokensTest.map(async ({ token, expectMessage }) => {
         const { status, body } = await chai
           .request(app)
           .get(talkerEndpoint)
@@ -59,5 +50,24 @@ describe('Testing route /talker', () => {
     });
   });
 
-  describe('POST request', () => {});
+  describe('POST request', () => {
+    describe('Token required in the route', () => {
+      it('Should return status 401 when missing or content a invalid token', async () => {
+        sinon.stub(connection, 'execute').resolves([[], []]); // to avoid ping the mysql in the first tests
+        sinon.stub(jwt, 'verify').throws();
+
+        await Promise.all(badTokensTest.map(async ({ token, expectMessage }) => {
+          const { status, body } = await chai
+            .request(app)
+            .post(talkerEndpoint)
+            .set('Authorization', token)
+            .send(talkerPostTest);
+
+          expect(status).to.be.equal(401);
+          expect(body.message).to.be.equal(expectMessage);
+        }));
+      });
+    });
+    describe('Need Required fields to request properly', () => {});
+  });
 });

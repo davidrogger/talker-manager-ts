@@ -43,3 +43,19 @@ export const mockTalkers = [
     age: 24,
   },
 ] as ITalker[];
+
+export const badTokensTest = [
+  {
+    token: '',
+    expectMessage: 'Missing Token',
+  },
+  {
+    token: 'invalid-token',
+    expectMessage: 'Invalid Token',
+  },
+];
+
+export const talkerPostTest = {
+  name: 'Jonas',
+  age: 33,
+};
