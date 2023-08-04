@@ -68,12 +68,25 @@ export function tokenAuthenticity(req: Request, _res: Response, next:NextFunctio
 
   next();
 }
+export function talkerNameField(req: Request, _res: Response, next:NextFunction) {
+  const { name } = req.body;
+  try {
+    if (!name) throw new BadRequest('Missing name field');
+    if (name.length < 3) throw new BadRequest('Name should has at least 3 characters');
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
 
-export function talkerFieldsRequired(req: Request, _res: Response, next:NextFunction) {
-  const { name, age } = req.body;
-
-  if (!name) next(new BadRequest('Missing name field'));
-  if (!age) next(new BadRequest('Missing age field'));
-
-  next();
+export function talkerAgeField(req: Request, _res: Response, next:NextFunction) {
+  const { age } = req.body;
+  try {
+    if (!age) throw new BadRequest('Missing age field');
+    if (Number.isNaN(Number(age))) throw new BadRequest('Age need to be a number');
+    if (age < 0) throw new BadRequest('Insert a valid age');
+    next();
+  } catch (error) {
+    next(error);
+  }
 }

@@ -22,7 +22,8 @@ route.post(
   '/',
   validate.tokenRequired,
   validate.tokenAuthenticity,
-  validate.talkerFieldsRequired,
+  validate.talkerNameField,
+  validate.talkerAgeField,
   async (req, res) => {
     const talker = req.body;
     res.status(201).json({ talker });
