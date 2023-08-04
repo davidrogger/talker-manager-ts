@@ -9,6 +9,7 @@ import connection from '@src/models/connection.model';
 import app from '@src/app';
 
 import {
+  badTalkersPostFormatTest,
   badTalkersPostTest,
   badTokensTest, mockPublicUserData, mockTalkers, talkerPostTest,
 } from './_mockData';
@@ -89,6 +90,23 @@ describe('Testing route /talker', () => {
 
           expect(status).to.be.equal(400);
           expect(body.message).to.be.equal(`Missing ${field} field`);
+        }));
+      });
+    });
+
+    describe('Required fields need to have there right format', () => {
+      it('Should return status 400 with a message when the field is out the standard', async () => {
+        sinon.stub(jwt, 'verify').returns();
+
+        await Promise.all(badTalkersPostFormatTest.map(async ({ expectedMessage, bodyTest }) => {
+          const { status, body } = await chai
+            .request(app)
+            .post(talkerEndpoint)
+            .set('Authorization', 'valid-token')
+            .send(bodyTest);
+
+          expect(status).to.be.equal(400);
+          expect(body.message).to.be.equal(expectedMessage);
         }));
       });
     });

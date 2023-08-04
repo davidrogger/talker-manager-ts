@@ -74,3 +74,27 @@ export const badTalkersPostTest = [
     },
   },
 ];
+
+export const badTalkersPostFormatTest = [
+  {
+    expectedMessage: 'Age need to be a number',
+    bodyTest: {
+      name: 'Jonas Doe',
+      age: 'not-a-number',
+    },
+  },
+  {
+    expectedMessage: 'Insert a valid age',
+    bodyTest: {
+      name: 'Jonas Doe',
+      age: -10,
+    },
+  },
+  {
+    expectedMessage: 'Name should has at least 3 characters',
+    bodyTest: {
+      name: 'Ma',
+      age: 33,
+    },
+  },
+];
