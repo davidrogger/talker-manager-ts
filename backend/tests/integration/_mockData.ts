@@ -59,3 +59,18 @@ export const talkerPostTest = {
   name: 'Jonas',
   age: 33,
 };
+
+export const badTalkersPostTest = [
+  {
+    field: 'name',
+    bodyTest: {
+      age: 24,
+    },
+  },
+  {
+    missingField: 'age',
+    bodyTest: {
+      name: 'Marcos Costa',
+    },
+  },
+];

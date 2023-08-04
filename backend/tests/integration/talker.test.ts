@@ -9,6 +9,7 @@ import connection from '@src/models/connection.model';
 import app from '@src/app';
 
 import {
+  badTalkersPostTest,
   badTokensTest, mockPublicUserData, mockTalkers, talkerPostTest,
 } from './_mockData';
 
@@ -74,6 +75,22 @@ describe('Testing route /talker', () => {
         }));
       });
     });
-    describe('Need Required fields to request properly', () => {});
+
+    describe('Need Required fields to request properly', () => {
+      it('Should return status 400 with a error message when missing any required field', async () => {
+        sinon.stub(jwt, 'verify').returns();
+
+        await Promise.all(badTalkersPostTest.map(async ({ field, bodyTest }) => {
+          const { status, body } = await chai
+            .request(app)
+            .post(talkerEndpoint)
+            .set('Authorization', 'valid-token')
+            .send(bodyTest);
+
+          expect(status).to.be.equal(400);
+          expect(body.missing).to.be.equal(`Missing ${field} field required`);
+        }));
+      });
+    });
   });
 });
