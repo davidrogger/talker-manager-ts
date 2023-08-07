@@ -18,3 +18,12 @@ export type ITalker = {
   name: string,
   age: number,
 } & RowDataPacket;
+
+export type ILecture = {
+  id: string,
+  talkerName: string,
+  title: string,
+  watchedAt: string,
+};
+
+export type ILectureDriverResponse = RowDataPacket & ILecture;

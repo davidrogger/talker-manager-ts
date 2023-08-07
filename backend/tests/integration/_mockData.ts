@@ -1,4 +1,6 @@
-import { ITalker, IUser } from '../../src/types';
+import type {
+  ILectureDriverResponse, ITalker, IUser,
+} from '../../src/types';
 
 const tester = {
   id: 'generated-id',
@@ -98,3 +100,30 @@ export const badTalkersPostFormatTest = [
     },
   },
 ];
+
+export const mockLecturesGetResponse = [
+  {
+    id: 'ca42acdd-f60d-45b6-ba8a-b28c77bb68fc',
+    talkerName: 'Jonas Doe',
+    title: 'Testing Lecture',
+    watchedAt: '07/08/2023',
+  },
+  {
+    id: '53aed9b7-85cb-4887-a28e-1931132492a9',
+    talkerName: 'Henrique Albuquerque',
+    title: 'Testing Lecture2',
+    watchedAt: '07/08/2023',
+  },
+  {
+    id: '7b4485da-5e62-4423-8a03-392bd35181f4',
+    talkerName: 'Heloísa Albuquerque',
+    title: 'Testing Lecture3',
+    watchedAt: '07/08/2023',
+  },
+  {
+    id: 'a4c44fae-248c-4433-8172-6b4bce04f73e',
+    talkerName: 'Ricardo Xavier Filho',
+    title: 'Testing Lecture4',
+    watchedAt: '07/08/2023',
+  },
+] as ILectureDriverResponse[];
