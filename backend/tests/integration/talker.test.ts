@@ -8,6 +8,8 @@ import jwt from 'jsonwebtoken';
 import connection from '@src/models/connection.model';
 import app from '@src/app';
 
+import * as idService from '@src/services/id.service';
+
 import {
   badTalkersPostFormatTest,
   badTalkersPostTest,
@@ -108,6 +110,30 @@ describe('Testing route /talker', () => {
           expect(status).to.be.equal(400);
           expect(body.message).to.be.equal(expectedMessage);
         }));
+      });
+    });
+
+    describe('When posting a new talker successfully', () => {
+      it('Should return status 201 with the talker registered', async () => {
+        const mockId = 'fa9d1bdf-4f3b-4eed-8f3f-2356f3faa7a6';
+        const mockDBConnection = sinon.stub(connection, 'execute').resolves();
+        sinon.stub(idService, 'generateId').returns(mockId);
+        sinon.stub(jwt, 'verify').returns();
+
+        const talker = {
+          name: 'Jonas Doe',
+          age: 33,
+        };
+
+        const { status, body } = await chai
+          .request(app)
+          .post(talkerEndpoint)
+          .set('Authorization', 'valid-token')
+          .send(talker);
+
+        expect(mockDBConnection.called).to.be.equal(true);
+        expect(status).to.be.equal(201);
+        expect(body.talker).to.be.deep.equal({ id: mockId, ...talker });
       });
     });
   });
