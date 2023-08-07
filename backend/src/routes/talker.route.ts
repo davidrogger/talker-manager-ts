@@ -1,4 +1,5 @@
 import * as talkerService from '@src/services/talker.service';
+import * as idService from '@src/services/id.service';
 import { validate } from '@src/middlwares';
 import { Router } from '.';
 
@@ -24,9 +25,16 @@ route.post(
   validate.tokenAuthenticity,
   validate.talkerNameField,
   validate.talkerAgeField,
-  async (req, res) => {
-    const talker = req.body;
-    res.status(201).json({ talker });
+  async (req, res, next) => {
+    const newTalker = req.body;
+    try {
+      const id = idService.generateId();
+      const talker = { id, ...newTalker };
+      await talkerService.createTalker(talker);
+      res.status(201).json({ talker });
+    } catch (error) {
+      next(error);
+    }
   },
 );
 
