@@ -1,7 +1,7 @@
 USE talker_manager_db;
 
 CREATE TABLE user (
-  id VARCHAR(50) PRIMARY KEY,
+  id CHAR(36) PRIMARY KEY,
   first_name VARCHAR(15) NOT NULL,
   last_name VARCHAR(15) NOT NULL,
   email VARCHAR(100) UNIQUE NOT NULL,
@@ -9,13 +9,13 @@ CREATE TABLE user (
 );
 
 CREATE TABLE talker (
-  id VARCHAR(10) PRIMARY KEY,
+  id CHAR(36) PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
   age INT NOT NULL
 );
 
 CREATE TABLE lecture (
-  id VARCHAR(50) PRIMARY KEY,
+  id CHAR(36) PRIMARY KEY,
   talker_id VARCHAR(50) NOT NULL,
   title VARCHAR(50) NOT NULL,
   watchedAt CHAR(10) NOT NULL,
