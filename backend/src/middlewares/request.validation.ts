@@ -1,8 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
+
+import * as jwtService from '@services/jwt.service';
+import * as userService from '@services/user.service';
+
 import Unauthorized from '@src/errors/Unauthorized';
-import { jwtService } from '@src/services';
 import BadRequest from '../errors/BadRequest';
-import * as userService from '../services/user.service';
 import Conflic from '../errors/Conflic';
 
 export function newUserRequiredFields(req:Request, _res:Response, next:NextFunction) {

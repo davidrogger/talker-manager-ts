@@ -8,7 +8,7 @@ import jwt from 'jsonwebtoken';
 import connection from '@src/models/connection.model';
 import app from '@src/app';
 
-import * as idService from '@src/services/id.service';
+import * as idService from '@services/id.service';
 
 import {
   badTalkersPostFormatTest,

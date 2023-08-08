@@ -1,7 +1,9 @@
 import { Router } from 'express';
 
 import * as validate from '@middlewares/request.validation';
-import { jwtService, userService, encryptService } from '../services';
+import * as jwtService from '@services/jwt.service';
+import * as userService from '@services/user.service';
+import * as encryptService from '@services/encrypt.service';
 
 const route = Router();
 

@@ -6,7 +6,8 @@
     "paths": {
       "@src/*": ["src/*"],
       "@errors/*": ["src/errors/*"],
-      "@middlewares/*": ["src/middlewares/*"]
+      "@middlewares/*": ["src/middlewares/*"],
+      "@services/*": ["src/services/*"]
     },
     "rootDirs": ["./src", "./tests"],
     "outDir": "./dist",
