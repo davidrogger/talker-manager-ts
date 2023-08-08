@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken';
 
 import connection from '@src/models/connection.model';
 import app from '@src/app';
-import { missingFieldsPost, mockLecturesGetResponse } from './_mockData';
+import { missingLectureFieldsPost, mockLecturesGetResponse, validLecturePost } from './_mockData';
 
 chai.use(chaiHttp);
 const { expect } = chai;
@@ -32,12 +32,29 @@ describe('Testing route /lecure', () => {
     });
 
     describe('Route POST /lecture', () => {
+      describe('Missing or invalid token', () => {
+        it('Should return 401 missing token', async () => {
+          const mockJWT = sinon.stub(jwt, 'verify').returns();
+          const mockDBconnection = sinon.stub(connection, 'execute').resolves([[], []]);
+
+          const { status, body } = await chai
+            .request(app)
+            .post(lectureEndpoint)
+            .send(validLecturePost);
+
+          expect(mockDBconnection.called).not.to.be.equal(true);
+          expect(mockJWT.called).not.to.be.equal(true);
+          expect(status).to.be.equal(401);
+          expect(body.message).to.be.equal('Missing Token');
+        });
+      });
+
       describe('Missing required fields', () => {
         it('Should return status 400 with a message when missing field "x"', async () => {
           sinon.stub(jwt, 'verify').returns();
           const mockDBconnection = sinon.stub(connection, 'execute').resolves([[], []]);
 
-          await Promise.all(missingFieldsPost.map(async ({ invalidBody, missingField }) => {
+          await Promise.all(missingLectureFieldsPost.map(async ({ invalidBody, missingField }) => {
             const { status, body } = await chai
               .request(app)
               .post(lectureEndpoint)
