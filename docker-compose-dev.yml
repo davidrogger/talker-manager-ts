@@ -9,9 +9,11 @@ services:
       - ${DB_PORT}:3306
     volumes:
       - ./migration.sql:/docker-entrypoint-initdb.d/migration.sql
+      - ./seed.sql:/docker-entrypoint-initdb.d/seed.sql
     environment:
       - MYSQL_ROOT_PASSWORD=${DB_PASS}
       - MYSQL_DATABASE=${DB_NAME}
+      - LANG=C.UTF-8
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 5s
