@@ -1,7 +1,7 @@
 import type { ILecture } from '@types';
 import type { RowDataPacket } from 'mysql2';
 
-import connection from './connection.model';
+import connection from '@models/connection.model';
 
 function normalizeLecture(rows: RowDataPacket[]):ILecture[] {
   const lectures: ILecture[] = rows.map(({

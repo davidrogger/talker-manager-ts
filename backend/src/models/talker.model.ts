@@ -1,6 +1,6 @@
 import type { ITalker } from '@types';
 
-import connection from './connection.model';
+import connection from '@models/connection.model';
 
 export async function getAllTalkers() {
   const [talkers] = await connection.execute('SELECT * FROM talker');

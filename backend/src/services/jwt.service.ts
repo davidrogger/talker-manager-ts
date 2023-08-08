@@ -1,8 +1,9 @@
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
 
-import Unauthorized from '@src/errors/Unauthorized';
-import { IUserPublic } from '../types';
+import { IUserPublic } from '@types';
+
+import Unauthorized from '@errors/Unauthorized';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'secret2';
 

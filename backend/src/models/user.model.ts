@@ -1,7 +1,7 @@
 import type { ResultSetHeader } from 'mysql2';
 import type { IUser } from '@types';
 
-import connection from './connection.model';
+import connection from '@models/connection.model';
 
 export async function findUserByEmail(email:string): Promise<IUser | undefined> {
   const [[userFound]] = await connection.execute<IUser[]>(

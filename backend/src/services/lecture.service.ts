@@ -1,5 +1,6 @@
 import type { ILecture } from '@types';
-import * as lectureModel from '@src/models/lecture.model';
+
+import * as lectureModel from '@models/lecture.model';
 
 export async function getAllLectures() {
   return lectureModel.getAllLectures();

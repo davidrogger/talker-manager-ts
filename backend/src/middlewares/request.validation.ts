@@ -3,9 +3,9 @@ import { Request, Response, NextFunction } from 'express';
 import * as jwtService from '@services/jwt.service';
 import * as userService from '@services/user.service';
 
-import Unauthorized from '@src/errors/Unauthorized';
-import BadRequest from '../errors/BadRequest';
-import Conflic from '../errors/Conflic';
+import Unauthorized from '@errors/Unauthorized';
+import BadRequest from '@errors/BadRequest';
+import Conflic from '@errors/Conflic';
 
 export function newUserRequiredFields(req:Request, _res:Response, next:NextFunction) {
   const user = req.body;
