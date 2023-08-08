@@ -47,6 +47,22 @@ describe('Testing route /lecure', () => {
           expect(status).to.be.equal(401);
           expect(body.message).to.be.equal('Missing Token');
         });
+
+        it('Should return 401 invalid token', async () => {
+          const mockJWT = sinon.stub(jwt, 'verify').throws();
+          const mockDBconnection = sinon.stub(connection, 'execute').resolves([[], []]);
+
+          const { status, body } = await chai
+            .request(app)
+            .post(lectureEndpoint)
+            .set('Authorization', 'invalid-token')
+            .send(validLecturePost);
+
+          expect(mockDBconnection.called).not.to.be.equal(true);
+          expect(mockJWT.called).to.be.equal(true);
+          expect(status).to.be.equal(401);
+          expect(body.message).to.be.equal('Missing Token');
+        });
       });
 
       describe('Missing required fields', () => {
