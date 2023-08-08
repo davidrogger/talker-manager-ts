@@ -1,8 +1,8 @@
 import { Router } from 'express';
 
-import * as talkerService from '@services/talker.service';
-import * as idService from '@services/id.service';
 import * as validate from '@middlewares/request.validation';
+
+import * as talkerController from '@controllers/talker.controller';
 
 const route = Router();
 
@@ -10,14 +10,7 @@ route.get(
   '/',
   validate.tokenRequired,
   validate.tokenAuthenticity,
-  async (_req, res, next) => {
-    try {
-      const talkers = await talkerService.getAllTalkers();
-      res.status(200).json({ talkers });
-    } catch (error) {
-      next(error);
-    }
-  },
+  talkerController.getAllTalkers,
 );
 
 route.post(
@@ -26,17 +19,7 @@ route.post(
   validate.tokenAuthenticity,
   validate.talkerNameField,
   validate.talkerAgeField,
-  async (req, res, next) => {
-    const newTalker = req.body;
-    try {
-      const id = idService.generateId();
-      const talker = { id, ...newTalker };
-      await talkerService.createTalker(talker);
-      res.status(201).json({ talker });
-    } catch (error) {
-      next(error);
-    }
-  },
+  talkerController.createTalker,
 );
 
 export default route;
