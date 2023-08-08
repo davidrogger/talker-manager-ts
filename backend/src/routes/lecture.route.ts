@@ -17,6 +17,9 @@ route.post(
   '/',
   validation.tokenRequired,
   validation.tokenAuthenticity,
+  validation.lectureTalkerNameField,
+  validation.lectureTitleField,
+  validation.lectureWatchedAtField,
   async (req, res, next) => {
     try {
       const lecture = req.body;

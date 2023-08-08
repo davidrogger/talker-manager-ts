@@ -90,3 +90,27 @@ export function talkerAgeField(req: Request, _res: Response, next:NextFunction) 
     next(error);
   }
 }
+
+export function lectureTalkerNameField(req: Request, _res: Response, next: NextFunction) {
+  const { talkerName } = req.body;
+
+  if (!talkerName) throw new BadRequest('Missing field "talkerName"');
+
+  next();
+}
+
+export function lectureTitleField(req: Request, _res: Response, next: NextFunction) {
+  const { title } = req.body;
+
+  if (!title) throw new BadRequest('Missing field "title"');
+
+  next();
+}
+
+export function lectureWatchedAtField(req: Request, _res: Response, next: NextFunction) {
+  const { watchedAt } = req.body;
+
+  if (!watchedAt) throw new BadRequest('Missing field "watchedAt"');
+
+  next();
+}
