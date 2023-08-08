@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 
 import app from '@src/app';
 import connection from '@src/models/connection.model';
-import { IUser } from '@types';
+import { IUserRows } from '@types';
 
 chai.use(chaiHttp);
 const { expect } = chai;
@@ -96,7 +96,7 @@ describe('Route /register', () => {
         password: '123456',
       };
 
-      sinon.stub(connection, 'execute').resolves([[{ id: 'generated-id', ...user } as IUser], []]);
+      sinon.stub(connection, 'execute').resolves([[{ id: 'generated-id', ...user } as IUserRows], []]);
 
       const { status, body } = await chai
         .request(app)

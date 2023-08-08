@@ -1,8 +1,8 @@
 import type {
-  ILectureDriverResponse, ITalker, IUser,
+  ILectureDriverResponse, ITalker, IUser, IUserRows,
 } from '@types';
 
-const tester = {
+const tester:IUser = {
   id: 'generated-id',
   firstName: 'Jonas',
   lastName: 'Doe',
@@ -14,7 +14,7 @@ export const loginInput = { email: tester.firstName, password: tester.password }
 
 export const mockedUser = {
   ...tester,
-} as IUser;
+} as IUserRows;
 
 export const mockPublicUserData = {
   id: tester.id,
