@@ -1,7 +1,8 @@
+import { Router } from 'express';
+
 import * as talkerService from '@src/services/talker.service';
 import * as idService from '@src/services/id.service';
-import { validate } from '@src/middlwares';
-import { Router } from '.';
+import * as validate from '@middlewares/request.validation';
 
 const route = Router();
 

@@ -4,7 +4,9 @@
     "module": "commonjs",
     "baseUrl": "./",
     "paths": {
-      "@src/*": ["src/*"]
+      "@src/*": ["src/*"],
+      "@errors/*": ["src/errors/*"],
+      "@middlewares/*": ["src/middlewares/*"]
     },
     "rootDirs": ["./src", "./tests"],
     "outDir": "./dist",

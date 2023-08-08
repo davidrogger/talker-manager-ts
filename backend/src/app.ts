@@ -6,7 +6,7 @@ import loginRoutes from './routes/login.route';
 import registerRoutes from './routes/register.route';
 import talkerRoutes from './routes/talker.route';
 import lectureRoutes from './routes/lecture.route';
-import errorResponse from './middlwares/error.response';
+import errorResponse from './middlewares/error.response';
 
 const app = express();
 app.use(express.json());

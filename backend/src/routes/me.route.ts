@@ -1,5 +1,6 @@
-import * as validate from '@src/middlwares/request.validation';
-import { Router } from '.';
+import { Router } from 'express';
+
+import * as validate from '@middlewares/request.validation';
 import { jwtService } from '../services';
 
 const route = Router();
