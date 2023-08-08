@@ -127,3 +127,27 @@ export const mockLecturesGetResponse = [
     watchedAt: '07/08/2023',
   },
 ] as ILectureDriverResponse[];
+
+export const missingFieldsPost = [
+  {
+    missingField: 'talkerName',
+    invalidBody: {
+      title: 'Missing talkerName field',
+      watchedAt: '08/08/2023',
+    },
+  },
+  {
+    missingField: 'title',
+    invalidBody: {
+      talkerName: 'Jonas Doe',
+      watchedAt: '08/08/2023',
+    },
+  },
+  {
+    missingField: 'watchedAt',
+    invalidBody: {
+      talkerName: 'Jonas Doe',
+      title: 'Missing talkerName field',
+    },
+  },
+];
