@@ -16,6 +16,7 @@ route.get('/', async (_req, res, next) => {
 route.post(
   '/',
   validation.tokenRequired,
+  validation.tokenAuthenticity,
   async (req, res, next) => {
     try {
       const lecture = req.body;

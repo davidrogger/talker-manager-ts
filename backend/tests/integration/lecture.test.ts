@@ -61,7 +61,7 @@ describe('Testing route /lecure', () => {
           expect(mockDBconnection.called).not.to.be.equal(true);
           expect(mockJWT.called).to.be.equal(true);
           expect(status).to.be.equal(401);
-          expect(body.message).to.be.equal('Missing Token');
+          expect(body.message).to.be.equal('Invalid Token');
         });
       });
 
