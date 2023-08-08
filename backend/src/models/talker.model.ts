@@ -1,4 +1,5 @@
-import { ITalker } from '@src/types';
+import type { ITalker } from '@types';
+
 import connection from './connection.model';
 
 export async function getAllTalkers() {

@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 
 import app from '@src/app';
 import connection from '@src/models/connection.model';
-import { IUser } from '@src/types';
+import { IUser } from '@types';
 
 chai.use(chaiHttp);
 const { expect } = chai;

@@ -7,7 +7,8 @@
       "@src/*": ["src/*"],
       "@errors/*": ["src/errors/*"],
       "@middlewares/*": ["src/middlewares/*"],
-      "@services/*": ["src/services/*"]
+      "@services/*": ["src/services/*"],
+      "@types": ["src/types/index.ts"]
     },
     "rootDirs": ["./src", "./tests"],
     "outDir": "./dist",

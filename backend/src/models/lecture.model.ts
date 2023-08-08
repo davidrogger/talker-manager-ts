@@ -1,5 +1,6 @@
-import { ILecture } from '@src/types';
-import { RowDataPacket } from 'mysql2';
+import type { ILecture } from '@types';
+import type { RowDataPacket } from 'mysql2';
+
 import connection from './connection.model';
 
 function normalizeLecture(rows: RowDataPacket[]):ILecture[] {

@@ -1,5 +1,6 @@
-import { ResultSetHeader } from 'mysql2';
-import { IUser } from '../types';
+import type { ResultSetHeader } from 'mysql2';
+import type { IUser } from '@types';
+
 import connection from './connection.model';
 
 export async function findUserByEmail(email:string): Promise<IUser | undefined> {

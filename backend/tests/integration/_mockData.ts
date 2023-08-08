@@ -1,6 +1,6 @@
 import type {
   ILectureDriverResponse, ITalker, IUser,
-} from '../../src/types';
+} from '@types';
 
 const tester = {
   id: 'generated-id',

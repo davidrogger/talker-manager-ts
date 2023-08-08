@@ -1,6 +1,8 @@
+import type { ILogin, IUser, IUserPublic } from '@types';
+
 import Unauthorized from '../errors/Unauthorized';
+
 import * as userModel from '../models/user.model';
-import { ILogin, IUser, IUserPublic } from '../types';
 import * as encryptService from './encrypt.service';
 
 function normalize(user: IUser): IUserPublic {
