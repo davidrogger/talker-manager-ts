@@ -95,6 +95,7 @@ export function lectureTalkerNameField(req: Request, _res: Response, next: NextF
   const { talkerName } = req.body;
 
   if (!talkerName) throw new BadRequest('Missing field "talkerName"');
+  if (talkerName.length < 3) throw new BadRequest('talkerName need at least 3 characters');
 
   next();
 }
@@ -103,6 +104,7 @@ export function lectureTitleField(req: Request, _res: Response, next: NextFuncti
   const { title } = req.body;
 
   if (!title) throw new BadRequest('Missing field "title"');
+  if (title.length < 5) throw new BadRequest('title need at least 5 characters');
 
   next();
 }
@@ -111,6 +113,9 @@ export function lectureWatchedAtField(req: Request, _res: Response, next: NextFu
   const { watchedAt } = req.body;
 
   if (!watchedAt) throw new BadRequest('Missing field "watchedAt"');
+
+  const regexData = /^(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/\d{4}$/;
+  if (!regexData.test(watchedAt)) throw new BadRequest('watchedAt need a valid format, dd/mm/yyyy');
 
   next();
 }
