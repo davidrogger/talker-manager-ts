@@ -104,6 +104,24 @@ describe('Testing route /lecure', () => {
           }));
         });
       });
+
+      describe('Success lecture post', () => {
+        it('Should return 201, with a message "Lecture recorded with success"', async () => {
+          const mockJWT = sinon.stub(jwt, 'verify').returns();
+          const mockDBconnection = sinon.stub(connection, 'execute').resolves([[], []]);
+
+          const { status, body } = await chai
+            .request(app)
+            .post(lectureEndpoint)
+            .set('Authorization', 'valid-token')
+            .send(validLecturePost);
+
+          expect(mockDBconnection.called).to.be.equal(true);
+          expect(mockJWT.called).not.to.be.equal(true);
+          expect(status).to.be.equal(201);
+          expect(body.message).to.be.equal('Lecture recorded with success');
+        });
+      });
     });
   });
 });
