@@ -1,4 +1,4 @@
-import HttpError from '.';
+import HttpError from './HttpError';
 
 export default class Unauthorized extends HttpError {
   name = 'Unauthorized';

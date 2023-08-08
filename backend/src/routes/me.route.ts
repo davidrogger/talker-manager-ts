@@ -1,4 +1,4 @@
-import { validate } from '@src/middlwares';
+import * as validate from '@src/middlwares/request.validation';
 import { Router } from '.';
 import { jwtService } from '../services';
 
