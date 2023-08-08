@@ -24,5 +24,18 @@ describe('Testing route /lecure', () => {
         expect(body.lectures).to.be.deep.equal(mockLecturesGetResponse);
       });
     });
+
+    describe('Route POST /lecture', () => {
+      describe('Missing required fields', () => {
+        it('Should return status 400 with a message when missing field "talkerName"', async () => {});
+        it('Should return status 400 with a message when missing field "title"', async () => {});
+        it('Should return status 400 with a message when missing field "watchedAt"', async () => {});
+      });
+      describe('Fields validation format', () => {
+        it('Should return status 400 with a message "talkerName", "talkerName need at least 3 characters"', async () => {});
+        it('Should return status 400 with a message "title", "title need at least 5 characters"', async () => {});
+        it('Should return status 400 with a message "watchedAt", "watchedAt need a valid format, dd/mm/yyyy"', async () => {});
+      });
+    });
   });
 });
