@@ -117,7 +117,7 @@ describe('Testing route /lecure', () => {
             .send(validLecturePost);
 
           expect(mockDBconnection.called).to.be.equal(true);
-          expect(mockJWT.called).not.to.be.equal(true);
+          expect(mockJWT.called).to.be.equal(true);
           expect(status).to.be.equal(201);
           expect(body.message).to.be.equal('Lecture recorded with success');
         });

@@ -1,5 +1,6 @@
 import * as lectureService from '@src/services/lecture.service';
 import * as validation from '@src/middlwares/request.validation';
+import * as idService from '@src/services/id.service';
 import { Router } from '.';
 
 const route = Router();
@@ -21,9 +22,13 @@ route.post(
   validation.lectureTitleField,
   validation.lectureWatchedAtField,
   async (req, res, next) => {
+    const newLecture = req.body;
     try {
-      const lecture = req.body;
-      res.status(201).json({ lecture });
+      const id = idService.generateId();
+      const lecture = { id, ...newLecture };
+      const message = await lectureService.createLecture(lecture);
+
+      res.status(201).json({ message });
     } catch (error) {
       next(error);
     }

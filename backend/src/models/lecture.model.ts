@@ -27,3 +27,10 @@ export async function getAllLectures() {
 
   return lectures;
 }
+
+export async function createLecture({
+  id, talkerName, title, watchedAt,
+}:ILecture): Promise<void> {
+  const query = 'INSERT INTO lecture(id, talker_name, title, watchedAt) VALUES (?, ?, ?, ?)';
+  await connection.execute(query, [id, talkerName, title, watchedAt]);
+}
