@@ -9,7 +9,9 @@ export type IUser = {
   id: string,
   firstName: string,
   lastName: string,
-} & ILogin & RowDataPacket;
+} & ILogin;
+
+export type IUserRows = IUser & RowDataPacket;
 
 export type IUserPublic = Omit<IUser, 'password'>;
 

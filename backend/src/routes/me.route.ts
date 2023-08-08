@@ -2,14 +2,14 @@ import { Router } from 'express';
 
 import * as validate from '@middlewares/request.validation';
 
-import * as meController from '@controllers/me.controller';
+import * as userController from '@controllers/user.controller';
 
 const route = Router();
 
 route.get(
   '/',
   validate.tokenRequired,
-  meController.getUserData,
+  userController.getUserData,
 );
 
 export default route;
