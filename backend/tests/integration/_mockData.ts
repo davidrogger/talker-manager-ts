@@ -147,7 +147,7 @@ export const missingLectureFieldsPost = [
     missingField: 'watchedAt',
     invalidBody: {
       talkerName: 'Jonas Doe',
-      title: 'Missing talkerName field',
+      title: 'Missing watchedAt field',
     },
   },
 ];
@@ -157,3 +157,54 @@ export const validLecturePost = {
   title: 'Missing talkerName field',
   watchedAt: '08/08/2023',
 };
+
+export const invalidLectureFieldsPost = [
+  {
+    expectedMsg: 'talkerName need at least 3 characters',
+    invalidBody: {
+      talkerName: 'Jo',
+      title: 'Missing talkerName field',
+      watchedAt: '08/08/2023',
+    },
+  },
+  {
+    expectedMsg: 'title need at least 5 characters',
+    invalidBody: {
+      talkerName: 'Jonas Doe',
+      title: 'Miss',
+      watchedAt: '08/08/2023',
+    },
+  },
+  {
+    expectedMsg: 'watchedAt need a valid format, dd/mm/yyyy',
+    invalidBody: {
+      talkerName: 'Jonas Doe',
+      title: 'Invalid watchedAt field',
+      watchedAt: '08-08-2023',
+    },
+  },
+  {
+    expectedMsg: 'watchedAt need a valid format, dd/mm/yyyy',
+    invalidBody: {
+      talkerName: 'Jonas Doe',
+      title: 'Invalid watchedAt field',
+      watchedAt: '08082023',
+    },
+  },
+  {
+    expectedMsg: 'watchedAt need a valid format, dd/mm/yyyy',
+    invalidBody: {
+      talkerName: 'Jonas Doe',
+      title: 'Invalid watchedAt field',
+      watchedAt: '08 de agosto de 2023',
+    },
+  },
+  {
+    expectedMsg: 'watchedAt need a valid format, dd/mm/yyyy',
+    invalidBody: {
+      talkerName: 'Jonas Doe',
+      title: 'Invalid watchedAt field',
+      watchedAt: '01/30/2023',
+    },
+  },
+];
