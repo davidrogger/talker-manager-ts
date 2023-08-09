@@ -3,7 +3,7 @@ import { getAllLectures } from '@/services/api';
 import MainTitle from '@/components/MainTitle';
 
 export default async function Home() {
-  const lectures = await getAllLectures(2000);
+  const lectures = await getAllLectures();
 
   return (
     <div>
