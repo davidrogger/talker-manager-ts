@@ -1,5 +1,6 @@
 'use client';
 
+import MainTitle from '@/components/MainTitle';
 import Welcome from '@/components/Welcome';
 import { useAuthContext } from '@/contexts/Auth';
 import { useEffect } from 'react';
@@ -16,7 +17,7 @@ function Dashboard() {
   if (isAuthenticated) {
     return (
     <div>
-      <h1>Dashboard</h1>
+      <MainTitle title='Dashboard' />
 
       <Welcome />
 
