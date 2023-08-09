@@ -15,3 +15,10 @@ export type LoggedUser = {
   lastName: string;
   email: string;
 }
+
+export type ILecture = {
+  id: string,
+  talkerName: string,
+  title: string,
+  watchedAt: string,
+}

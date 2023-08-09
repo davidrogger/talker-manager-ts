@@ -1,4 +1,6 @@
-import { LoginReponse, LoginInput, LoggedUser } from '@/types';
+import {
+  LoginReponse, LoginInput, LoggedUser, ILecture,
+} from '@/types';
 import axios from 'axios';
 
 type AxiosErrorResponse = {
@@ -12,6 +14,13 @@ type AxiosErrorResponse = {
 const URL = process.env.API_URL || 'http://localhost:3001';
 
 export const api = axios.create({ baseURL: URL });
+
+async function delay(time = 700) {
+  await new Promise((resolve) => {
+    setTimeout(resolve, time);
+  });
+  return time;
+}
 
 export async function loginAuth(user:LoginInput):Promise<LoginReponse> {
   try {
@@ -33,4 +42,14 @@ export async function getUserData(token:string | null):Promise<LoggedUser | null
   if (!token) throw new Error();
   const { data: { user } } = await api.get('/me', { headers: { Authorization: token } });
   return user;
+}
+
+export async function getAllLectures(time:number = 700):Promise<ILecture[]> {
+  await delay(time);
+  try {
+    const { data: { lectures } } = await api.get('/lecture');
+    return lectures;
+  } catch (error) {
+    return [];
+  }
 }
