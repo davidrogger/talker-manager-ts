@@ -32,7 +32,7 @@ export default function Login() {
   }
   return (
     <div
-      className="flex justify-center items-center absolute top-0 bg-zinc-100 h-screen w-screen bg-opacity-80"
+      className="flex justify-center items-center absolute top-0 bg-zinc-100 h-screen w-screen"
     >
       <div
         className="flex flex-col items-center justify-between h-96 w-80 border-2 shadow-md rounded bg-white"
