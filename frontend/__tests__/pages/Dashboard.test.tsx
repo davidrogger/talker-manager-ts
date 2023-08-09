@@ -73,4 +73,20 @@ describe('Testing page Dashboard', () => {
     expect(mockRouter.push).toHaveBeenCalledWith('/');
     expect(mockClear).toHaveBeenCalled();
   });
+
+  it('Should have two section talkers and lectures', async () => {
+    jest.spyOn(Object.getPrototypeOf(window.localStorage), 'getItem').mockReturnValue('valid-token');
+    jest.spyOn(api, 'get').mockResolvedValue(mockUserDataResponse);
+
+    RenderWithAuthProvider(<Dashboard />);
+
+    const talkerSection = screen.getByText('Talkers Management');
+    const lectureSection = screen.getByText('Lectures Management');
+
+    [talkerSection, lectureSection].map((section) => {
+      expect(section).toBeInTheDocument();
+      expect(section).toBeVisible();
+      return 'done';
+    });
+  });
 });
