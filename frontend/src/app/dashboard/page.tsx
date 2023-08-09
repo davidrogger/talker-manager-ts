@@ -1,6 +1,7 @@
 'use client';
 
 import MainTitle from '@/components/MainTitle';
+import ManageSection from '@/components/ManageSection';
 import Welcome from '@/components/Welcome';
 import { useAuthContext } from '@/contexts/Auth';
 import { useEffect } from 'react';
@@ -20,6 +21,9 @@ function Dashboard() {
       <MainTitle title='Dashboard' />
 
       <Welcome />
+
+      <ManageSection sectionName='Talkers' />
+      <ManageSection sectionName='Lectures' />
 
     </div>
     );

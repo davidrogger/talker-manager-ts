@@ -79,9 +79,8 @@ describe('Testing page Dashboard', () => {
     jest.spyOn(api, 'get').mockResolvedValue(mockUserDataResponse);
 
     RenderWithAuthProvider(<Dashboard />);
-
-    const talkerSection = screen.getByText('Talkers Management');
-    const lectureSection = screen.getByText('Lectures Management');
+    const talkerSection = await screen.findByText('Talkers Management');
+    const lectureSection = await screen.findByText('Lectures Management');
 
     [talkerSection, lectureSection].map((section) => {
       expect(section).toBeInTheDocument();
