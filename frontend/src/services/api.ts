@@ -11,6 +11,11 @@ type AxiosErrorResponse = {
   }
 }
 
+type getAllLecturesResponse = {
+  lectures?:ILecture[],
+  error?:unknown,
+}
+
 const URL = process.env.API_URL || 'http://localhost:3001';
 
 export const api = axios.create({ baseURL: URL });
@@ -44,12 +49,12 @@ export async function getUserData(token:string | null):Promise<LoggedUser | null
   return user;
 }
 
-export async function getAllLectures(time:number = 700):Promise<ILecture[]> {
+export async function getAllLectures(time:number = 700):Promise<getAllLecturesResponse> {
   await delay(time);
   try {
     const { data: { lectures } } = await api.get('/lecture');
-    return lectures;
+    return { lectures };
   } catch (error) {
-    return [];
+    return { error };
   }
 }
