@@ -8,7 +8,7 @@ export default function Welcome() {
   if (user) {
     const { firstName, lastName } = user;
     return (
-      <div data-testid='welcome-name-id'>
+      <div data-testid='welcome-name-id' className='p-8 text-lg'>
         Olá, {firstName} {lastName}!
       </div>
     );

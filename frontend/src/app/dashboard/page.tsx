@@ -17,13 +17,15 @@ function Dashboard() {
 
   if (isAuthenticated) {
     return (
-    <div>
+    <div className='flex flex-col items-center'>
       <MainTitle title='Dashboard' />
 
       <Welcome />
 
+      <div className='flex'>
       <ManageSection sectionName='Talkers' />
       <ManageSection sectionName='Lectures' />
+      </div>
 
     </div>
     );
