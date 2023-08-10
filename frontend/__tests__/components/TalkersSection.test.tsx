@@ -5,12 +5,12 @@ import { mockGetTalkersResponse } from '../utils/_mockData';
 
 describe('Testing Component <TalkersSection />', () => {
   it('Should have a table with all talkers registered with an id, name and age', async () => {
-    jest.spyOn(api, 'get').mockResolvedValue(mockGetTalkersResponse);
+    jest.spyOn(api, 'get').mockResolvedValue({ data: { talkers: mockGetTalkersResponse } });
 
-    const resolvedJSX = await TalkersSection();
-    render(resolvedJSX);
-    const talkers = await screen.findAllByRole('row');
-    screen.debug();
-    expect(talkers).toHaveLength(3);
+    render(<TalkersSection />);
+
+    expect(await screen.findByText('Jonas Doe')).toBeVisible();
+    expect(await screen.findByText('Davíd Roggér')).toBeVisible();
+    expect(await screen.findByText('Gale')).toBeVisible();
   });
 });

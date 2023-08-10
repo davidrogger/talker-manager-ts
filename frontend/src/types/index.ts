@@ -22,3 +22,9 @@ export type ILecture = {
   title: string,
   watchedAt: string,
 }
+
+export type ITalker = {
+  id: string,
+  name: string,
+  age: number,
+}

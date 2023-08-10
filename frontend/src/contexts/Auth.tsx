@@ -2,12 +2,11 @@
 
 import { getUserData, loginAuth } from '@/services/api';
 import { LoggedUser, LoginInput } from '@/types';
+import { getStoredToken, storeToken } from '@/utils/localStorageHandler';
 import { useRouter } from 'next/navigation';
 import {
   ReactNode, createContext, useContext, useState,
 } from 'react';
-
-const LOCAL_TOKEN_KEY = 'talker-token';
 
 export type IAuthContext = {
   isAuthenticated: boolean;
@@ -32,10 +31,6 @@ export function AuthProvider({ children }:AuthProviderProps) {
   const router = useRouter();
 
   const isAuthenticated = !!user;
-
-  function getStoredToken() {
-    return localStorage.getItem(LOCAL_TOKEN_KEY);
-  }
 
   function signOut() {
     localStorage.clear();
@@ -63,7 +58,7 @@ export function AuthProvider({ children }:AuthProviderProps) {
     }
 
     if (token) {
-      localStorage.setItem(LOCAL_TOKEN_KEY, token);
+      storeToken(token);
       router.push('/dashboard');
     }
   }

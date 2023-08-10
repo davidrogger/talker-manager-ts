@@ -1,5 +1,5 @@
 import {
-  LoginReponse, LoginInput, LoggedUser, ILecture,
+  LoginReponse, LoginInput, LoggedUser, ILecture, ITalker,
 } from '@/types';
 import axios from 'axios';
 
@@ -13,6 +13,11 @@ type AxiosErrorResponse = {
 
 type getAllLecturesResponse = {
   lectures?:ILecture[],
+  error?:unknown,
+}
+
+type getAllTalkersResponse = {
+  talkers?:ITalker[],
   error?:unknown,
 }
 
@@ -54,6 +59,20 @@ export async function getAllLectures(time:number = 700):Promise<getAllLecturesRe
   try {
     const { data: { lectures } } = await api.get('/lecture');
     return { lectures };
+  } catch (error) {
+    return { error };
+  }
+}
+
+export async function getAllTalkers(
+  token:string,
+  time:number = 700,
+):Promise<getAllTalkersResponse> {
+  await delay(time);
+  try {
+    const { data: { talkers } } = await api
+      .get('/talker', { headers: { Authorization: token } });
+    return { talkers };
   } catch (error) {
     return { error };
   }
