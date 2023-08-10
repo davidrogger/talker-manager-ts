@@ -1,7 +1,7 @@
 'use client';
 
 import MainTitle from '@/components/MainTitle';
-import ManageSection from '@/components/ManageSection';
+import TalkersSection from '@/components/TalkersSection';
 import Welcome from '@/components/Welcome';
 import { useAuthContext } from '@/contexts/Auth';
 import { useEffect } from 'react';
@@ -22,10 +22,7 @@ function Dashboard() {
 
       <Welcome />
 
-      <div className='flex'>
-      <ManageSection sectionName='Talkers' />
-      <ManageSection sectionName='Lectures' />
-      </div>
+      <TalkersSection />
 
     </div>
     );
