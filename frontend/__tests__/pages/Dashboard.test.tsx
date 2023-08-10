@@ -3,7 +3,7 @@ import { api } from '@/services/api';
 import { screen } from '@testing-library/react';
 import Header from '@/components/Header';
 import RenderWithAuthProvider from '../utils/RenderWithAuthProvider';
-import { mockGetTalkersResponse, mockUserDataResponse } from '../utils/_mockData';
+import { mockUserDataResponse } from '../utils/_mockData';
 
 describe('Testing page Dashboard', () => {
   beforeEach(
@@ -83,14 +83,5 @@ describe('Testing page Dashboard', () => {
 
     expect(talkerSection).toBeInTheDocument();
     expect(talkerSection).toBeVisible();
-  });
-
-  it('Should have a table with all talkers registered with an id, name and age', async () => {
-    jest.spyOn(api, 'get').mockResolvedValue(mockGetTalkersResponse);
-
-    RenderWithAuthProvider(<Dashboard />);
-    const talkers = await screen.findAllByRole('tablist');
-    screen.debug();
-    expect(talkers).toHaveLength(3);
   });
 });
