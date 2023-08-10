@@ -5,6 +5,9 @@ import { ITalker } from '@/types';
 import { getStoredToken } from '@/utils/localStorageHandler';
 import { useEffect, useState } from 'react';
 
+import editImg from '@/images/edit.svg';
+import Image from 'next/image';
+
 export default function TalkersSection() {
   const [talkers, setTalkers] = useState<ITalker[]>([]);
 
@@ -18,7 +21,6 @@ export default function TalkersSection() {
     const defaultHeader = {
       id: true,
       name: true,
-      age: true,
     };
     return Object.keys(defaultHeader);
   }
@@ -29,7 +31,7 @@ export default function TalkersSection() {
 
   if (talkers) {
     return (
-      <div className="border rounded m-4 p-4 hover:shadow-2xl w-11/12">
+      <div className="border rounded m-4 p-4 w-11/12">
         <h1 className="text-slate-500 text-center text-2xl mb-10">
           Talkers Management
         </h1>
@@ -38,20 +40,23 @@ export default function TalkersSection() {
             <tr>
               {getHeaders()
                 .map((thead, index) => (<th key={index}>{thead}</th>))}
-              <th>Edit</th>
+              <th>edit</th>
             </tr>
           </thead>
           <tbody>
-              {talkers.map(({ id, name, age }) => (
+              {talkers.map(({ id, name }) => (
                 <tr key={id} className='text-center [&>*]:border'>
-                  <td className='w-[40%]'>{id}</td>
-                  <td className='w-[30%]'>{name}</td>
-                  <td className='w-[10%]'>{age}</td>
-                  <td className='w-[20%]'>
+                  <td className='w-[370px]'>{id}</td>
+                  <td className='w-[calc(100%-420px)]'>{name}</td>
+                  <td className='w-[50px]'>
                     <button
+                      className='p-1 active:translate-y-0.5'
                       onClick={() => editHandler(id)}
                     >
-                      edit
+                    <Image
+                      src={editImg}
+                      alt='edit-content'
+                    />
                     </button>
                   </td>
                 </tr>
