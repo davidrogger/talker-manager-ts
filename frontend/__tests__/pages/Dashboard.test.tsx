@@ -74,18 +74,14 @@ describe('Testing page Dashboard', () => {
     expect(mockClear).toHaveBeenCalled();
   });
 
-  it('Should have two section talkers and lectures', async () => {
+  it('Should have one section talkers', async () => {
     jest.spyOn(Object.getPrototypeOf(window.localStorage), 'getItem').mockReturnValue('valid-token');
     jest.spyOn(api, 'get').mockResolvedValue(mockUserDataResponse);
 
     RenderWithAuthProvider(<Dashboard />);
     const talkerSection = await screen.findByText('Talkers Management');
-    const lectureSection = await screen.findByText('Lectures Management');
 
-    [talkerSection, lectureSection].map((section) => {
-      expect(section).toBeInTheDocument();
-      expect(section).toBeVisible();
-      return 'done';
-    });
+    expect(talkerSection).toBeInTheDocument();
+    expect(talkerSection).toBeVisible();
   });
 });
