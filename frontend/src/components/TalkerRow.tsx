@@ -17,11 +17,13 @@ export default function TalkerRow({ talker }:{ talker: ITalker}) {
   }
 
   function cancelEdit() {
+    setTalkerName(talker.name);
     setEditorMode(false);
   }
 
   function updateTalker() {
     console.log(talker.id, talkerName);
+    setEditorMode(false);
   }
   function changeDisplayTalkerName(e:ChangeEvent<HTMLInputElement>) {
     const newName = e.target.value;
