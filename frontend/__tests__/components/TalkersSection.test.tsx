@@ -3,9 +3,6 @@ import { render, screen } from '@testing-library/react';
 import { api } from '@/services/api';
 import userEvent from '@testing-library/user-event';
 
-import imgConfirm from '@/images/confirm.svg';
-import imgCancel from '@/images/cancel.svg';
-import imgEdit from '@/images/edit.svg';
 import { fakeTalkerUpdate, mockGetTalkersResponse } from '../utils/_mockData';
 
 describe('Testing Component <TalkersSection />', () => {
@@ -82,12 +79,12 @@ describe('Testing Component <TalkersSection />', () => {
       );
     render(<TalkersSection />);
 
-    const [jonasEditBtn] = await screen.findAllByRole('button', { value: imgEdit });
+    const [jonasEditBtn] = await screen.findAllByAltText('image-edit-button');
     await userEvent.click(jonasEditBtn);
 
     const currentTalkerName = 'Jonas Doe';
     const talkerInputUpdate = await screen.findByDisplayValue(currentTalkerName);
-    const confirmBtn = await screen.findByAlText('image-confirm-button');
+    const confirmBtn = await screen.findByAltText('image-confirm-button');
 
     const textInputUpdate = 'Jonas Doe Tester';
     await userEvent.type(talkerInputUpdate, textInputUpdate);
