@@ -5,8 +5,7 @@ import { ITalker } from '@/types';
 import { getStoredToken } from '@/utils/localStorageHandler';
 import { useEffect, useState } from 'react';
 
-import editImg from '@/images/edit.svg';
-import Image from 'next/image';
+import TalkerRow from './TalkerRow';
 
 export default function TalkersSection() {
   const [talkers, setTalkers] = useState<ITalker[]>([]);
@@ -25,10 +24,6 @@ export default function TalkersSection() {
     return Object.keys(defaultHeader);
   }
 
-  function editHandler(id:string) {
-    console.log(id);
-  }
-
   if (talkers) {
     return (
       <div className="border rounded m-4 p-4 w-11/12">
@@ -44,22 +39,8 @@ export default function TalkersSection() {
             </tr>
           </thead>
           <tbody>
-              {talkers.map(({ id, name }) => (
-                <tr key={id} className='text-center [&>*]:border'>
-                  <td className='w-[370px]'>{id}</td>
-                  <td className='w-[calc(100%-420px)]'>{name}</td>
-                  <td className='w-[50px]'>
-                    <button
-                      className='p-1 active:translate-y-0.5'
-                      onClick={() => editHandler(id)}
-                    >
-                    <Image
-                      src={editImg}
-                      alt='edit-content'
-                    />
-                    </button>
-                  </td>
-                </tr>
+              {talkers.map((talker) => (
+                <TalkerRow key={talker.id} talker={talker} />
               ))}
           </tbody>
         </table>
