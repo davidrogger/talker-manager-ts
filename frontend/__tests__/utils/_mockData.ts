@@ -1,3 +1,5 @@
+import { ITalker } from '@/types';
+
 export const mockUserDataResponse = {
   data: {
     user: {
@@ -63,16 +65,19 @@ export const mockGetTalkersResponse = [
   {
     id: '27f18acd-373b-49f6-929b-dbef219af9fd',
     name: 'Jonas Doe',
-    age: 33,
   },
   {
     id: 'e26c1604-20bb-4ea2-a26f-fe97e5a40c3f',
     name: 'Davíd Roggér',
-    age: 35,
   },
   {
     id: '120ba98b-cf2b-4bf7-96bc-a3e2db788e9a',
     name: 'Gale',
-    age: 40,
   },
 ];
+
+export async function fakeTalkerUpdate(endpoint:string, payload:unknown) {
+  const [, id] = endpoint.split('/');
+  const talkerIndex = mockGetTalkersResponse.findIndex((talker) => talker.id === id);
+  mockGetTalkersResponse.splice(talkerIndex, 1, payload as ITalker);
+}
