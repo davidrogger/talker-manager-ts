@@ -1,6 +1,7 @@
 import {
   LoginReponse, LoginInput, LoggedUser, ILecture, ITalker,
 } from '@/types';
+import { getStoredToken } from '@/utils/localStorageHandler';
 import axios from 'axios';
 
 type AxiosErrorResponse = {
@@ -75,5 +76,15 @@ export async function getAllTalkers(
     return { talkers };
   } catch (error) {
     return { error };
+  }
+}
+
+export async function updateTalker(talker:ITalker):Promise<void> {
+  try {
+    const token = getStoredToken();
+    await api
+      .put('/talker', talker, { headers: { Authorization: token } });
+  } catch (error) {
+    console.error(error);
   }
 }

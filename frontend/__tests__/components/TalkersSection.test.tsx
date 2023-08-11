@@ -73,7 +73,7 @@ describe('Testing Component <TalkersSection />', () => {
 
   it('Should send a request for update when clicking in the confirm button', async () => {
     const mockAPI = jest
-      .spyOn(api, 'post')
+      .spyOn(api, 'put')
       .mockImplementation(
         (endpoint:string, payload) => fakeTalkerUpdate(endpoint, payload),
       );
@@ -87,6 +87,7 @@ describe('Testing Component <TalkersSection />', () => {
     const confirmBtn = await screen.findByAltText('image-confirm-button');
 
     const textInputUpdate = 'Jonas Doe Tester';
+    await userEvent.clear(talkerInputUpdate);
     await userEvent.type(talkerInputUpdate, textInputUpdate);
 
     await userEvent.click(confirmBtn);

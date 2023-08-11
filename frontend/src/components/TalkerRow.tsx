@@ -5,6 +5,7 @@ import confirm from '@/images/confirm.svg';
 import cancel from '@/images/cancel.svg';
 import { ITalker } from '@/types';
 import { ChangeEvent, useState } from 'react';
+import { updateTalker } from '@/services/api';
 import TalkerBtn from './TalkerBtn';
 
 export default function TalkerRow({ talker }:{ talker: ITalker}) {
@@ -21,8 +22,8 @@ export default function TalkerRow({ talker }:{ talker: ITalker}) {
     setEditorMode(false);
   }
 
-  function updateTalker() {
-    console.log(talker.id, talkerName);
+  async function requiestUpdateTalker() {
+    await updateTalker({ ...talker, name: talkerName });
     setEditorMode(false);
   }
   function changeDisplayTalkerName(e:ChangeEvent<HTMLInputElement>) {
@@ -51,7 +52,7 @@ export default function TalkerRow({ talker }:{ talker: ITalker}) {
         <TalkerBtn
           src={confirm}
           alt='confirm'
-          onClick={updateTalker}
+          onClick={requiestUpdateTalker}
           disabled={isBtnDisabled}
         />
         <TalkerBtn
