@@ -1,8 +1,11 @@
 import TalkersSection from '@/components/TalkersSection';
 import { render, screen } from '@testing-library/react';
 import { api } from '@/services/api';
-import img from '@/images/index';
 import userEvent from '@testing-library/user-event';
+
+import imgConfirm from '@/images/confirm.svg';
+import imgCancel from '@/images/cancel.svg';
+import imgEdit from '@/images/edit.svg';
 import { fakeTalkerUpdate, mockGetTalkersResponse } from '../utils/_mockData';
 
 describe('Testing Component <TalkersSection />', () => {
@@ -21,54 +24,56 @@ describe('Testing Component <TalkersSection />', () => {
 
   it('Should have a edit button for each table row', async () => {
     render(<TalkersSection />);
-
-    const allEditBtns = await screen.findAllByRole('button', { value: img.edit });
+    const allEditBtns = await screen.findAllByAltText('image-edit-button');
     expect(allEditBtns).toHaveLength(3);
   });
 
   it('Should reveal a confirm and cancel button, after clicking in the edit button', async () => {
     render(<TalkersSection />);
 
-    const [editBtn] = await screen.findAllByRole('button', { value: img.edit });
+    const [editBtn] = await screen.findAllByAltText('image-edit-button');
     await userEvent.click(editBtn);
-    const confirmBtn = await screen.findByRole('button', { value: img.confirm });
-    const cancelBtn = await screen.findByRole('button', { value: img.cancel });
+    const confirmBtn = await screen.findByAltText('image-confirm-button');
+    const cancelBtn = await screen.findByAltText('image-cancel-button');
 
     expect(confirmBtn).toBeVisible();
     expect(cancelBtn).toBeVisible();
   });
 
-  it('Should be able to access an input to added the update name', async () => {
+  it('Should be able to access an input to update the name', async () => {
     render(<TalkersSection />);
 
-    const [jonasEditBtn] = await screen.findAllByRole('button', { value: img.edit });
+    const [jonasEditBtn] = await screen.findAllByAltText('image-edit-button');
     await userEvent.click(jonasEditBtn);
 
     const talkerInputUpdate = await screen.findByDisplayValue('Jonas Doe');
     expect(talkerInputUpdate).toBeVisible();
     const textInputUpdate = 'Jonas Doe Tester';
+    await userEvent.clear(talkerInputUpdate);
     await userEvent.type(talkerInputUpdate, textInputUpdate);
-    expect(talkerInputUpdate).toHaveTextContent(textInputUpdate);
+
+    expect(await screen.findByDisplayValue(textInputUpdate)).toBeVisible();
   });
 
   it('Should revert the changes if clicked in the cancel button', async () => {
     render(<TalkersSection />);
 
-    const [jonasEditBtn] = await screen.findAllByRole('button', { value: img.edit });
+    const [jonasEditBtn] = await screen.findAllByAltText('image-edit-button');
     await userEvent.click(jonasEditBtn);
 
     const currentTalkerName = 'Jonas Doe';
     const talkerInputUpdate = await screen.findByDisplayValue(currentTalkerName);
-    const cancelBtn = await screen.findByRole('button', { value: img.cancel });
-    expect(talkerInputUpdate).toBeVisible();
+    const cancelBtn = await screen.findByAltText('image-cancel-button');
 
     const textInputUpdate = 'Jonas Doe Tester';
+    await userEvent.clear(talkerInputUpdate);
     await userEvent.type(talkerInputUpdate, textInputUpdate);
 
     await userEvent.click(cancelBtn);
     expect(talkerInputUpdate).not.toBeInTheDocument();
     expect(await screen.findByText(currentTalkerName)).toBeVisible();
   });
+
   it('Should send a request for update when clicking in the confirm button', async () => {
     const mockAPI = jest
       .spyOn(api, 'post')
@@ -77,12 +82,12 @@ describe('Testing Component <TalkersSection />', () => {
       );
     render(<TalkersSection />);
 
-    const [jonasEditBtn] = await screen.findAllByRole('button', { value: img.edit });
+    const [jonasEditBtn] = await screen.findAllByRole('button', { value: imgEdit });
     await userEvent.click(jonasEditBtn);
 
     const currentTalkerName = 'Jonas Doe';
     const talkerInputUpdate = await screen.findByDisplayValue(currentTalkerName);
-    const confirmBtn = await screen.findByRole('button', { value: img.confirm });
+    const confirmBtn = await screen.findByAlText('image-confirm-button');
 
     const textInputUpdate = 'Jonas Doe Tester';
     await userEvent.type(talkerInputUpdate, textInputUpdate);
