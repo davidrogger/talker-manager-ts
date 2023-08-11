@@ -26,5 +26,4 @@ export type ILecture = {
 export type ITalker = {
   id: string,
   name: string,
-  age: number,
 }
