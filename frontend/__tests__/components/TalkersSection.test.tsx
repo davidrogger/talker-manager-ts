@@ -3,7 +3,6 @@ import { render, screen } from '@testing-library/react';
 import { api } from '@/services/api';
 import img from '@/images/index';
 import userEvent from '@testing-library/user-event';
-import { ITalker } from '@/types';
 import { fakeTalkerUpdate, mockGetTalkersResponse } from '../utils/_mockData';
 
 describe('Testing Component <TalkersSection />', () => {
@@ -25,7 +24,6 @@ describe('Testing Component <TalkersSection />', () => {
 
     const allEditBtns = await screen.findAllByRole('button', { value: img.edit });
     expect(allEditBtns).toHaveLength(3);
-    await userEvent.click(allEditBtns[0]);
   });
 
   it('Should reveal a confirm and cancel button, after clicking in the edit button', async () => {
