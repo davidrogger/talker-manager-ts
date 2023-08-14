@@ -58,17 +58,23 @@ export function passwordFormat(req: Request, _res:Response, next:NextFunction) {
 export function tokenRequired(req: Request, _res: Response, next:NextFunction) {
   const { authorization } = req.headers;
 
-  if (!authorization) next(new Unauthorized('Missing Token'));
-
-  next();
+  try {
+    if (!authorization) throw new Unauthorized('Missing Token');
+    next();
+  } catch (error) {
+    next(error);
+  }
 }
 
 export function tokenAuthenticity(req: Request, _res: Response, next:NextFunction) {
   const { authorization } = req.headers;
 
-  jwtService.verifyToken(authorization as string);
-
-  next();
+  try {
+    jwtService.verifyToken(authorization as string);
+    next();
+  } catch (error) {
+    next(error);
+  }
 }
 export function talkerNameField(req: Request, _res: Response, next:NextFunction) {
   const { name } = req.body;

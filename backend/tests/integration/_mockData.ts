@@ -27,22 +27,18 @@ export const mockTalkers = [
   {
     id: '53aed9b7-85cb-4887-a28e-1931132492a9',
     name: 'Henrique Albuquerque',
-    age: 62,
   },
   {
     id: '7b4485da-5e62-4423-8a03-392bd35181f4',
     name: 'Heloísa Albuquerque',
-    age: 67,
   },
   {
     id: 'a4c44fae-248c-4433-8172-6b4bce04f73e',
     name: 'Ricardo Xavier Filho',
-    age: 33,
   },
   {
     id: '7c0eda20-1ef1-4133-b7d7-73ecb4289bab',
     name: 'Marcos Costa',
-    age: 24,
   },
 ] as ITalker[];
 
@@ -59,44 +55,19 @@ export const badTokensTest = [
 
 export const talkerPostTest = {
   name: 'Jonas',
-  age: 33,
 };
-
-export const badTalkersPostTest = [
-  {
-    field: 'name',
-    bodyTest: {
-      age: 24,
-    },
-  },
-  {
-    field: 'age',
-    bodyTest: {
-      name: 'Marcos Costa',
-    },
-  },
-];
 
 export const badTalkersPostFormatTest = [
   {
-    expectedMessage: 'Age need to be a number',
+    expectedMessage: 'Name should has at least 3 characters',
     bodyTest: {
-      name: 'Jonas Doe',
-      age: 'not-a-number',
-    },
-  },
-  {
-    expectedMessage: 'Insert a valid age',
-    bodyTest: {
-      name: 'Jonas Doe',
-      age: -10,
+      name: 'Ma',
     },
   },
   {
     expectedMessage: 'Name should has at least 3 characters',
     bodyTest: {
-      name: 'Ma',
-      age: 33,
+      name: 'M',
     },
   },
 ];
