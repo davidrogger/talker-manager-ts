@@ -26,12 +26,16 @@ export async function createTalker(req:Request, res:Response, next:NextFunction)
 }
 
 export async function updateTalker(
-  req:Request & { talker?: ITalker },
+  req:Request<ITalker>,
   res:Response,
   next:NextFunction,
 ) {
   try {
-    await talkerService.updateTalker(req.talker as ITalker);
+    const updatedTalker:ITalker = {
+      id: req.params.id,
+      name: req.body.name,
+    };
+    await talkerService.updateTalker(updatedTalker);
     res.status(204).json();
   } catch (error) {
     next(error);

@@ -150,8 +150,7 @@ export async function talkerIdExists(
 ) {
   const { id } = req.params;
   try {
-    const talkerFound = await talkerService.findTalkerById(id);
-    req.talker = talkerFound;
+    await talkerService.findTalkerById(id);
     next();
   } catch (error) {
     next(error);
