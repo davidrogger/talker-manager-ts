@@ -17,3 +17,7 @@ export async function findTalkerById(id:string) {
   if (!talkerFound) throw new BadRequest('Talker not found');
   return talkerFound;
 }
+
+export async function updateTalker(talker:ITalker):Promise<void> {
+  await talkerModel.updateTalker(talker);
+}

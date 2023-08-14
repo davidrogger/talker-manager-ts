@@ -18,3 +18,8 @@ export async function findTalkerById(id:string):Promise<ITalker> {
   const [talkerFound] = rows as ITalker[];
   return talkerFound;
 }
+
+export async function updateTalker({ id, name }:ITalker):Promise<void> {
+  const query = 'UPDATE talker SET name = ? WHERE id = ?';
+  await connection.execute(query, [name, id]);
+}

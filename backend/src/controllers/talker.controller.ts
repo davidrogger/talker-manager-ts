@@ -2,6 +2,7 @@ import type { Request, Response, NextFunction } from 'express';
 
 import * as talkerService from '@services/talker.service';
 import * as idService from '@services/id.service';
+import { ITalker } from '@types';
 
 export async function getAllTalkers(req:Request, res:Response, next:NextFunction) {
   try {
@@ -24,8 +25,13 @@ export async function createTalker(req:Request, res:Response, next:NextFunction)
   }
 }
 
-export async function updateTalker(req:Request, res:Response, next:NextFunction) {
+export async function updateTalker(
+  req:Request & { talker?: ITalker },
+  res:Response,
+  next:NextFunction,
+) {
   try {
+    await talkerService.updateTalker(req.talker as ITalker);
     res.status(204).json();
   } catch (error) {
     next(error);
