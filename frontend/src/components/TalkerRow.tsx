@@ -28,7 +28,7 @@ export default function TalkerRow({ talker }:{ talker: ITalker}) {
   }
   function changeDisplayTalkerName(e:ChangeEvent<HTMLInputElement>) {
     const newName = e.target.value;
-    setBtnDisable(talker.name === newName);
+    setBtnDisable(talker.name === newName || newName.length < 3);
     setTalkerName(newName);
   }
 
