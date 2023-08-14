@@ -155,4 +155,19 @@ describe('Testing route /talker', () => {
       expect(mockJWT.callCount).to.be.equal(1);
     });
   });
+
+  it('Should be a valid existing talker id', async () => {
+    const mockDB = sinon.stub(connection, 'execute').resolves([[], []]);
+    sinon.stub(jwt, 'verify').returns();
+    const badId = '490688f1-0a19-42c7-af71-30d09e23537b';
+
+    const { status, body } = await chai
+      .request(app)
+      .put(`${talkerEndpoint}/${badId}`)
+      .set('Authorization', 'valid-token');
+
+    expect(mockDB.called).to.be.equal(true);
+    expect(status).to.be.equal(400);
+    expect(body.message).to.be.equal('Talker not found');
+  });
 });
