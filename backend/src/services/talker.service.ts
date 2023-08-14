@@ -1,6 +1,7 @@
 import { ITalker } from '@types';
 
 import * as talkerModel from '@models/talker.model';
+import BadRequest from '@src/errors/BadRequest';
 
 export async function getAllTalkers() {
   const talkers = await talkerModel.getAllTalkers();
@@ -9,4 +10,10 @@ export async function getAllTalkers() {
 
 export async function createTalker(newTalker:ITalker) {
   await talkerModel.createTalker(newTalker);
+}
+
+export async function findTalkerById(id:string) {
+  const talkerFound = await talkerModel.findTalkerById(id);
+  if (!talkerFound) throw new BadRequest('Talker not found');
+  return talkerFound;
 }
