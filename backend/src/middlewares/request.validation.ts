@@ -9,32 +9,39 @@ import Conflic from '@errors/Conflic';
 
 export function newUserRequiredFields(req:Request, _res:Response, next:NextFunction) {
   const user = req.body;
-
-  if (!user.firstName) next(new BadRequest('Missing firstName field'));
-  if (!user.lastName) next(new BadRequest('Missing lastName field'));
-  if (!user.email) next(new BadRequest('Missing email field'));
-  if (!user.password) next(new BadRequest('Missing password field'));
-
-  next();
+  try {
+    if (!user.firstName) throw new BadRequest('Missing firstName field');
+    if (!user.lastName) throw new BadRequest('Missing lastName field');
+    if (!user.email) throw new BadRequest('Missing email field');
+    if (!user.password) throw new BadRequest('Missing password field');
+    next();
+  } catch (error) {
+    next(error);
+  }
 }
 
 export function loginRequiredFields(req:Request, _res:Response, next:NextFunction) {
   const login = req.body;
 
-  if (!login.email) next(new BadRequest('Missing email field'));
-  if (!login.password) next(new BadRequest('Missing password field'));
-
-  next();
+  try {
+    if (!login.email) throw new BadRequest('Missing email field');
+    if (!login.password) throw new BadRequest('Missing password field');
+    next();
+  } catch (error) {
+    next(error);
+  }
 }
 
 export async function emailUnique(req:Request, _res:Response, next:NextFunction) {
   const { email } = req.body;
 
-  const userFound = await userService.findUserByEmail(email);
-
-  if (userFound) next(new Conflic('Email address already in use'));
-
-  next();
+  try {
+    const userFound = await userService.findUserByEmail(email);
+    if (userFound) throw new Conflic('Email address already in use');
+    next();
+  } catch (error) {
+    next(error);
+  }
 }
 
 export function emailFormat(req: Request, _res:Response, next:NextFunction) {
@@ -42,17 +49,23 @@ export function emailFormat(req: Request, _res:Response, next:NextFunction) {
 
   const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
-  if (!emailRegex.test(email)) next(new BadRequest('Invalid Email format'));
-
-  next();
+  try {
+    if (!emailRegex.test(email)) throw new BadRequest('Invalid Email format');
+    next();
+  } catch (error) {
+    next(error);
+  }
 }
 
 export function passwordFormat(req: Request, _res:Response, next:NextFunction) {
   const { password } = req.body;
 
-  if (password.length < 6) next(new BadRequest('Password need to have at least 6 characters'));
-
-  next();
+  try {
+    if (password.length < 6) throw new BadRequest('Password need to have at least 6 characters');
+    next();
+  } catch (error) {
+    next(error);
+  }
 }
 
 export function tokenRequired(req: Request, _res: Response, next:NextFunction) {
