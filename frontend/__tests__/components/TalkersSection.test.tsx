@@ -11,6 +11,13 @@ describe('Testing Component <TalkersSection />', () => {
     jest.spyOn(api, 'get').mockResolvedValue({ data: { talkers: mockGetTalkersResponse } });
   });
 
+  it('Should have an "Add New Talker" in the dashboard', async () => {
+    render(<TalkersSection />);
+    const addTalkerBtn = await screen.findByText('Add new Talker');
+
+    expect(addTalkerBtn).toBeVisible();
+  });
+
   it('Should have a table with all talkers registered with an id, name and age', async () => {
     render(<TalkersSection />);
 
