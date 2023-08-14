@@ -1,5 +1,5 @@
 import TalkersSection from '@/components/TalkersSection';
-import { render, screen } from '@testing-library/react';
+import { findByDisplayValue, render, screen } from '@testing-library/react';
 import { api } from '@/services/api';
 import userEvent from '@testing-library/user-event';
 
@@ -13,9 +13,19 @@ describe('Testing Component <TalkersSection />', () => {
 
   it('Should have an "Add New Talker" in the dashboard', async () => {
     render(<TalkersSection />);
-    const addTalkerBtn = await screen.findByText('Add new Talker');
+    const addTalkerBtn = await screen.findByText('Add New Talker');
 
     expect(addTalkerBtn).toBeVisible();
+  });
+
+  it('Should popup a window with an input to create a new talker', async () => {
+    render(<TalkersSection />);
+    const addTalkerBtn = await screen.findByText('Add New Talker');
+
+    await userEvent.click(addTalkerBtn);
+
+    expect(await screen.findByDisplayValue('New User Name')).toBeVisible();
+    expect(await screen.findByRole('button', { name: 'Create' })).toBeVisible();
   });
 
   it('Should have a table with all talkers registered with an id, name and age', async () => {
