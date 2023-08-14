@@ -18,8 +18,14 @@ route.post(
   validate.tokenRequired,
   validate.tokenAuthenticity,
   validate.talkerNameField,
-  validate.talkerAgeField,
   talkerController.createTalker,
+);
+
+route.put(
+  '/:id',
+  validate.tokenRequired,
+  validate.tokenAuthenticity,
+  talkerController.updateTalker,
 );
 
 export default route;
