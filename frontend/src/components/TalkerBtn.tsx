@@ -14,7 +14,7 @@ export default function TalkerBtn({
   return (
     <button
     className='w-8 h-8 p-1 disabled:opacity-50 disabled:cursor-not-allowed focus:active:translate-y-0.5'
-    data-testId={`test-${alt}-button`}
+    data-testid={`test-${alt}-button`}
     onClick={onClick}
     disabled={disabled}
   >
