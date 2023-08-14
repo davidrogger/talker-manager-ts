@@ -10,6 +10,7 @@ import app from '@src/app';
 
 import * as idService from '@services/id.service';
 
+import { ITalkerResponse } from '@types';
 import {
   badTalkersPostFormatTest,
   badTokensTest, mockPublicUserData, mockTalkers, talkerPostTest,
@@ -25,7 +26,7 @@ describe('Testing route /talker', () => {
 
   describe('Get request', () => {
     it('Should return all talker register in the data base', async () => {
-      const mockDBConnection = sinon.stub(connection, 'execute').resolves([mockTalkers, []]);
+      const mockDBConnection = sinon.stub(connection, 'execute').resolves([mockTalkers as ITalkerResponse[], []]);
       const mockJWT = sinon.stub(jwt, 'verify').callsFake(() => mockPublicUserData);
 
       const { status, body } = await chai
@@ -172,7 +173,7 @@ describe('Testing route /talker', () => {
   });
 
   it('Should have a valid name to update', async () => {
-    const mockDB = sinon.stub(connection, 'execute').resolves([[[{ ...mockTalkers[0] }]], []]);
+    const mockDB = sinon.stub(connection, 'execute').resolves([[[{ ...mockTalkers[0] as ITalkerResponse }]], []]);
     sinon.stub(jwt, 'verify').returns();
     const id = '53aed9b7-85cb-4887-a28e-1931132492a9';
 
@@ -194,7 +195,7 @@ describe('Testing route /talker', () => {
   it('Should update talker name successfully', async () => {
     const mockDB = sinon.stub(connection, 'execute')
       .onFirstCall()
-      .resolves([[[{ ...mockTalkers[0] }]], []])
+      .resolves([[[{ ...mockTalkers[0] } as ITalkerResponse]], []])
       .onSecondCall()
       .resolves([[], []]);
 
