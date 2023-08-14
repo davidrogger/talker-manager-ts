@@ -26,7 +26,7 @@ const URL = process.env.API_URL || 'http://localhost:3001';
 
 export const api = axios.create({ baseURL: URL });
 
-async function delay(time = 700) {
+export async function delay(time = 700) {
   await new Promise((resolve) => {
     setTimeout(resolve, time);
   });

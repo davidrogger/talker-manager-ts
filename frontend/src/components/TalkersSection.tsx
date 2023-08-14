@@ -6,9 +6,11 @@ import { getStoredToken } from '@/utils/localStorageHandler';
 import { useEffect, useState } from 'react';
 
 import TalkerRow from './TalkerRow';
+import AddNewTalker from './AddNewTalker';
 
 export default function TalkersSection() {
   const [talkers, setTalkers] = useState<ITalker[]>([]);
+  const [newTalkerVisible, setNewTalkerVisible] = useState<boolean>(false);
 
   useEffect(() => {
     const token = getStoredToken();
@@ -33,10 +35,12 @@ export default function TalkersSection() {
 
         <button
           className="bg-green-900 hover:bg-green-700 text-white p-2 rounded-t active:translate-y-0.5"
-          onClick={() => console.log('add')}
+          onClick={() => setNewTalkerVisible(true)}
         >
           Add New Talker
         </button>
+
+        {newTalkerVisible && <AddNewTalker openWindow={setNewTalkerVisible} />}
 
         <table className='w-full border-separate border rounded'>
           <thead>

@@ -1,5 +1,5 @@
 import TalkersSection from '@/components/TalkersSection';
-import { findByDisplayValue, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { api } from '@/services/api';
 import userEvent from '@testing-library/user-event';
 
@@ -24,8 +24,9 @@ describe('Testing Component <TalkersSection />', () => {
 
     await userEvent.click(addTalkerBtn);
 
-    expect(await screen.findByDisplayValue('New User Name')).toBeVisible();
+    expect(await screen.findByPlaceholderText('Type the name here...')).toBeVisible();
     expect(await screen.findByRole('button', { name: 'Create' })).toBeVisible();
+    expect(await screen.findByRole('button', { name: 'x' })).toBeVisible();
   });
 
   it('Should have a table with all talkers registered with an id, name and age', async () => {

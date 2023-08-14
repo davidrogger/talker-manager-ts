@@ -43,7 +43,7 @@ export default function TalkerRow({ talker }:{ talker: ITalker}) {
               onChange={changeDisplayTalkerName}
             />
           )
-          : <span className='opacity-50'>{talkerName}</span>
+          : <span className='text-gray-400'>{talkerName}</span>
         }
       </td>
       <td className='w-[100px]'>
