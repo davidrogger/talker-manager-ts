@@ -79,11 +79,11 @@ export async function getAllTalkers(
   }
 }
 
-export async function updateTalker(talker:ITalker):Promise<void> {
+export async function updateTalker({ id, name }:ITalker):Promise<void> {
   try {
     const token = getStoredToken();
     await api
-      .put('/talker', talker, { headers: { Authorization: token } });
+      .put(`/talker/${id}`, { name }, { headers: { Authorization: token } });
   } catch (error) {
     console.error(error);
   }
