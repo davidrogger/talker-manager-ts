@@ -190,4 +190,24 @@ describe('Testing route /talker', () => {
       }),
     );
   });
+
+  it('Should update talker name successfully', async () => {
+    const mockDB = sinon.stub(connection, 'execute')
+      .onFirstCall()
+      .resolves([[[{ ...mockTalkers[0] }]], []])
+      .onSecondCall()
+      .resolves([[], []]);
+
+    sinon.stub(jwt, 'verify').returns();
+    const id = '53aed9b7-85cb-4887-a28e-1931132492a9';
+
+    const { status } = await chai
+      .request(app)
+      .put(`${talkerEndpoint}/${id}`)
+      .set('Authorization', 'valid-token')
+      .send({ name: 'Jonas Doe' });
+
+    expect(mockDB.callCount).to.be.equal(2);
+    expect(status).to.be.equal(204);
+  });
 });
