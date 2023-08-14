@@ -172,9 +172,9 @@ describe('Testing route /talker', () => {
   });
 
   it('Should have a valid name to update', async () => {
-    const mockDB = sinon.stub(connection, 'execute').resolves([[], []]);
+    const mockDB = sinon.stub(connection, 'execute').resolves([[[{ ...mockTalkers[0] }]], []]);
     sinon.stub(jwt, 'verify').returns();
-    const id = '490688f1-0a19-42c7-af71-30d09e23537b';
+    const id = '53aed9b7-85cb-4887-a28e-1931132492a9';
 
     await Promise.all(
       badTalkersPostFormatTest.map(async ({ expectedMessage, bodyTest }) => {
@@ -184,7 +184,7 @@ describe('Testing route /talker', () => {
           .set('Authorization', 'valid-token')
           .send(bodyTest);
 
-        expect(mockDB.called).not.to.be.equal(true);
+        expect(mockDB.called).to.be.equal(true);
         expect(status).to.be.equal(400);
         expect(body.message).to.be.equal(expectedMessage);
       }),

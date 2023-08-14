@@ -2,10 +2,12 @@ import { Request, Response, NextFunction } from 'express';
 
 import * as jwtService from '@services/jwt.service';
 import * as userService from '@services/user.service';
+import * as talkerService from '@services/talker.service';
 
 import Unauthorized from '@errors/Unauthorized';
 import BadRequest from '@errors/BadRequest';
 import Conflic from '@errors/Conflic';
+import { ITalker } from '@types';
 
 export function newUserRequiredFields(req:Request, _res:Response, next:NextFunction) {
   const user = req.body;
@@ -139,4 +141,19 @@ export function lectureWatchedAtField(req: Request, _res: Response, next: NextFu
   if (!regexData.test(watchedAt)) throw new BadRequest('watchedAt need a valid format, dd/mm/yyyy');
 
   next();
+}
+
+export async function talkerIdExists(
+  req:Request & { talker?:ITalker },
+  _res:Response,
+  next:NextFunction,
+) {
+  const { id } = req.params;
+  try {
+    const talkerFound = await talkerService.findTalkerById(id);
+    req.talker = talkerFound;
+    next();
+  } catch (error) {
+    next(error);
+  }
 }

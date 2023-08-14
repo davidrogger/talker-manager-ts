@@ -25,6 +25,8 @@ route.put(
   '/:id',
   validate.tokenRequired,
   validate.tokenAuthenticity,
+  validate.talkerIdExists,
+  validate.talkerNameField,
   talkerController.updateTalker,
 );
 

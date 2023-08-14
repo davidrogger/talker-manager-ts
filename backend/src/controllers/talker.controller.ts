@@ -25,9 +25,7 @@ export async function createTalker(req:Request, res:Response, next:NextFunction)
 }
 
 export async function updateTalker(req:Request, res:Response, next:NextFunction) {
-  const { id } = req.params;
   try {
-    await talkerService.findTalkerById(id);
     res.status(204).json();
   } catch (error) {
     next(error);
