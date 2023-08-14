@@ -71,6 +71,37 @@ describe('Testing Component <TalkersSection />', () => {
     expect(await screen.findByText(currentTalkerName)).toBeVisible();
   });
 
+  it('Should disable the send button when has less than 3 letters', async () => {
+    const mockAPI = jest
+      .spyOn(api, 'put')
+      .mockImplementation(
+        (endpoint:string, payload) => fakeTalkerUpdate(endpoint, payload),
+      );
+
+    jest.spyOn(Object.getPrototypeOf(window.localStorage), 'getItem').mockReturnValue('valid-token');
+
+    render(<TalkersSection />);
+
+    const [jonasEditBtn] = await screen.findAllByAltText('image-edit-button');
+    await userEvent.click(jonasEditBtn);
+
+    const currentTalkerName = 'Jonas Doe';
+    const talkerInputUpdate = await screen.findByDisplayValue(currentTalkerName);
+    const confirmBtn = await screen.findByTestId('test-confirm-button');
+    expect(confirmBtn).toBeDisabled();
+
+    await userEvent.clear(talkerInputUpdate);
+    await userEvent.type(talkerInputUpdate, 'jo');
+
+    expect(confirmBtn).toBeDisabled();
+    await userEvent.clear(talkerInputUpdate);
+    await userEvent.type(talkerInputUpdate, 'j');
+
+    expect(confirmBtn).toBeDisabled();
+
+    expect(mockAPI).toHaveBeenCalledTimes(0);
+  });
+
   it('Should send a request for update when clicking in the confirm button', async () => {
     const mockAPI = jest
       .spyOn(api, 'put')
