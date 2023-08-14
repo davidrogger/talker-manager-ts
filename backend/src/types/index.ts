@@ -18,8 +18,9 @@ export type IUserPublic = Omit<IUser, 'password'>;
 export type ITalker = {
   id: string,
   name: string,
-  age: number,
-} & RowDataPacket;
+};
+
+export type ITalkerResponse = ITalker & RowDataPacket;
 
 export type ILecture = {
   id: string,

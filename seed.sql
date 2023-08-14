@@ -4,10 +4,10 @@ INSERT INTO user (id, first_name, last_name, email, password)
 VALUES ('387f4c72-c314-456c-b00f-bd63a0a7ebd7', 'Talker', 'Manager', 'talker@manager.com', '$2b$10$hOuksoM1FCnUIWSK1xDg/.DccLN5SaNroTjmbsMC0Tcdv0xd8xdAi'); -- 123pass
 
 INSERT INTO talker (id, name, age)
-VALUES ('6e49e918-6c5b-4d1e-8d86-73e87ee536f9', 'Davíd Roggér', 35);
+VALUES ('6e49e918-6c5b-4d1e-8d86-73e87ee536f9', 'Davíd Roggér');
 
 INSERT INTO talker (id, name, age)
-VALUES ('f55a0429-e03a-4fdb-bffa-071ccb1a5a1a', 'Jonas Doe', 33);
+VALUES ('f55a0429-e03a-4fdb-bffa-071ccb1a5a1a', 'Jonas Doe');
 
 INSERT INTO lecture (id, talker_id, title, watchedAt)
 VALUES ('262cd336-50ea-4a9e-83b5-a3c829e140f5', '6e49e918-6c5b-4d1e-8d86-73e87ee536f9', 'Practicing FullStack', '08/08/2023');

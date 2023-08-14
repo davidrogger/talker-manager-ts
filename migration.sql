@@ -10,8 +10,7 @@ CREATE TABLE user (
 
 CREATE TABLE talker (
   id CHAR(36) PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
-  age INT NOT NULL
+  name VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE lecture (
