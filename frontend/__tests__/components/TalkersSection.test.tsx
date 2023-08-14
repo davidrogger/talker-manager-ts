@@ -25,8 +25,8 @@ describe('Testing Component <TalkersSection />', () => {
     await userEvent.click(addTalkerBtn);
 
     expect(await screen.findByPlaceholderText('Type the name here...')).toBeVisible();
-    expect(await screen.findByRole('button', { name: 'Create' })).toBeVisible();
-    expect(await screen.findByRole('button', { name: 'x' })).toBeVisible();
+    expect(await screen.findByRole('button', { name: 'Add' })).toBeVisible();
+    expect(await screen.findByRole('button', { name: 'back to the dashboard' })).toBeVisible();
   });
 
   it('Should have a table with all talkers registered with an id, name and age', async () => {
