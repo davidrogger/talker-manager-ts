@@ -137,4 +137,24 @@ describe('Testing route /talker', () => {
       });
     });
   });
+
+  describe('PUT request', () => {
+    it('Should require a valid token', async () => {
+      sinon.stub(jwt, 'verify').rejects();
+
+      const id = '53aed9b7-85cb-4887-a28e-1931132492a9';
+
+      await Promise.all(
+        badTokensTest.map(async ({ expectMessage, token }) => {
+          const { status, body } = await chai
+            .request(app)
+            .put(`${talkerEndpoint}/${id}`)
+            .set('Authorization', token);
+
+          expect(status).to.be.equal(401);
+          expect(body.message).to.be.equal(expectMessage);
+        }),
+      );
+    });
+  });
 });
