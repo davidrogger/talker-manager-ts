@@ -30,6 +30,14 @@ export default function TalkersSection() {
         <h1 className="text-slate-500 text-center text-2xl mb-10">
           Talkers Management
         </h1>
+
+        <button
+          className="bg-green-900 hover:bg-green-700 text-white p-2 rounded-t active:translate-y-0.5"
+          onClick={() => console.log('add')}
+        >
+          Add New Talker
+        </button>
+
         <table className='w-full border-separate border rounded'>
           <thead>
             <tr>
