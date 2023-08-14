@@ -170,4 +170,24 @@ describe('Testing route /talker', () => {
     expect(status).to.be.equal(400);
     expect(body.message).to.be.equal('Talker not found');
   });
+
+  it('Should have a valid name to update', async () => {
+    const mockDB = sinon.stub(connection, 'execute').resolves([[], []]);
+    sinon.stub(jwt, 'verify').returns();
+    const id = '490688f1-0a19-42c7-af71-30d09e23537b';
+
+    await Promise.all(
+      badTalkersPostFormatTest.map(async ({ expectedMessage, bodyTest }) => {
+        const { status, body } = await chai
+          .request(app)
+          .put(`${talkerEndpoint}/${id}`)
+          .set('Authorization', 'valid-token')
+          .send(bodyTest);
+
+        expect(mockDB.called).not.to.be.equal(true);
+        expect(status).to.be.equal(400);
+        expect(body.message).to.be.equal(expectedMessage);
+      }),
+    );
+  });
 });
