@@ -21,17 +21,17 @@ describe('Testing Component <TalkersSection />', () => {
 
   it('Should have a edit button for each table row', async () => {
     render(<TalkersSection />);
-    const allEditBtns = await screen.findAllByAltText('image-edit-button');
+    const allEditBtns = await screen.findAllByTestId('test-edit-button');
     expect(allEditBtns).toHaveLength(3);
   });
 
   it('Should reveal a confirm and cancel button, after clicking in the edit button', async () => {
     render(<TalkersSection />);
 
-    const [editBtn] = await screen.findAllByAltText('image-edit-button');
+    const [editBtn] = await screen.findAllByTestId('test-edit-button');
     await userEvent.click(editBtn);
-    const confirmBtn = await screen.findByAltText('image-confirm-button');
-    const cancelBtn = await screen.findByAltText('image-cancel-button');
+    const confirmBtn = await screen.findByTestId('test-confirm-button');
+    const cancelBtn = await screen.findByTestId('test-cancel-button');
 
     expect(confirmBtn).toBeVisible();
     expect(cancelBtn).toBeVisible();
@@ -40,7 +40,7 @@ describe('Testing Component <TalkersSection />', () => {
   it('Should be able to access an input to update the name', async () => {
     render(<TalkersSection />);
 
-    const [jonasEditBtn] = await screen.findAllByAltText('image-edit-button');
+    const [jonasEditBtn] = await screen.findAllByTestId('test-edit-button');
     await userEvent.click(jonasEditBtn);
 
     const talkerInputUpdate = await screen.findByDisplayValue('Jonas Doe');
@@ -55,12 +55,12 @@ describe('Testing Component <TalkersSection />', () => {
   it('Should revert the changes if clicked in the cancel button', async () => {
     render(<TalkersSection />);
 
-    const [jonasEditBtn] = await screen.findAllByAltText('image-edit-button');
+    const [jonasEditBtn] = await screen.findAllByTestId('test-edit-button');
     await userEvent.click(jonasEditBtn);
 
     const currentTalkerName = 'Jonas Doe';
     const talkerInputUpdate = await screen.findByDisplayValue(currentTalkerName);
-    const cancelBtn = await screen.findByAltText('image-cancel-button');
+    const cancelBtn = await screen.findByTestId('test-cancel-button');
 
     const textInputUpdate = 'Jonas Doe Tester';
     await userEvent.clear(talkerInputUpdate);
@@ -82,7 +82,7 @@ describe('Testing Component <TalkersSection />', () => {
 
     render(<TalkersSection />);
 
-    const [jonasEditBtn] = await screen.findAllByAltText('image-edit-button');
+    const [jonasEditBtn] = await screen.findAllByTestId('test-edit-button');
     await userEvent.click(jonasEditBtn);
 
     const currentTalkerName = 'Jonas Doe';
@@ -113,12 +113,12 @@ describe('Testing Component <TalkersSection />', () => {
 
     render(<TalkersSection />);
 
-    const [jonasEditBtn] = await screen.findAllByAltText('image-edit-button');
+    const [jonasEditBtn] = await screen.findAllByTestId('test-edit-button');
     await userEvent.click(jonasEditBtn);
 
     const currentTalkerName = 'Jonas Doe';
     const talkerInputUpdate = await screen.findByDisplayValue(currentTalkerName);
-    const confirmBtn = await screen.findByAltText('image-confirm-button');
+    const confirmBtn = await screen.findByTestId('test-confirm-button');
 
     const textInputUpdate = 'Jonas Doe Tester';
     await userEvent.clear(talkerInputUpdate);
