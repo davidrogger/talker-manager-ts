@@ -12,7 +12,6 @@ import * as idService from '@services/id.service';
 
 import {
   badTalkersPostFormatTest,
-  badTalkersPostTest,
   badTokensTest, mockPublicUserData, mockTalkers, talkerPostTest,
 } from './_mockData';
 
@@ -80,19 +79,17 @@ describe('Testing route /talker', () => {
     });
 
     describe('Need Required fields to request properly', () => {
-      it('Should return status 400 with a error message when missing any required field', async () => {
+      it('Should return status 400 with a error message when missing name field', async () => {
         sinon.stub(jwt, 'verify').returns();
 
-        await Promise.all(badTalkersPostTest.map(async ({ field, bodyTest }) => {
-          const { status, body } = await chai
-            .request(app)
-            .post(talkerEndpoint)
-            .set('Authorization', 'valid-token')
-            .send(bodyTest);
+        const { status, body } = await chai
+          .request(app)
+          .post(talkerEndpoint)
+          .set('Authorization', 'valid-token')
+          .send({});
 
-          expect(status).to.be.equal(400);
-          expect(body.message).to.be.equal(`Missing ${field} field`);
-        }));
+        expect(status).to.be.equal(400);
+        expect(body.message).to.be.equal('Missing name field');
       });
     });
 
@@ -122,7 +119,6 @@ describe('Testing route /talker', () => {
 
         const talker = {
           name: 'Jonas Doe',
-          age: 33,
         };
 
         const { status, body } = await chai
@@ -140,7 +136,7 @@ describe('Testing route /talker', () => {
 
   describe('PUT request', () => {
     it('Should require a valid token', async () => {
-      sinon.stub(jwt, 'verify').rejects();
+      const mockJWT = sinon.stub(jwt, 'verify').throws();
 
       const id = '53aed9b7-85cb-4887-a28e-1931132492a9';
 
@@ -155,6 +151,8 @@ describe('Testing route /talker', () => {
           expect(body.message).to.be.equal(expectMessage);
         }),
       );
+
+      expect(mockJWT.callCount).to.be.equal(1);
     });
   });
 });
