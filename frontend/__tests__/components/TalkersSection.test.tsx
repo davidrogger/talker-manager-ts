@@ -77,6 +77,9 @@ describe('Testing Component <TalkersSection />', () => {
       .mockImplementation(
         (endpoint:string, payload) => fakeTalkerUpdate(endpoint, payload),
       );
+
+    jest.spyOn(Object.getPrototypeOf(window.localStorage), 'getItem').mockReturnValue('valid-token');
+
     render(<TalkersSection />);
 
     const [jonasEditBtn] = await screen.findAllByAltText('image-edit-button');
@@ -90,8 +93,12 @@ describe('Testing Component <TalkersSection />', () => {
     await userEvent.clear(talkerInputUpdate);
     await userEvent.type(talkerInputUpdate, textInputUpdate);
 
+    const [jonasData] = mockGetTalkersResponse;
+
     await userEvent.click(confirmBtn);
     expect(mockAPI).toHaveBeenCalled();
+    expect(mockAPI)
+      .toHaveBeenCalledWith(`/talker/${jonasData.id}`, { name: textInputUpdate }, { headers: { Authorization: 'valid-token' } });
 
     expect(await screen.findByText(textInputUpdate)).toBeVisible();
   });
