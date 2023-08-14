@@ -21,7 +21,7 @@ describe('Testing route /lecure', () => {
 
   describe('Testing routes get', () => {
     describe('Route GET /lecture', () => {
-      it('Should return status 200 with all lecures in the data base', async () => {
+      it('Should return status 200 with all lectures in the data base', async () => {
         const mockDB = sinon.stub(connection, 'execute').resolves([mockLecturesGetResponse, []]);
         const { status, body } = await chai
           .request(app)
