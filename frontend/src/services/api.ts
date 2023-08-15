@@ -88,3 +88,13 @@ export async function updateTalker({ id, name }:ITalker):Promise<void> {
     console.error(error);
   }
 }
+
+export async function addNewTalkerByName(name:string) {
+  try {
+    const token = getStoredToken();
+    const talker = await api.post('/talker', { name }, { headers: { Authorization: token } });
+    return { talker };
+  } catch (error) {
+    return { error };
+  }
+}

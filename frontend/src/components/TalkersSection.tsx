@@ -13,10 +13,12 @@ export default function TalkersSection() {
   const [newTalkerVisible, setNewTalkerVisible] = useState<boolean>(false);
 
   useEffect(() => {
-    const token = getStoredToken();
-    getAllTalkers(token as string)
-      .then((response) => setTalkers(response.talkers || []));
-  }, []);
+    if (!newTalkerVisible) {
+      const token = getStoredToken();
+      getAllTalkers(token as string)
+        .then((response) => setTalkers(response.talkers || []));
+    }
+  }, [newTalkerVisible]);
 
   function getHeaders():string[] {
     const defaultHeader = {

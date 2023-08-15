@@ -1,6 +1,6 @@
 'use client';
 
-import { delay } from '@/services/api';
+import { addNewTalkerByName } from '@/services/api';
 import { useState, FormEvent, ChangeEvent } from 'react';
 
 type AddNewTalkerProps = {
@@ -8,22 +8,25 @@ type AddNewTalkerProps = {
 }
 
 export default function AddNewTalker({ openWindow }:AddNewTalkerProps) {
-  const [newTalker, setNewTalker] = useState<string>('');
+  const [talkerName, setTalkerName] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isButtonDisabled, setButtonDisabled] = useState<boolean>(true);
 
   async function submitHandle(e:FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    setButtonDisabled(true);
     setIsLoading(true);
-    await delay(2000);
-    console.log(newTalker);
-    openWindow(false);
+
+    await addNewTalkerByName(talkerName);
+
     setIsLoading(false);
+    openWindow(false);
   }
 
   function inputNameHandler(e:ChangeEvent<HTMLInputElement>) {
     const inputTalkerName = e.target.value;
-    setNewTalker(inputTalkerName);
+    setTalkerName(inputTalkerName);
     if (inputTalkerName.length >= 3) {
       setButtonDisabled(false);
     } else {
@@ -44,7 +47,7 @@ export default function AddNewTalker({ openWindow }:AddNewTalkerProps) {
             name='talkerName'
             placeholder='Type the name here...'
             type="text"
-            value={newTalker}
+            value={talkerName}
             onChange={inputNameHandler}
           />
 
