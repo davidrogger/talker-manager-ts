@@ -8,7 +8,7 @@ export async function getAllTalkers() {
 }
 
 export async function createTalker({ id, name }:ITalker):Promise<void> {
-  await connection.execute('INSERT INTO talker(id, name, age) VALUES(?, ?, ?)', [id, name]);
+  await connection.execute('INSERT INTO talker(id, name) VALUES(?, ?)', [id, name]);
 }
 
 export async function findTalkerById(id:string):Promise<ITalker> {
