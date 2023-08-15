@@ -155,60 +155,62 @@ describe('Testing route /talker', () => {
 
       expect(mockJWT.callCount).to.be.equal(1);
     });
+
+    it('Should be a valid existing talker id', async () => {
+      const mockDB = sinon.stub(connection, 'execute').resolves([[], []]);
+      sinon.stub(jwt, 'verify').returns();
+      const badId = '490688f1-0a19-42c7-af71-30d09e23537b';
+
+      const { status, body } = await chai
+        .request(app)
+        .put(`${talkerEndpoint}/${badId}`)
+        .set('Authorization', 'valid-token');
+
+      expect(mockDB.called).to.be.equal(true);
+      expect(status).to.be.equal(400);
+      expect(body.message).to.be.equal('Talker not found');
+    });
+
+    it('Should have a valid name to update', async () => {
+      const mockDB = sinon.stub(connection, 'execute').resolves([[[{ ...mockTalkers[0] as ITalkerResponse }]], []]);
+      sinon.stub(jwt, 'verify').returns();
+      const id = '53aed9b7-85cb-4887-a28e-1931132492a9';
+
+      await Promise.all(
+        badTalkersPostFormatTest.map(async ({ expectedMessage, bodyTest }) => {
+          const { status, body } = await chai
+            .request(app)
+            .put(`${talkerEndpoint}/${id}`)
+            .set('Authorization', 'valid-token')
+            .send(bodyTest);
+
+          expect(mockDB.called).to.be.equal(true);
+          expect(status).to.be.equal(400);
+          expect(body.message).to.be.equal(expectedMessage);
+        }),
+      );
+    });
+
+    it('Should update talker name successfully', async () => {
+      const mockDB = sinon.stub(connection, 'execute')
+        .onFirstCall()
+        .resolves([[[{ ...mockTalkers[0] } as ITalkerResponse]], []])
+        .onSecondCall()
+        .resolves([[], []]);
+
+      sinon.stub(jwt, 'verify').returns();
+      const id = '53aed9b7-85cb-4887-a28e-1931132492a9';
+
+      const { status } = await chai
+        .request(app)
+        .put(`${talkerEndpoint}/${id}`)
+        .set('Authorization', 'valid-token')
+        .send({ name: 'Jonas Doe' });
+
+      expect(mockDB.callCount).to.be.equal(2);
+      expect(status).to.be.equal(204);
+    });
   });
 
-  it('Should be a valid existing talker id', async () => {
-    const mockDB = sinon.stub(connection, 'execute').resolves([[], []]);
-    sinon.stub(jwt, 'verify').returns();
-    const badId = '490688f1-0a19-42c7-af71-30d09e23537b';
-
-    const { status, body } = await chai
-      .request(app)
-      .put(`${talkerEndpoint}/${badId}`)
-      .set('Authorization', 'valid-token');
-
-    expect(mockDB.called).to.be.equal(true);
-    expect(status).to.be.equal(400);
-    expect(body.message).to.be.equal('Talker not found');
-  });
-
-  it('Should have a valid name to update', async () => {
-    const mockDB = sinon.stub(connection, 'execute').resolves([[[{ ...mockTalkers[0] as ITalkerResponse }]], []]);
-    sinon.stub(jwt, 'verify').returns();
-    const id = '53aed9b7-85cb-4887-a28e-1931132492a9';
-
-    await Promise.all(
-      badTalkersPostFormatTest.map(async ({ expectedMessage, bodyTest }) => {
-        const { status, body } = await chai
-          .request(app)
-          .put(`${talkerEndpoint}/${id}`)
-          .set('Authorization', 'valid-token')
-          .send(bodyTest);
-
-        expect(mockDB.called).to.be.equal(true);
-        expect(status).to.be.equal(400);
-        expect(body.message).to.be.equal(expectedMessage);
-      }),
-    );
-  });
-
-  it('Should update talker name successfully', async () => {
-    const mockDB = sinon.stub(connection, 'execute')
-      .onFirstCall()
-      .resolves([[[{ ...mockTalkers[0] } as ITalkerResponse]], []])
-      .onSecondCall()
-      .resolves([[], []]);
-
-    sinon.stub(jwt, 'verify').returns();
-    const id = '53aed9b7-85cb-4887-a28e-1931132492a9';
-
-    const { status } = await chai
-      .request(app)
-      .put(`${talkerEndpoint}/${id}`)
-      .set('Authorization', 'valid-token')
-      .send({ name: 'Jonas Doe' });
-
-    expect(mockDB.callCount).to.be.equal(2);
-    expect(status).to.be.equal(204);
-  });
+  describe('Testing DELETE request', () => {});
 });
