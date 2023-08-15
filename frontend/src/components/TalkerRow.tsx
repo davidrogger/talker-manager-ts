@@ -3,6 +3,8 @@
 import edit from '@/images/edit.svg';
 import confirm from '@/images/confirm.svg';
 import cancel from '@/images/cancel.svg';
+import trash from '@/images/trash.svg';
+
 import { ITalker } from '@/types';
 import { ChangeEvent, useState } from 'react';
 import { updateTalker } from '@/services/api';
@@ -22,7 +24,7 @@ export default function TalkerRow({ talker }:{ talker: ITalker}) {
     setEditorMode(false);
   }
 
-  async function requiestUpdateTalker() {
+  async function requestUpdateTalker() {
     await updateTalker({ ...talker, name: talkerName });
     setEditorMode(false);
   }
@@ -30,6 +32,10 @@ export default function TalkerRow({ talker }:{ talker: ITalker}) {
     const newName = e.target.value;
     setBtnDisable(talker.name === newName || newName.length < 3);
     setTalkerName(newName);
+  }
+
+  async function requestDeleteTalkerById(id) {
+    console.log(id);
   }
 
   return (
@@ -52,7 +58,7 @@ export default function TalkerRow({ talker }:{ talker: ITalker}) {
         <TalkerBtn
           src={confirm}
           alt='confirm'
-          onClick={requiestUpdateTalker}
+          onClick={requestUpdateTalker}
           disabled={isBtnDisabled}
         />
         <TalkerBtn
@@ -62,12 +68,18 @@ export default function TalkerRow({ talker }:{ talker: ITalker}) {
         />
       </>
         )
-        : (
-        <TalkerBtn
-          src={edit}
-          alt='edit'
-          onClick={startEdit}
-        />
+        : (<>
+          <TalkerBtn
+            src={edit}
+            alt='edit'
+            onClick={startEdit}
+          />
+          <TalkerBtn
+            src={trash}
+            alt='delete'
+            onClick={() => requestDeleteTalkerById(talker.id)}
+          />
+        </>
         )}
     </td>
   </tr>
