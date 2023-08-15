@@ -1,8 +1,16 @@
+import { Dispatch, SetStateAction } from 'react';
+
 type DeleteTalkerWarningProps = {
   talkerName: string,
+  setDeleteWarning: Dispatch<SetStateAction<boolean>>,
 }
 
-export default function DeleteTalkerWarning({ talkerName }: DeleteTalkerWarningProps) {
+export default function DeleteTalkerWarning(
+  {
+    talkerName,
+    setDeleteWarning,
+  }: DeleteTalkerWarningProps,
+) {
   return (
     <div
       className="absolute top-0 right-0 bg-white w-full h-full flex justify-center items-center rounded"
@@ -19,7 +27,10 @@ export default function DeleteTalkerWarning({ talkerName }: DeleteTalkerWarningP
         <button className="bg-green-500">
           Yes
         </button>
-        <button className="bg-red-800">
+        <button
+          className="bg-red-800"
+          onClick={() => setDeleteWarning(false)}
+        >
           No
         </button>
       </div>

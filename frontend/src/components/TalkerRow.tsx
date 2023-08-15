@@ -88,7 +88,12 @@ export default function TalkerRow({ talker }:{ talker: ITalker}) {
         </>
         )}
 
-      { isDeleteWarning && <DeleteTalkerWarning talkerName={talker.name} /> }
+      { isDeleteWarning && (
+      <DeleteTalkerWarning
+        talkerName={talker.name}
+        setDeleteWarning={setDeleteWarning}
+      />
+      ) }
     </td>
   </tr>
   );
