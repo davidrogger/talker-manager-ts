@@ -1,5 +1,5 @@
 import TalkersSection from '@/components/TalkersSection';
-import { render, screen } from '@testing-library/react';
+import { findByText, render, screen } from '@testing-library/react';
 import { api } from '@/services/api';
 import userEvent from '@testing-library/user-event';
 
@@ -168,5 +168,16 @@ describe('Testing Component <TalkersSection />', () => {
     render(<TalkersSection />);
     const allEditBtns = await screen.findAllByTestId('test-delete-button');
     expect(allEditBtns).toHaveLength(3);
+  });
+
+  it('Should popup an message to confirme the delete action', async () => {
+    render(<TalkersSection />);
+    const [jonasDeleteBtn] = await screen.findAllByTestId('test-delete-button');
+
+    await userEvent.click(jonasDeleteBtn);
+
+    expect(await screen.findByText('Please confirm to exclude the talker')).toBeVisible();
+    expect(await screen.findByRole('button', { name: 'Yes' })).toBeVisible();
+    expect(await screen.findByRole('button', { name: 'No' })).toBeVisible();
   });
 });
