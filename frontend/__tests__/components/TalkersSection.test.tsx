@@ -1,5 +1,5 @@
 import TalkersSection from '@/components/TalkersSection';
-import { findByText, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { api } from '@/services/api';
 import userEvent from '@testing-library/user-event';
 
@@ -176,7 +176,8 @@ describe('Testing Component <TalkersSection />', () => {
 
     await userEvent.click(jonasDeleteBtn);
 
-    expect(await screen.findByText('Please confirm to exclude the talker')).toBeVisible();
+    expect(await screen.findByText('Please confirm to exclude:')).toBeVisible();
+    expect(await screen.findByTestId('test-highlight-delete-name')).toHaveTextContent('Jonas Doe');
     expect(await screen.findByRole('button', { name: 'Yes' })).toBeVisible();
     expect(await screen.findByRole('button', { name: 'No' })).toBeVisible();
   });
