@@ -8,10 +8,12 @@ import trash from '@/images/trash.svg';
 import { ITalker } from '@/types';
 import { ChangeEvent, useState } from 'react';
 import { updateTalker } from '@/services/api';
+import { useDashboardContext } from '@/contexts/Dashboard';
 import TalkerBtn from './TalkerBtn';
 import DeleteTalkerWarning from './DeleteTalkerWarning';
 
 export default function TalkerRow({ talker }:{ talker: ITalker}) {
+  const { loadTalkers } = useDashboardContext();
   const [editorMode, setEditorMode] = useState<boolean>(false);
   const [isDeleteWarning, setDeleteWarning] = useState<boolean>(false);
   const [talkerName, setTalkerName] = useState(talker.name);
@@ -28,6 +30,7 @@ export default function TalkerRow({ talker }:{ talker: ITalker}) {
 
   async function requestUpdateTalker() {
     await updateTalker({ ...talker, name: talkerName });
+    await loadTalkers();
     setEditorMode(false);
   }
   function changeDisplayTalkerName(e:ChangeEvent<HTMLInputElement>) {
@@ -36,13 +39,12 @@ export default function TalkerRow({ talker }:{ talker: ITalker}) {
     setTalkerName(newName);
   }
 
-  async function requestDeleteTalkerById(id:string) {
+  async function requestDeleteTalkerById() {
     setDeleteWarning(true);
-    console.log(id);
   }
 
   return (
-    <tr className='text-center [&>*]:border relative'>
+    <tr className='text-center [&>*]:border relative z-0'>
 
       <td className='w-[370px]'>
         {talker.id}
@@ -83,7 +85,7 @@ export default function TalkerRow({ talker }:{ talker: ITalker}) {
           <TalkerBtn
             src={trash}
             alt='delete'
-            onClick={() => requestDeleteTalkerById(talker.id)}
+            onClick={requestDeleteTalkerById}
           />
         </>
         )}

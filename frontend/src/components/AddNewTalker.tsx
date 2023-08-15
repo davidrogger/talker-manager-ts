@@ -1,5 +1,6 @@
 'use client';
 
+import { useDashboardContext } from '@/contexts/Dashboard';
 import { addNewTalkerByName } from '@/services/api';
 import { useState, FormEvent, ChangeEvent } from 'react';
 
@@ -8,6 +9,7 @@ type AddNewTalkerProps = {
 }
 
 export default function AddNewTalker({ openWindow }:AddNewTalkerProps) {
+  const { loadTalkers } = useDashboardContext();
   const [talkerName, setTalkerName] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isButtonDisabled, setButtonDisabled] = useState<boolean>(true);
@@ -22,6 +24,7 @@ export default function AddNewTalker({ openWindow }:AddNewTalkerProps) {
 
     setIsLoading(false);
     openWindow(false);
+    loadTalkers();
   }
 
   function inputNameHandler(e:ChangeEvent<HTMLInputElement>) {
@@ -36,7 +39,7 @@ export default function AddNewTalker({ openWindow }:AddNewTalkerProps) {
 
   return (
     <div
-      className='absolute h-screen w-screen bg-black bg-opacity-80 top-0 left-0 flex justify-center items-center z-0'
+      className='absolute h-screen w-screen bg-black bg-opacity-80 top-0 left-0 flex justify-center items-center z-10'
     >
       <form
         className='bg-gray-200 rounded p-5 z-10 relative flex justify-center h-28 w-96'

@@ -1,3 +1,4 @@
+import { useDashboardContext } from '@/contexts/Dashboard';
 import { deleteTalkerById } from '@/services/api';
 import { ITalker } from '@/types';
 import { Dispatch, SetStateAction } from 'react';
@@ -13,8 +14,11 @@ export default function DeleteTalkerWarning(
     setDeleteWarning,
   }: DeleteTalkerWarningProps,
 ) {
+  const { loadTalkers } = useDashboardContext();
+
   function deleteTalkerHandler() {
     deleteTalkerById(talker.id);
+    loadTalkers();
     setDeleteWarning(false);
   }
 

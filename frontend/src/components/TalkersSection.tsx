@@ -1,34 +1,36 @@
 'use client';
 
-import { getAllTalkers } from '@/services/api';
-import { ITalker } from '@/types';
-import { getStoredToken } from '@/utils/localStorageHandler';
 import { useEffect, useState } from 'react';
 
+import { useDashboardContext } from '@/contexts/Dashboard';
 import TalkerRow from './TalkerRow';
 import AddNewTalker from './AddNewTalker';
 
 export default function TalkersSection() {
-  const [talkers, setTalkers] = useState<ITalker[]>([]);
+  const { isLoadingTalkers, displayedTalkers, loadTalkers } = useDashboardContext();
+
   const [newTalkerVisible, setNewTalkerVisible] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!newTalkerVisible) {
-      const token = getStoredToken();
-      getAllTalkers(token as string)
-        .then((response) => setTalkers(response.talkers || []));
+    if (!displayedTalkers.length) {
+      loadTalkers();
+      console.log('load talker section');
     }
-  }, [newTalkerVisible]);
+  }, [loadTalkers, displayedTalkers]);
 
   function getHeaders():string[] {
     const defaultHeader = {
       id: true,
       name: true,
     };
-    return Object.keys(defaultHeader);
+
+    const [talker] = displayedTalkers;
+    const headers = talker || defaultHeader;
+
+    return Object.keys(headers);
   }
 
-  if (talkers) {
+  if (displayedTalkers) {
     return (
       <div className="border rounded m-4 p-4 w-11/12">
         <h1 className="text-slate-500 text-center text-2xl mb-10">
@@ -53,9 +55,21 @@ export default function TalkersSection() {
             </tr>
           </thead>
           <tbody>
-              {talkers.map((talker) => (
-                <TalkerRow key={talker.id} talker={talker} />
-              ))}
+            {isLoadingTalkers
+              ? (
+                <tr>
+                  <td>
+                    Loading...
+                  </td>
+                </tr>
+              )
+              : displayedTalkers.map((talker) => (
+                <TalkerRow
+                  key={talker.id}
+                  talker={talker}
+                />
+              ))
+            }
           </tbody>
         </table>
       </div>

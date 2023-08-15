@@ -4,6 +4,7 @@ import MainTitle from '@/components/MainTitle';
 import TalkersSection from '@/components/TalkersSection';
 import Welcome from '@/components/Welcome';
 import { useAuthContext } from '@/contexts/Auth';
+import DashboardProvider from '@/contexts/Dashboard';
 import { useEffect } from 'react';
 
 function Dashboard() {
@@ -17,14 +18,16 @@ function Dashboard() {
 
   if (isAuthenticated) {
     return (
-    <div className='flex flex-col items-center'>
-      <MainTitle title='Dashboard' />
+      <DashboardProvider>
+        <div className='flex flex-col items-center'>
+          <MainTitle title='Dashboard' />
 
-      <Welcome />
+          <Welcome />
 
-      <TalkersSection />
+          <TalkersSection />
 
-    </div>
+        </div>
+      </DashboardProvider>
     );
   }
 }
