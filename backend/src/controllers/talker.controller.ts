@@ -1,4 +1,6 @@
-import type { Request, Response, NextFunction } from 'express';
+import type {
+  Request, Response, NextFunction,
+} from 'express';
 
 import * as talkerService from '@services/talker.service';
 import * as idService from '@services/id.service';
@@ -36,6 +38,20 @@ export async function updateTalker(
       name: req.body.name,
     };
     await talkerService.updateTalker(updatedTalker);
+    res.status(204).json();
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function deleteTalkerById(
+  req:Request,
+  res:Response,
+  next:NextFunction,
+) {
+  const { id } = req.params;
+  try {
+    await talkerService.deleteTalkerById(id);
     res.status(204).json();
   } catch (error) {
     next(error);

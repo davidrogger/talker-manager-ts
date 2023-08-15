@@ -21,3 +21,7 @@ export async function findTalkerById(id:string) {
 export async function updateTalker(talker:ITalker):Promise<void> {
   await talkerModel.updateTalker(talker);
 }
+
+export async function deleteTalkerById(id:string):Promise<void> {
+  await talkerModel.deleteTalkerById(id);
+}

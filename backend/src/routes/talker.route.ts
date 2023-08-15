@@ -35,6 +35,7 @@ route.delete(
   validate.tokenRequired,
   validate.tokenAuthenticity,
   validate.talkerIdExists,
+  talkerController.deleteTalkerById,
 );
 
 export default route;

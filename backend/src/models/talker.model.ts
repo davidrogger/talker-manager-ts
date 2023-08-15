@@ -22,3 +22,8 @@ export async function updateTalker({ id, name }:ITalker):Promise<void> {
   const query = 'UPDATE talker SET name = ? WHERE id = ?';
   await connection.execute(query, [name, id]);
 }
+
+export async function deleteTalkerById(id:string) {
+  const query = 'DELETE FROM talker WHERE id = ?';
+  await connection.execute(query, [id]);
+}
