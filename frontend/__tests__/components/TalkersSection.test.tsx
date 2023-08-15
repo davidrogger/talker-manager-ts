@@ -183,6 +183,16 @@ describe('Testing Component <TalkersSection />', () => {
       expect(await screen.findByRole('button', { name: 'No' })).toBeVisible();
     });
 
-    it('Should close the popup when clicked in the "no" option', async () => {});
+    it('Should close the popup when clicked in the "no" option', async () => {
+      render(<TalkersSection />);
+      const [jonasDeleteBtn] = await screen.findAllByTestId('test-delete-button');
+
+      await userEvent.click(jonasDeleteBtn);
+      const noBtn = await screen.findByRole('button', { name: 'No' });
+      const message = await screen.findByText('Please confirm to exclude:');
+      await userEvent.click(noBtn);
+      expect(message).not.toBeVisible();
+      expect(noBtn).not.toBeVisible();
+    });
   });
 });
