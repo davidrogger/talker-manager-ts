@@ -192,14 +192,17 @@ describe('Testing route /talker', () => {
     });
 
     it('Should update talker name successfully', async () => {
+      const [talker] = mockTalkers;
+
       const mockDB = sinon.stub(connection, 'execute')
         .onFirstCall()
-        .resolves([[[{ ...mockTalkers[0] } as ITalkerResponse]], []])
+        .resolves([[[talker as ITalkerResponse]], []])
         .onSecondCall()
         .resolves([[], []]);
 
       sinon.stub(jwt, 'verify').returns();
-      const id = '53aed9b7-85cb-4887-a28e-1931132492a9';
+
+      const { id } = talker;
 
       const { status } = await chai
         .request(app)
@@ -237,7 +240,7 @@ describe('Testing route /talker', () => {
       const mockIdFound = sinon.stub(connection, 'execute').resolves([[], []]);
       sinon.stub(jwt, 'verify').returns();
 
-      const id = '53aed9b7-85cb-4887-a28e-1931132492a9';
+      const { id } = mockTalkers[0];
 
       const { status, body } = await chai
         .request(app)
@@ -247,6 +250,28 @@ describe('Testing route /talker', () => {
       expect(mockIdFound.called).to.be.equal(true);
       expect(status).to.be.equal(400);
       expect(body.message).to.be.equal('Talker not found');
+    });
+
+    it('Should delete the talker by id with success', async () => {
+      const [talker] = mockTalkers;
+
+      const mockDB = sinon.stub(connection, 'execute')
+        .onFirstCall()
+        .resolves([[[talker as ITalkerResponse]], []])
+        .onSecondCall()
+        .resolves([[], []]);
+
+      sinon.stub(jwt, 'verify').returns();
+
+      const { id } = talker;
+
+      const { status } = await chai
+        .request(app)
+        .delete(`${talkerEndpoint}/${id}`)
+        .set('Authorization', 'valid-token');
+
+      expect(mockDB.callCount).to.be.equal(2);
+      expect(status).to.be.equal(204);
     });
   });
 });
