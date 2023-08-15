@@ -34,6 +34,7 @@ route.delete(
   '/:id',
   validate.tokenRequired,
   validate.tokenAuthenticity,
+  validate.talkerIdExists,
 );
 
 export default route;
