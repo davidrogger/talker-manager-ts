@@ -6,7 +6,7 @@ import { mockGetTalkersResponse } from '../utils/_mockData';
 
 describe('Testing Component <AddNewTalker />', () => {
   it('Should be able to click add just when have more than 3 character in the input', async () => {
-    render(<AddNewTalker openWindow={() => 'closed'} />);
+    render(<AddNewTalker openWindow={(fake) => fake} />);
 
     const addBtn = screen.getByRole('button', { name: 'Add' });
     const inputNewTalker = screen.getByPlaceholderText('Type the name here...');
@@ -27,15 +27,17 @@ describe('Testing Component <AddNewTalker />', () => {
     expect(addBtn).toBeEnabled();
   });
 
-  it('Should connect to the API when clicked in the "Add" button', async () => {
+  it('Should connect to the API when clicked in the "Add"  button', async () => {
     const mockAPI = jest.spyOn(api, 'post').mockResolvedValue({ data: { talker: mockGetTalkersResponse[0] } });
-    render(<AddNewTalker openWindow={() => 'closed'} />);
+    render(<AddNewTalker openWindow={(fake) => fake} />);
 
     const addBtn = screen.getByRole('button', { name: 'Add' });
     const inputNewTalker = screen.getByPlaceholderText('Type the name here...');
 
     await userEvent.type(inputNewTalker, 'Jonas Doe');
     await userEvent.click(addBtn);
+
+    expect(addBtn).toBeDisabled();
     expect(mockAPI).toHaveBeenCalled();
   });
 });
