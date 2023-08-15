@@ -29,6 +29,19 @@ describe('Testing Component <TalkersSection />', () => {
     expect(await screen.findByRole('button', { name: /back to the dashboard/ })).toBeVisible();
   });
 
+  it('Should close the new talker window when clicked in the "back to the dashboard"', async () => {
+    render(<TalkersSection />);
+    const openNewTalkerWindowBtn = await screen.findByText('Add New Talker');
+
+    await userEvent.click(openNewTalkerWindowBtn);
+    const closeWindowBtn = await screen.findByRole('button', { name: /back to the dashboard/ });
+    const addTalkerBtn = await screen.findByRole('button', { name: 'Add' });
+    await userEvent.click(closeWindowBtn);
+
+    expect(closeWindowBtn).not.toBeVisible();
+    expect(addTalkerBtn).not.toBeVisible();
+  });
+
   it('Should have a table with all talkers registered with an id, name and age', async () => {
     render(<TalkersSection />);
 
