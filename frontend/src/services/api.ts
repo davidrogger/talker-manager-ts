@@ -98,3 +98,12 @@ export async function addNewTalkerByName(name:string) {
     return { error };
   }
 }
+
+export async function deleteTalkerById(id:string) {
+  try {
+    const token = getStoredToken();
+    await api.delete(`/talker/${id}`, { headers: { Authorization: token } });
+  } catch (error) {
+    console.error(error);
+  }
+}

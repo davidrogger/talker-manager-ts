@@ -1,16 +1,23 @@
+import { deleteTalkerById } from '@/services/api';
+import { ITalker } from '@/types';
 import { Dispatch, SetStateAction } from 'react';
 
 type DeleteTalkerWarningProps = {
-  talkerName: string,
+  talker: ITalker,
   setDeleteWarning: Dispatch<SetStateAction<boolean>>,
 }
 
 export default function DeleteTalkerWarning(
   {
-    talkerName,
+    talker,
     setDeleteWarning,
   }: DeleteTalkerWarningProps,
 ) {
+  function deleteTalkerHandler() {
+    deleteTalkerById(talker.id);
+    setDeleteWarning(false);
+  }
+
   return (
     <div
       className="absolute top-0 right-0 bg-white w-full h-full flex justify-center items-center rounded"
@@ -20,11 +27,13 @@ export default function DeleteTalkerWarning(
       </h1>
 
       <span className="bg-yellow-400 text-red-800 p-0.5 rounded" data-testid='test-highlight-delete-name'>
-        {talkerName}
+        {talker.name}
       </span>
 
       <div className=" w-28 [&>*]:m-1 [&>*]:rounded [&>*]:p-0.5 [&>*]:text-white">
-        <button className="bg-green-500">
+        <button className="bg-green-500"
+          onClick={deleteTalkerHandler}
+        >
           Yes
         </button>
         <button
