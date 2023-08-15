@@ -42,7 +42,7 @@ describe('Testing Component <TalkersSection />', () => {
     expect(addTalkerBtn).not.toBeVisible();
   });
 
-  it('Should have a table with all talkers registered with an id, name and age', async () => {
+  it('Should have a table with all talkers registered with an id and name', async () => {
     render(<TalkersSection />);
 
     expect(await screen.findByText('Jonas Doe')).toBeVisible();
@@ -162,5 +162,11 @@ describe('Testing Component <TalkersSection />', () => {
       .toHaveBeenCalledWith(`/talker/${jonasData.id}`, { name: textInputUpdate }, { headers: { Authorization: 'valid-token' } });
 
     expect(await screen.findByText(textInputUpdate)).toBeVisible();
+  });
+
+  it('Should have a delete button for each talker', async () => {
+    render(<TalkersSection />);
+    const allEditBtns = await screen.findAllByTestId('test-delete-button');
+    expect(allEditBtns).toHaveLength(3);
   });
 });
