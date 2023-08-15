@@ -9,9 +9,11 @@ import { ITalker } from '@/types';
 import { ChangeEvent, useState } from 'react';
 import { updateTalker } from '@/services/api';
 import TalkerBtn from './TalkerBtn';
+import DeleteTalkerWarning from './DeleteTalkerWarning';
 
 export default function TalkerRow({ talker }:{ talker: ITalker}) {
   const [editorMode, setEditorMode] = useState<boolean>(false);
+  const [isDeleteWarning, setDeleteWarning] = useState<boolean>(false);
   const [talkerName, setTalkerName] = useState(talker.name);
   const [isBtnDisabled, setBtnDisable] = useState(true);
 
@@ -34,13 +36,17 @@ export default function TalkerRow({ talker }:{ talker: ITalker}) {
     setTalkerName(newName);
   }
 
-  async function requestDeleteTalkerById(id) {
+  async function requestDeleteTalkerById(id:string) {
+    setDeleteWarning(true);
     console.log(id);
   }
 
   return (
-    <tr className='text-center [&>*]:border'>
-      <td className='w-[370px]'>{talker.id}</td>
+    <tr className='text-center [&>*]:border relative'>
+
+      <td className='w-[370px]'>
+        {talker.id}
+      </td>
       <td className='w-[calc(100%-470px)] [&>*]:w-full [&>*]:text-center'>
         {editorMode
           ? (<input
@@ -81,6 +87,8 @@ export default function TalkerRow({ talker }:{ talker: ITalker}) {
           />
         </>
         )}
+
+      { isDeleteWarning && <DeleteTalkerWarning talkerName={talker.name} /> }
     </td>
   </tr>
   );
