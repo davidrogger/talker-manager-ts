@@ -30,4 +30,10 @@ route.put(
   talkerController.updateTalker,
 );
 
+route.delete(
+  '/:id',
+  validate.tokenRequired,
+  validate.tokenAuthenticity,
+);
+
 export default route;
