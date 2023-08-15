@@ -183,7 +183,7 @@ describe('Testing Component <TalkersSection />', () => {
       expect(await screen.findByRole('button', { name: 'No' })).toBeVisible();
     });
 
-    it('Should close the popup when clicked in the "no" option', async () => {
+    it('Should just close the warning message when confirm as "No"', async () => {
       render(<TalkersSection />);
       const [jonasDeleteBtn] = await screen.findAllByTestId('test-delete-button');
 
@@ -193,6 +193,21 @@ describe('Testing Component <TalkersSection />', () => {
       await userEvent.click(noBtn);
       expect(message).not.toBeVisible();
       expect(noBtn).not.toBeVisible();
+    });
+
+    it('Should request the API to delete the talker end close the warning confirmation when confirm as "Yes"', async () => {
+      const mockAPI = jest.spyOn(api, 'delete').mockResolvedValue({});
+      render(<TalkersSection />);
+      const [jonasDeleteBtn] = await screen.findAllByTestId('test-delete-button');
+
+      await userEvent.click(jonasDeleteBtn);
+      const yesBtn = await screen.findByRole('button', { name: 'Yes' });
+      const message = await screen.findByText('Please confirm to exclude:');
+      await userEvent.click(yesBtn);
+
+      expect(mockAPI).toHaveBeenCalled();
+      expect(message).not.toBeVisible();
+      expect(yesBtn).not.toBeVisible();
     });
   });
 });
