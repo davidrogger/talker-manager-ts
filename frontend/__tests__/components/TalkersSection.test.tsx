@@ -170,15 +170,19 @@ describe('Testing Component <TalkersSection />', () => {
     expect(allEditBtns).toHaveLength(3);
   });
 
-  it('Should popup an message to confirme the delete action', async () => {
-    render(<TalkersSection />);
-    const [jonasDeleteBtn] = await screen.findAllByTestId('test-delete-button');
+  describe('When trying to delete a talker', () => {
+    it('Should popup an message to confirme the delete action', async () => {
+      render(<TalkersSection />);
+      const [jonasDeleteBtn] = await screen.findAllByTestId('test-delete-button');
 
-    await userEvent.click(jonasDeleteBtn);
+      await userEvent.click(jonasDeleteBtn);
 
-    expect(await screen.findByText('Please confirm to exclude:')).toBeVisible();
-    expect(await screen.findByTestId('test-highlight-delete-name')).toHaveTextContent('Jonas Doe');
-    expect(await screen.findByRole('button', { name: 'Yes' })).toBeVisible();
-    expect(await screen.findByRole('button', { name: 'No' })).toBeVisible();
+      expect(await screen.findByText('Please confirm to exclude:')).toBeVisible();
+      expect(await screen.findByTestId('test-highlight-delete-name')).toHaveTextContent('Jonas Doe');
+      expect(await screen.findByRole('button', { name: 'Yes' })).toBeVisible();
+      expect(await screen.findByRole('button', { name: 'No' })).toBeVisible();
+    });
+
+    it('Should close the popup when clicked in the "no" option', async () => {});
   });
 });
