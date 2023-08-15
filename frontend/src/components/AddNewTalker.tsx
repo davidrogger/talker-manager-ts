@@ -36,11 +36,11 @@ export default function AddNewTalker({ openWindow }:AddNewTalkerProps) {
       className='absolute h-screen w-screen bg-black bg-opacity-80 top-0 left-0 flex justify-center items-center z-0'
     >
       <form
-        className='bg-gray-200 rounded p-5 z-10 relative flex justify-center items-baseline h-28 w-96'
+        className='bg-gray-200 rounded p-5 z-10 relative flex justify-center h-28 w-96'
         onSubmit={submitHandle}>
 
           <input
-            className='border m-2 p-1 rounded h-10'
+            className='border m-1 p-2 rounded h-10'
             name='talkerName'
             placeholder='Type the name here...'
             type="text"
@@ -49,7 +49,7 @@ export default function AddNewTalker({ openWindow }:AddNewTalkerProps) {
           />
 
           <button
-            className='bg-green-800 disabled:opacity-80 disabled:cursor-not-allowed focus:hover:bg-green-700 rounded p-2 text-white w-20 h-10 flex justify-center items-center'
+            className='bg-green-800 disabled:opacity-80 disabled:cursor-not-allowed focus:hover:bg-green-700 rounded p-2 m-1 text-white w-20 h-10 flex justify-center items-center'
             type="submit"
             disabled={isButtonDisabled}
           >
