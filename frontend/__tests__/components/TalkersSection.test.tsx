@@ -26,7 +26,7 @@ describe('Testing Component <TalkersSection />', () => {
 
     expect(await screen.findByPlaceholderText('Type the name here...')).toBeVisible();
     expect(await screen.findByRole('button', { name: 'Add' })).toBeVisible();
-    expect(await screen.findByRole('button', { name: 'back to the dashboard' })).toBeVisible();
+    expect(await screen.findByRole('button', { name: /back to the dashboard/ })).toBeVisible();
   });
 
   it('Should have a table with all talkers registered with an id, name and age', async () => {
@@ -110,11 +110,10 @@ describe('Testing Component <TalkersSection />', () => {
 
     await userEvent.clear(talkerInputUpdate);
     await userEvent.type(talkerInputUpdate, 'jo');
-
     expect(confirmBtn).toBeDisabled();
+
     await userEvent.clear(talkerInputUpdate);
     await userEvent.type(talkerInputUpdate, 'j');
-
     expect(confirmBtn).toBeDisabled();
 
     expect(mockAPI).toHaveBeenCalledTimes(0);
