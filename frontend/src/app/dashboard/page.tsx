@@ -5,16 +5,23 @@ import TalkersSection from '@/components/TalkersSection';
 import Welcome from '@/components/Welcome';
 import { useAuthContext } from '@/contexts/Auth';
 import DashboardProvider from '@/contexts/Dashboard';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 function Dashboard() {
   const { isAuthenticated, authStoredToken } = useAuthContext();
+  const router = useRouter();
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      authStoredToken();
+    async function loadAuthentication() {
+      const response = await authStoredToken();
+      if (response?.error) router.push('/login');
     }
-  }, [isAuthenticated, authStoredToken]);
+
+    if (!isAuthenticated) {
+      loadAuthentication();
+    }
+  }, [isAuthenticated, router, authStoredToken]);
 
   if (isAuthenticated) {
     return (

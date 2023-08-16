@@ -49,10 +49,16 @@ export async function loginAuth(user:LoginInput):Promise<LoginReponse> {
   }
 }
 
-export async function getUserData(token:string | null):Promise<LoggedUser | null> {
-  if (!token) throw new Error();
-  const { data: { user } } = await api.get('/me', { headers: { Authorization: token } });
-  return user;
+export async function getUserData(
+  token:string | null,
+):Promise<{ user?:LoggedUser, error?: unknown }> {
+  try {
+    if (!token) throw new Error();
+    const { data: { user } } = await api.get('/me', { headers: { Authorization: token } });
+    return { user };
+  } catch (error) {
+    return { error };
+  }
 }
 
 export async function getAllLectures(time:number = 700):Promise<getAllLecturesResponse> {

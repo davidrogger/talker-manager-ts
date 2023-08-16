@@ -15,7 +15,7 @@ export type IAuthContext = {
   setLoginMsg: (phrase:string) => void;
   signOut: () => void;
   user: null | LoggedUser;
-  authStoredToken: () => void;
+  authStoredToken: () => Promise<null | { error: unknown }>;
 }
 
 export const AuthContext = createContext({} as IAuthContext);
@@ -38,16 +38,18 @@ export function AuthProvider({ children }:AuthProviderProps) {
     router.push('/');
   }
 
-  async function authStoredToken():Promise<void> {
+  async function authStoredToken():Promise<null | { error: unknown }> {
     const token = getStoredToken();
 
-    try {
-      const userData = await getUserData(token);
-      setUser(userData);
-    } catch (error) {
+    const response = await getUserData(token);
+    if (response.user) setUser(response.user);
+
+    if (response.error) {
       localStorage.clear();
-      router.push('/');
+      return { error: response.error };
     }
+
+    return null;
   }
 
   async function signIn({ email, password }: LoginInput) {
