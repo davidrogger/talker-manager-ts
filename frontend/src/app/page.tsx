@@ -1,22 +1,28 @@
 'use client';
 
-import LectureCard from '@/components/LectureCard';
 import { getAllLectures } from '@/services/api';
 import MainTitle from '@/components/MainTitle';
-import RefreshBtn from '@/components/RefreshBtn';
 import { useEffect, useState } from 'react';
 import { ILecture } from '@/types';
 import { useAuthContext } from '@/contexts/Auth';
+import RenderContentByApiStatus from '@/components/RenderContentByApiStatus';
 
 export default function Home() {
   const { isAuthenticated, authStoredToken } = useAuthContext();
   const [displayedLectures, setDisplayedLectures] = useState<ILecture[]>([]);
+  const [apiStatus, setApiStatus] = useState<'pending' | 'resolved' | 'reject'>('pending');
 
   useEffect(() => {
     async function loadLectures() {
-      const { lectures } = await getAllLectures();
+      const { lectures, error } = await getAllLectures();
 
-      if (lectures) setDisplayedLectures(lectures);
+      if (lectures) {
+        setDisplayedLectures(lectures);
+        setApiStatus('resolved');
+      }
+      if (error) {
+        setApiStatus('reject');
+      }
     }
 
     if (!isAuthenticated) authStoredToken();
@@ -27,14 +33,9 @@ export default function Home() {
     <div>
       <MainTitle title='Home' />
       <div className='flex flex-wrap content-start justify-center pt-8 h-[calc(100vh-112px)] bg-gray-100'>
-        {displayedLectures
-          ? (displayedLectures.map((lecture) => (
-          <LectureCard
-            key={lecture.id}
-            {...lecture}
-          />
-          )))
-          : (<RefreshBtn message='Something went wrong!' />)}
+
+        <RenderContentByApiStatus status={apiStatus} lectures={displayedLectures} />
+
       </div>
     </div>
   );
