@@ -33,9 +33,9 @@ export function AuthProvider({ children }:AuthProviderProps) {
   const isAuthenticated = !!user;
 
   function signOut() {
-    localStorage.clear();
-    setUser(null);
     router.push('/');
+    localStorage.clear();
+    setTimeout(() => setUser(null), 200);
   }
 
   async function authStoredToken():Promise<null | { error: unknown }> {

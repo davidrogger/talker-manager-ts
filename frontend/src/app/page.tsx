@@ -27,6 +27,7 @@ export default function Home() {
 
     if (!isAuthenticated) authStoredToken();
     if (!displayedLectures.length) loadLectures();
+    //
   }, [displayedLectures, authStoredToken, isAuthenticated]);
 
   return (
