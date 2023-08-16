@@ -56,7 +56,7 @@ export default function AddNewTalker({ openWindow }:AddNewTalkerProps) {
           />
 
           <button
-            className='bg-green-800 disabled:opacity-80 disabled:cursor-not-allowed focus:hover:bg-green-700 rounded p-2 m-1 text-white w-20 h-10 flex justify-center items-center'
+            className='relative bg-green-800 disabled:opacity-80 disabled:cursor-not-allowed focus:hover:bg-green-700 rounded p-2 m-1 text-white w-20 h-10 flex justify-center items-center'
             type="submit"
             disabled={isButtonDisabled}
           >

@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useDashboardContext } from '@/contexts/Dashboard';
 import TalkerRow from './TalkerRow';
 import AddNewTalker from './AddNewTalker';
+import SpinLoading from './SpinLoading';
 
 export default function TalkersSection() {
   const { isLoadingTalkers, displayedTalkers, loadTalkers } = useDashboardContext();
@@ -57,9 +58,9 @@ export default function TalkersSection() {
           <tbody>
             {isLoadingTalkers
               ? (
-                <tr>
-                  <td>
-                    Loading...
+                <tr className='relative z-0'>
+                  <td className=' h-9'>
+                    <SpinLoading color='green' />
                   </td>
                 </tr>
               )

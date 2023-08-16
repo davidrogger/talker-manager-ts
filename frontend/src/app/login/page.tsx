@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import AnimatedLink from '@/components/AnimatedLink';
 import InputPass from '@/components/InputPass';
@@ -10,25 +10,29 @@ import WarningMsg from '@/components/WarningMsg';
 import { useAuthContext } from '@/contexts/Auth';
 
 import { LoginInput } from '@/types';
+import SpinLoading from '@/components/SpinLoading';
 
 export default function Login() {
   const { loginMsg, setLoginMsg, signIn } = useAuthContext();
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   function isFilledOut({ email, password }:LoginInput):boolean {
     return !!email && !!password;
   }
 
-  function handlerSubmit(event:React.FormEvent<HTMLFormElement>) {
+  async function handlerSubmit(event:React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setLoading(true);
     const formData = new FormData(event.target as HTMLFormElement);
     const loginInput = Object.fromEntries(formData) as LoginInput;
 
     if (isFilledOut(loginInput)) {
-      signIn(loginInput);
+      await signIn(loginInput);
     } else {
       setLoginMsg('Please you need to fill the email and password');
       setTimeout(() => setLoginMsg(''), 5000);
     }
+    setLoading(false);
   }
   return (
     <div
@@ -62,9 +66,11 @@ export default function Login() {
               />
               <button
                 type="submit"
-                className='bg-gray-400 p-2 w-1/2 m-2 rounded text-white hover:bg-gray-500 active:translate-y-[1px]'
+                className='relative h-10 bg-gray-400 p-2 w-1/2 m-2 rounded text-white hover:bg-gray-500 active:translate-y-[1px]'
               >
-                Enter
+                {isLoading
+                  ? <SpinLoading />
+                  : 'Enter'}
               </button>
             </form>
         </div>
