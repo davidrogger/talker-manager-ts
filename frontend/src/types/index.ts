@@ -27,3 +27,10 @@ export type ITalker = {
   id: string,
   name: string,
 }
+
+/** Defined standard to render by **Api Status:** PENDING, RESOLVED or REJECTED */
+export enum ApiStatus {
+  PENDING = 'pending',
+  RESOLVED = 'resolved',
+  REJECTED = 'rejected',
+}

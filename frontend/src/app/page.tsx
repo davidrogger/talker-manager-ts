@@ -3,14 +3,14 @@
 import { getAllLectures } from '@/services/api';
 import MainTitle from '@/components/MainTitle';
 import { useEffect, useState } from 'react';
-import { ILecture } from '@/types';
+import { ApiStatus, ILecture } from '@/types';
 import { useAuthContext } from '@/contexts/Auth';
 import RenderContentByApiStatus from '@/components/RenderContentByApiStatus';
 
 export default function Home() {
   const { isAuthenticated, authStoredToken } = useAuthContext();
   const [displayedLectures, setDisplayedLectures] = useState<ILecture[]>([]);
-  const [apiStatus, setApiStatus] = useState<'pending' | 'resolved' | 'reject'>('pending');
+  const [apiStatus, setApiStatus] = useState<ApiStatus>(ApiStatus.PENDING);
 
   useEffect(() => {
     async function loadLectures() {
@@ -18,10 +18,10 @@ export default function Home() {
 
       if (lectures) {
         setDisplayedLectures(lectures);
-        setApiStatus('resolved');
+        setApiStatus(ApiStatus.RESOLVED);
       }
       if (error) {
-        setApiStatus('reject');
+        setApiStatus(ApiStatus.REJECTED);
       }
     }
 

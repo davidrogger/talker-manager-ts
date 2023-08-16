@@ -1,10 +1,10 @@
-import { ILecture } from '@/types';
+import { ApiStatus, ILecture } from '@/types';
 import LecturesDisplay from './LecturesDisplay';
 import RefreshBtn from './RefreshBtn';
 import LecturesLoading from './LecturesLoading';
 
 type RenderContentByApiStatusProps = {
-  status: 'pending' | 'resolved' | 'reject';
+  status: ApiStatus;
   lectures: ILecture[];
 }
 
@@ -12,11 +12,11 @@ export default function RenderContentByApiStatus(
   { status, lectures }:RenderContentByApiStatusProps,
 ) {
   switch (status) {
-    case 'pending':
+    case ApiStatus.PENDING:
       return (<LecturesLoading />);
-    case 'reject':
+    case ApiStatus.REJECTED:
       return (<RefreshBtn message='Something went wrong!' />);
-    case 'resolved':
+    case ApiStatus.RESOLVED:
       return (<LecturesDisplay lectures={lectures} />);
     default:
       return null;

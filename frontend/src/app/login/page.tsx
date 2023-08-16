@@ -32,7 +32,6 @@ export default function Login() {
       setLoginMsg('Please you need to fill the email and password');
       setTimeout(() => setLoginMsg(''), 5000);
     }
-    setLoading(false);
   }
   return (
     <div
