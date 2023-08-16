@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { api } from '@/services/api';
 import userEvent from '@testing-library/user-event';
 
+import DashboardProvider from '@/contexts/Dashboard';
 import { fakeTalkerUpdate, mockGetTalkersResponse } from '../utils/_mockData';
 
 describe('Testing Component <TalkersSection />', () => {
@@ -12,14 +13,14 @@ describe('Testing Component <TalkersSection />', () => {
   });
 
   it('Should have an "Add New Talker" in the dashboard', async () => {
-    render(<TalkersSection />);
+    render(<TalkersSection />, { wrapper: DashboardProvider });
     const addTalkerBtn = await screen.findByText('Add New Talker');
 
     expect(addTalkerBtn).toBeVisible();
   });
 
   it('Should popup a window with an input to create a new talker', async () => {
-    render(<TalkersSection />);
+    render(<TalkersSection />, { wrapper: DashboardProvider });
     const addTalkerBtn = await screen.findByText('Add New Talker');
 
     await userEvent.click(addTalkerBtn);
@@ -30,7 +31,7 @@ describe('Testing Component <TalkersSection />', () => {
   });
 
   it('Should close the new talker window when clicked in the "back to the dashboard"', async () => {
-    render(<TalkersSection />);
+    render(<TalkersSection />, { wrapper: DashboardProvider });
     const openNewTalkerWindowBtn = await screen.findByText('Add New Talker');
 
     await userEvent.click(openNewTalkerWindowBtn);
@@ -43,7 +44,7 @@ describe('Testing Component <TalkersSection />', () => {
   });
 
   it('Should have a table with all talkers registered with an id and name', async () => {
-    render(<TalkersSection />);
+    render(<TalkersSection />, { wrapper: DashboardProvider });
 
     expect(await screen.findByText('Jonas Doe')).toBeVisible();
     expect(await screen.findByText('Davíd Roggér')).toBeVisible();
@@ -51,13 +52,13 @@ describe('Testing Component <TalkersSection />', () => {
   });
 
   it('Should have a edit button for each table row', async () => {
-    render(<TalkersSection />);
+    render(<TalkersSection />, { wrapper: DashboardProvider });
     const allEditBtns = await screen.findAllByTestId('test-edit-button');
     expect(allEditBtns).toHaveLength(3);
   });
 
   it('Should reveal a confirm and cancel button, after clicking in the edit button', async () => {
-    render(<TalkersSection />);
+    render(<TalkersSection />, { wrapper: DashboardProvider });
 
     const [editBtn] = await screen.findAllByTestId('test-edit-button');
     await userEvent.click(editBtn);
@@ -69,7 +70,7 @@ describe('Testing Component <TalkersSection />', () => {
   });
 
   it('Should be able to access an input to update the name', async () => {
-    render(<TalkersSection />);
+    render(<TalkersSection />, { wrapper: DashboardProvider });
 
     const [jonasEditBtn] = await screen.findAllByTestId('test-edit-button');
     await userEvent.click(jonasEditBtn);
@@ -84,7 +85,7 @@ describe('Testing Component <TalkersSection />', () => {
   });
 
   it('Should revert the changes if clicked in the cancel button', async () => {
-    render(<TalkersSection />);
+    render(<TalkersSection />, { wrapper: DashboardProvider });
 
     const [jonasEditBtn] = await screen.findAllByTestId('test-edit-button');
     await userEvent.click(jonasEditBtn);
@@ -111,7 +112,7 @@ describe('Testing Component <TalkersSection />', () => {
 
     jest.spyOn(Object.getPrototypeOf(window.localStorage), 'getItem').mockReturnValue('valid-token');
 
-    render(<TalkersSection />);
+    render(<TalkersSection />, { wrapper: DashboardProvider });
 
     const [jonasEditBtn] = await screen.findAllByTestId('test-edit-button');
     await userEvent.click(jonasEditBtn);
@@ -141,7 +142,7 @@ describe('Testing Component <TalkersSection />', () => {
 
     jest.spyOn(Object.getPrototypeOf(window.localStorage), 'getItem').mockReturnValue('valid-token');
 
-    render(<TalkersSection />);
+    render(<TalkersSection />, { wrapper: DashboardProvider });
 
     const [jonasEditBtn] = await screen.findAllByTestId('test-edit-button');
     await userEvent.click(jonasEditBtn);
@@ -165,14 +166,14 @@ describe('Testing Component <TalkersSection />', () => {
   });
 
   it('Should have a delete button for each talker', async () => {
-    render(<TalkersSection />);
+    render(<TalkersSection />, { wrapper: DashboardProvider });
     const allEditBtns = await screen.findAllByTestId('test-delete-button');
     expect(allEditBtns).toHaveLength(3);
   });
 
   describe('When trying to delete a talker', () => {
     it('Should popup an message to confirme the delete action', async () => {
-      render(<TalkersSection />);
+      render(<TalkersSection />, { wrapper: DashboardProvider });
       const [jonasDeleteBtn] = await screen.findAllByTestId('test-delete-button');
 
       await userEvent.click(jonasDeleteBtn);
@@ -184,7 +185,7 @@ describe('Testing Component <TalkersSection />', () => {
     });
 
     it('Should just close the warning message when confirm as "No"', async () => {
-      render(<TalkersSection />);
+      render(<TalkersSection />, { wrapper: DashboardProvider });
       const [jonasDeleteBtn] = await screen.findAllByTestId('test-delete-button');
 
       await userEvent.click(jonasDeleteBtn);
@@ -197,7 +198,7 @@ describe('Testing Component <TalkersSection />', () => {
 
     it('Should request the API to delete the talker end close the warning confirmation when confirm as "Yes"', async () => {
       const mockAPI = jest.spyOn(api, 'delete').mockResolvedValue({});
-      render(<TalkersSection />);
+      render(<TalkersSection />, { wrapper: DashboardProvider });
       const [jonasDeleteBtn] = await screen.findAllByTestId('test-delete-button');
 
       await userEvent.click(jonasDeleteBtn);

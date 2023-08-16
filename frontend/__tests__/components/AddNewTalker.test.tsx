@@ -2,6 +2,7 @@ import AddNewTalker from '@/components/AddNewTalker';
 import { api } from '@/services/api';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import DashboardProvider from '@/contexts/Dashboard';
 import { mockGetTalkersResponse } from '../utils/_mockData';
 
 describe('Testing Component <AddNewTalker />', () => {
@@ -29,7 +30,10 @@ describe('Testing Component <AddNewTalker />', () => {
 
   it('Should connect to the API when clicked in the "Add"  button', async () => {
     const mockAPI = jest.spyOn(api, 'post').mockResolvedValue({ data: { talker: mockGetTalkersResponse[0] } });
-    render(<AddNewTalker openWindow={(fake) => fake} />);
+    render(
+      <AddNewTalker openWindow={(fake) => fake} />,
+      { wrapper: DashboardProvider },
+    );
 
     const addBtn = screen.getByRole('button', { name: 'Add' });
     const inputNewTalker = screen.getByPlaceholderText('Type the name here...');
