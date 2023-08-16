@@ -3,6 +3,7 @@
 import { useDashboardContext } from '@/contexts/Dashboard';
 import { addNewTalkerByName } from '@/services/api';
 import { useState, FormEvent, ChangeEvent } from 'react';
+import SpinLoading from './SpinLoading';
 
 type AddNewTalkerProps = {
   openWindow: (state:boolean) => void;
@@ -60,7 +61,7 @@ export default function AddNewTalker({ openWindow }:AddNewTalkerProps) {
             disabled={isButtonDisabled}
           >
             {isLoading
-              ? (<div className='inline-block h-5 w-5 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite] border-white'></div>)
+              ? (<SpinLoading />)
               : 'Add'}
           </button>
 
