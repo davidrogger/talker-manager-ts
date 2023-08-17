@@ -14,11 +14,9 @@ export default function RenderContentByApiStatus(
   switch (status) {
     case ApiStatus.PENDING:
       return (<LecturesLoading />);
-    case ApiStatus.REJECTED:
-      return (<RefreshWindow message='Something went wrong!' />);
     case ApiStatus.RESOLVED:
       return (<LecturesDisplay lectures={lectures} />);
     default:
-      return null;
+      return (<RefreshWindow message='Something went wrong!' />);
   }
 }
