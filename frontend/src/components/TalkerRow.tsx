@@ -9,7 +9,7 @@ import { ITalker } from '@/types';
 import { ChangeEvent, useState } from 'react';
 import { updateTalker } from '@/services/api';
 import { useDashboardContext } from '@/contexts/Dashboard';
-import TalkerBtn from './TalkerBtn';
+import RequestBtn from './RequestBtn';
 import DeleteTalkerWarning from './DeleteTalkerWarning';
 
 export default function TalkerRow({ talker }:{ talker: ITalker}) {
@@ -63,13 +63,13 @@ export default function TalkerRow({ talker }:{ talker: ITalker}) {
       <td className='w-[100px]'>
       {editorMode
         ? (<>
-        <TalkerBtn
+        <RequestBtn
           src={confirm}
           alt='confirm'
           onClick={requestUpdateTalker}
           disabled={isBtnDisabled}
         />
-        <TalkerBtn
+        <RequestBtn
           src={cancel}
           alt='cancel'
           onClick={cancelEdit}
@@ -77,12 +77,12 @@ export default function TalkerRow({ talker }:{ talker: ITalker}) {
       </>
         )
         : (<>
-          <TalkerBtn
+          <RequestBtn
             src={edit}
             alt='edit'
             onClick={startEdit}
           />
-          <TalkerBtn
+          <RequestBtn
             src={trash}
             alt='delete'
             onClick={requestDeleteTalkerById}
