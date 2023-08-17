@@ -6,7 +6,7 @@ type IRefreshBtnProps = {
   message: string,
 }
 
-export default function RefreshBtn({ message }:IRefreshBtnProps) {
+export default function RefreshWindow({ message }:IRefreshBtnProps) {
   const router = useRouter();
 
   function refreshHandler() {

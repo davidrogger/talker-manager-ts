@@ -1,6 +1,6 @@
 import { ApiStatus, ILecture } from '@/types';
 import LecturesDisplay from './LecturesDisplay';
-import RefreshBtn from './RefreshBtn';
+import RefreshWindow from './RefreshWindow';
 import LecturesLoading from './LecturesLoading';
 
 type RenderContentByApiStatusProps = {
@@ -15,7 +15,7 @@ export default function RenderContentByApiStatus(
     case ApiStatus.PENDING:
       return (<LecturesLoading />);
     case ApiStatus.REJECTED:
-      return (<RefreshBtn message='Something went wrong!' />);
+      return (<RefreshWindow message='Something went wrong!' />);
     case ApiStatus.RESOLVED:
       return (<LecturesDisplay lectures={lectures} />);
     default:
