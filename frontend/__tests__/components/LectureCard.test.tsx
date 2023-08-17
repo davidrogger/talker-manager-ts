@@ -21,7 +21,7 @@ describe('Testing <LectureCard />', () => {
 
   it('Should render the edit and delete button when logged', async () => {
     render(
-      <AuthContext.Provider value={ { isAuthencated: true } as unknown as IAuthContext }>
+      <AuthContext.Provider value={ { isAuthenticated: true } as IAuthContext }>
         <LectureCard {...lectureCardTestingProps} />
       </AuthContext.Provider>,
     );
