@@ -4,6 +4,7 @@ import { screen } from '@testing-library/react';
 import Header from '@/components/Header';
 import RenderWithAuthProvider from '../utils/RenderWithAuthProvider';
 import { mockUserDataResponse } from '../utils/_mockData';
+import { eventually } from '../utils';
 
 describe('Testing page Dashboard', () => {
   beforeEach(
@@ -30,20 +31,19 @@ describe('Testing page Dashboard', () => {
     const { mockRouter } = RenderWithAuthProvider(<Dashboard />);
 
     expect(mockLocalStorage).toHaveBeenCalledWith('talker-token');
-    await Promise.resolve();
-    expect(mockRouter.push).toHaveBeenCalledWith('/');
+    expect(await eventually(mockRouter.push)).toHaveBeenCalledWith('/login');
   });
 
-  it('Should redirect to home page when the token is invalid', async () => {
+  it('Should redirect to the login page when the token is invalid', async () => {
     const mockResponse = { response: { data: { message: 'Invalid Token' } } };
     jest.spyOn(Object.getPrototypeOf(window.localStorage), 'getItem').mockReturnValue('invalid-token');
     jest.spyOn(Object.getPrototypeOf(window.localStorage), 'clear');
     const mockAPI = jest.spyOn(api, 'get').mockRejectedValue(mockResponse);
 
-    const { mockRouter } = await RenderWithAuthProvider(<Dashboard />);
+    const { mockRouter } = RenderWithAuthProvider(<Dashboard />);
 
-    await expect(mockAPI).toHaveBeenCalled();
-    expect(mockRouter.push).toHaveBeenCalledWith('/');
+    expect(mockAPI).toHaveBeenCalled();
+    expect(await eventually(mockRouter.push)).toHaveBeenCalledWith('/login');
   });
 
   it('Should be able to navigate to "home" and "dashboard" from the header when logged', async () => {
