@@ -10,9 +10,7 @@ import {
 
 export type IAuthContext = {
   isAuthenticated: boolean;
-  loginMsg: string;
-  signIn: (login:LoginInput) => Promise<void>;
-  setLoginMsg: (phrase:string) => void;
+  signIn: (login:LoginInput) => Promise<{ error?: { message: string}, token?: string }>;
   signOut: () => void;
   user: null | LoggedUser;
   authStoredToken: () => Promise<null | { error: unknown }>;
@@ -25,7 +23,6 @@ type AuthProviderProps = {
 }
 
 export function AuthProvider({ children }:AuthProviderProps) {
-  const [loginMsg, setLoginMsg] = useState('');
   const [user, setUser] = useState<null | LoggedUser>(null);
 
   const router = useRouter();
@@ -52,22 +49,26 @@ export function AuthProvider({ children }:AuthProviderProps) {
     return null;
   }
 
-  async function signIn({ email, password }: LoginInput) {
+  async function signIn(
+    { email, password }: LoginInput,
+  ): Promise<{ error?: { message: string}, token?: string }> {
     const { token, error } = await loginAuth({ email, password });
 
     if (error) {
-      setLoginMsg(error.message);
+      return { error };
     }
 
     if (token) {
       storeToken(token);
       router.push('/dashboard');
     }
+
+    return { token };
   }
 
   return (
     <AuthContext.Provider value={ {
-      isAuthenticated, loginMsg, signIn, setLoginMsg, signOut, user, authStoredToken,
+      isAuthenticated, signIn, signOut, user, authStoredToken,
     } }>
       { children }
     </AuthContext.Provider>

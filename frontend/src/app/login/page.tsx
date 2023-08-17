@@ -13,11 +13,18 @@ import { LoginInput } from '@/types';
 import SpinLoading from '@/components/SpinLoading';
 
 export default function Login() {
-  const { loginMsg, setLoginMsg, signIn } = useAuthContext();
+  const { signIn } = useAuthContext();
+  const [loginMsg, setLoginMsg] = useState('');
   const [isLoading, setLoading] = useState<boolean>(false);
 
   function isFilledOut({ email, password }:LoginInput):boolean {
     return !!email && !!password;
+  }
+
+  function messageHandle(message:string) {
+    setLoginMsg(message);
+    setTimeout(() => setLoginMsg(''), 3000);
+    setLoading(false);
   }
 
   async function handlerSubmit(event:React.FormEvent<HTMLFormElement>) {
@@ -26,13 +33,17 @@ export default function Login() {
     const formData = new FormData(event.target as HTMLFormElement);
     const loginInput = Object.fromEntries(formData) as LoginInput;
 
-    if (isFilledOut(loginInput)) {
-      await signIn(loginInput);
+    if (!isFilledOut(loginInput)) {
+      messageHandle('Please you need to fill the email and password');
     } else {
-      setLoginMsg('Please you need to fill the email and password');
-      setTimeout(() => setLoginMsg(''), 5000);
+      const { error } = await signIn(loginInput);
+
+      if (error) {
+        messageHandle(error.message);
+      }
     }
   }
+
   return (
     <div
       className="flex justify-center items-center absolute top-0 bg-zinc-100 h-screen w-screen"
