@@ -1,4 +1,4 @@
-import AddNewTalker from '@/components/AddNewTalker';
+import AddNewTalker from '@/components/TalkerSection/AddNewTalker';
 import { api } from '@/services/api';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';

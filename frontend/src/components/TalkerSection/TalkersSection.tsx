@@ -3,9 +3,10 @@
 import { useEffect, useState } from 'react';
 
 import { useDashboardContext } from '@/contexts/Dashboard';
-import TalkerRow from './TalkerRow';
-import AddNewTalker from './AddNewTalker';
-import SpinLoading from './SpinLoading';
+
+import TalkerRow from '@/components/TalkerSection/TalkerRow';
+import SpinLoading from '@/components/SpinLoading';
+import AddNewTalker from '@/components/TalkerSection/AddNewTalker';
 
 export default function TalkersSection() {
   const { isLoadingTalkers, displayedTalkers, loadTalkers } = useDashboardContext();
@@ -15,7 +16,6 @@ export default function TalkersSection() {
   useEffect(() => {
     if (!displayedTalkers.length) {
       loadTalkers();
-      console.log('load talker section');
     }
   }, [loadTalkers, displayedTalkers]);
 

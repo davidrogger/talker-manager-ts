@@ -3,7 +3,7 @@
 import { useDashboardContext } from '@/contexts/Dashboard';
 import { addNewTalkerByName } from '@/services/api';
 import { useState, FormEvent, ChangeEvent } from 'react';
-import SpinLoading from './SpinLoading';
+import SpinLoading from '../SpinLoading';
 
 type AddNewTalkerProps = {
   openWindow: (state:boolean) => void;

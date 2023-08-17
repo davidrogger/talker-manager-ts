@@ -71,11 +71,8 @@ export async function getAllLectures(time:number = 700):Promise<getAllLecturesRe
   }
 }
 
-export async function getAllTalkers(
-  token:string,
-  time:number = 700,
-):Promise<getAllTalkersResponse> {
-  await delay(time);
+export async function getAllTalkers():Promise<getAllTalkersResponse> {
+  const token = getStoredToken();
   try {
     const { data: { talkers } } = await api
       .get('/talker', { headers: { Authorization: token } });

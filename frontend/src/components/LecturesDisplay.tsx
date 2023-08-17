@@ -9,7 +9,7 @@ export default function LecturesDisplay({ lectures }:LecturesDisplayProps) {
   return lectures.map((lecture) => (
     <LectureCard
       key={lecture.id}
-      {...lecture}
+      lecture={lecture}
     />
   ));
 }

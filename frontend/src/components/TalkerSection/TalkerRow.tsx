@@ -1,16 +1,13 @@
 'use client';
 
-import edit from '@/images/edit.svg';
-import confirm from '@/images/confirm.svg';
-import cancel from '@/images/cancel.svg';
-import trash from '@/images/trash.svg';
-
 import { ITalker } from '@/types';
 import { ChangeEvent, useState } from 'react';
 import { updateTalker } from '@/services/api';
 import { useDashboardContext } from '@/contexts/Dashboard';
-import RequestBtn from './RequestBtn';
-import DeleteTalkerWarning from './DeleteTalkerWarning';
+
+import DeleteTalkerWarning from '@/components/DeleteTalkerWarning';
+import EditableModeBtns from '@/components/EditableModeBtns';
+import UpdateBtns from '@/components/UpdateBtns';
 
 export default function TalkerRow({ talker }:{ talker: ITalker}) {
   const { loadTalkers } = useDashboardContext();
@@ -62,32 +59,18 @@ export default function TalkerRow({ talker }:{ talker: ITalker}) {
       </td>
       <td className='w-[100px]'>
       {editorMode
-        ? (<>
-        <RequestBtn
-          src={confirm}
-          alt='confirm'
-          onClick={requestUpdateTalker}
-          disabled={isBtnDisabled}
+        ? (
+        <EditableModeBtns
+          confirmHandle={requestUpdateTalker}
+          cancelHandle={cancelEdit}
+          isConfirmDisabled={isBtnDisabled}
         />
-        <RequestBtn
-          src={cancel}
-          alt='cancel'
-          onClick={cancelEdit}
-        />
-      </>
         )
-        : (<>
-          <RequestBtn
-            src={edit}
-            alt='edit'
-            onClick={startEdit}
-          />
-          <RequestBtn
-            src={trash}
-            alt='delete'
-            onClick={requestDeleteTalkerById}
-          />
-        </>
+        : (
+        <UpdateBtns
+          editHandle={startEdit}
+          deleteHandle={requestDeleteTalkerById}
+        />
         )}
 
       { isDeleteWarning && (

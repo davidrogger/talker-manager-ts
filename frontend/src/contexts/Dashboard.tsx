@@ -1,6 +1,5 @@
 import { getAllTalkers } from '@/services/api';
 import { ITalker } from '@/types';
-import { getStoredToken } from '@/utils/localStorageHandler';
 import {
   Dispatch, ReactNode, SetStateAction, createContext, useContext, useState,
 } from 'react';
@@ -20,8 +19,7 @@ export default function DashboardProvider({ children }: { children:ReactNode }) 
 
   async function loadTalkers() {
     setLoadingTalkers(true);
-    const token = getStoredToken();
-    const { talkers } = await getAllTalkers(token as string);
+    const { talkers } = await getAllTalkers();
 
     if (talkers) {
       setDisplayedTalkers(talkers);

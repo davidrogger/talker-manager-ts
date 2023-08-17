@@ -1,23 +1,29 @@
-import LectureBtns from './LectureBtns';
+'use client';
+
+import { ILecture } from '@/types';
+import { useState } from 'react';
+import LectureCardStatic from './LectureCardStatic';
+import LectureCardEditable from './LectureCardEditable';
 
 type LectureCardProps = {
-  title: string,
-  talkerName: string,
-  watchedAt: string,
+  lecture: ILecture;
 };
 
 export default function LectureCard({
-  talkerName, title, watchedAt,
+  lecture,
 }:LectureCardProps) {
+  const [isEditable, setEditable] = useState<boolean>(false);
+
+  const sharedProps = { lecture, setEditable };
   return (
     <div
-      className="relative flex flex-col justify-between m-4 border rounded w-52 h-32 p-4 text-center shadow-lg hover:shadow-xl"
+      className="relative flex flex-col justify-between items-center m-4 border rounded w-52 h-32 p-4 text-center shadow-lg hover:shadow-xl"
     >
-      <h1 className="text-lg text-red-800 whitespace-nowrap overflow-hidden">{title}</h1>
-      <p>{talkerName}</p>
-      <p className="opacity-50">{watchedAt}</p>
+      {isEditable
+        ? <LectureCardEditable {...sharedProps} />
+        : <LectureCardStatic {...sharedProps} />
+      }
 
-      <LectureBtns />
     </div>
   );
 }

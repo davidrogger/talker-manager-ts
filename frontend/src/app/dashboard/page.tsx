@@ -1,7 +1,7 @@
 'use client';
 
 import MainTitle from '@/components/MainTitle';
-import TalkersSection from '@/components/TalkersSection';
+import TalkersSection from '@/components/TalkerSection/TalkersSection';
 import Welcome from '@/components/Welcome';
 import { useAuthContext } from '@/contexts/Auth';
 import DashboardProvider from '@/contexts/Dashboard';
