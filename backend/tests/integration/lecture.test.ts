@@ -9,6 +9,7 @@ import connection from '@src/models/connection.model';
 import app from '@src/app';
 
 import {
+  badTokensTest,
   invalidLectureFieldsPost,
   missingLectureFieldsPost,
   mockLecturesGetResponse,
@@ -23,7 +24,7 @@ const lectureEndpoint = '/lecture';
 
 describe('Testing route /lecure', () => {
   beforeEach(sinon.restore);
-  describe('Route GET /lecture', () => {
+  describe('Route GET', () => {
     it('Should return status 200 with all lectures in the data base', async () => {
       const mockDB = sinon.stub(connection, 'execute').resolves([mockLecturesGetResponse, []]);
       const { status, body } = await chai
@@ -36,7 +37,7 @@ describe('Testing route /lecure', () => {
     });
   });
 
-  describe('Route POST /lecture', () => {
+  describe('Route POST', () => {
     describe('Missing or invalid token', () => {
       it('Should return 401 missing token', async () => {
         const mockJWT = sinon.stub(jwt, 'verify').returns();
@@ -143,6 +144,24 @@ describe('Testing route /lecure', () => {
         expect(status).to.be.equal(201);
         expect(body.message).to.be.equal('Lecture recorded with success');
       });
+    });
+  });
+
+  describe('Route PUT', () => {
+    it('Should required a valid token', async () => {
+      sinon.stub(connection, 'execute').resolves([[], []]);
+      sinon.stub(jwt, 'verify').throws();
+
+      await Promise.all(badTokensTest.map(async ({ expectMessage, token }) => {
+        const { status, body } = await chai
+          .request(app)
+          .put(`${lectureEndpoint}/valid-id`)
+          .set('Authorization', token)
+          .send(validLecturePost);
+
+        expect(status).to.be.equal(401);
+        expect(body.message).to.be.equal(expectMessage);
+      }));
     });
   });
 });
