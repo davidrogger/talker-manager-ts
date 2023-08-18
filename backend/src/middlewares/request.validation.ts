@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import * as jwtService from '@services/jwt.service';
 import * as userService from '@services/user.service';
 import * as talkerService from '@services/talker.service';
+import * as lectureService from '@services/lecture.service';
 
 import Unauthorized from '@errors/Unauthorized';
 import BadRequest from '@errors/BadRequest';
@@ -165,6 +166,19 @@ export async function talkerBodyIdExists(
   try {
     await talkerService.findTalkerById(talkerId);
     next();
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function lectureIdExists(
+  req:Request,
+  _res:Response,
+  next:NextFunction,
+) {
+  const { id } = req.params;
+  try {
+    await lectureService.findLectureById(id);
   } catch (error) {
     next(error);
   }

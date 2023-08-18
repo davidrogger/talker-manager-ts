@@ -1,9 +1,9 @@
 import type {
-  ILectureDriverResponse, ITalker, IUser, IUserRows,
+  ILectureDriverResponse, RawTalker, RawUser, IUserDriverResponse,
 } from '@types';
 import { RowDataPacket } from 'mysql2';
 
-const tester:IUser = {
+const tester:RawUser = {
   id: 'generated-id',
   firstName: 'Jonas',
   lastName: 'Doe',
@@ -15,7 +15,7 @@ export const loginInput = { email: tester.firstName, password: tester.password }
 
 export const mockedUser = {
   ...tester,
-} as IUserRows;
+} as IUserDriverResponse;
 
 export const mockPublicUserData = {
   id: tester.id,
@@ -41,7 +41,7 @@ export const mockTalkers = [
     id: '7c0eda20-1ef1-4133-b7d7-73ecb4289bab',
     name: 'Marcos Costa',
   },
-] as ITalker[];
+] as RawTalker[];
 
 export const [mockTalker] = mockTalkers as RowDataPacket[];
 

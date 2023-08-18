@@ -1,4 +1,4 @@
-import type { CreateLecture, ILecture } from '@types';
+import type { CreateLecture, ILecture, RawLecture } from '@types';
 import type { RowDataPacket } from 'mysql2';
 
 import connection from '@models/connection.model';
@@ -31,7 +31,14 @@ export async function getAllLectures() {
 
 export async function createLecture({
   id, talkerId, title, watchedAt,
-}:CreateLecture): Promise<void> {
+}:CreateLecture & { id:string }): Promise<void> {
   const query = 'INSERT INTO lecture(id, talker_id, title, watchedAt) VALUES (?, ?, ?, ?)';
   await connection.execute(query, [id, talkerId, title, watchedAt]);
+}
+
+export async function findLectureById(id:string) {
+  const query = 'SELECT * FROM lecture WHERE id = ?';
+  const [rows] = await connection.execute<RowDataPacket[]>(query, [id]);
+  const [lecture] = rows as RawLecture[];
+  return lecture;
 }

@@ -1,7 +1,6 @@
 import { Router } from 'express';
 
 import * as validate from '@middlewares/request.validation';
-
 import * as lectureController from '@controllers/lecture.controller';
 
 const route = Router();
@@ -22,6 +21,7 @@ route.put(
   '/:id',
   validate.tokenRequired,
   validate.tokenAuthenticity,
+  validate.lectureIdExists,
 );
 
 export default route;

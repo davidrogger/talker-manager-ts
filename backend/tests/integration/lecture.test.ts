@@ -8,7 +8,6 @@ import jwt from 'jsonwebtoken';
 import connection from '@src/models/connection.model';
 import app from '@src/app';
 
-import { send } from 'process';
 import {
   badTokensTest,
   invalidLectureFieldsPost,
