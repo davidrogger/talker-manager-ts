@@ -179,6 +179,7 @@ export async function lectureIdExists(
   const { id } = req.params;
   try {
     await lectureService.findLectureById(id);
+    next();
   } catch (error) {
     next(error);
   }

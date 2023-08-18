@@ -22,6 +22,9 @@ route.put(
   validate.tokenRequired,
   validate.tokenAuthenticity,
   validate.lectureIdExists,
+  validate.talkerBodyIdExists,
+  validate.lectureTitleField,
+  validate.lectureWatchedAtField,
 );
 
 export default route;
