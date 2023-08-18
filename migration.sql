@@ -17,7 +17,7 @@ CREATE TABLE lecture (
   id CHAR(36) PRIMARY KEY,
   talker_id CHAR(36) NOT NULL,
   title VARCHAR(50) NOT NULL,
-  watchedAt CHAR(10) NOT NULL,
+  watched_at CHAR(10) NOT NULL,
 
   FOREIGN KEY (talker_id) REFERENCES talker(id)
 );
