@@ -7,7 +7,7 @@ import bcrypt from 'bcrypt';
 
 import app from '@src/app';
 import connection from '@src/models/connection.model';
-import { IUserRows } from '@types';
+import { IUserDriverResponse } from '@types';
 import { loginInput, mockedUser } from './_mockData';
 
 chai.use(chaiHttp);
@@ -63,7 +63,7 @@ describe('Route /login', () => {
       expect(body.message).to.be.equal('Unauthorized Access');
     });
     it('Should return status 401 message "Unauthorized Access" when the password is wrong', async () => {
-      sinon.stub(connection, 'execute').resolves([[{ password: 'mockPassword' } as IUserRows], []]);
+      sinon.stub(connection, 'execute').resolves([[{ password: 'mockPassword' } as IUserDriverResponse], []]);
       const { status, body } = await chai
         .request(app)
         .post('/login')

@@ -4,7 +4,7 @@ import type {
 
 import * as talkerService from '@services/talker.service';
 import * as idService from '@services/id.service';
-import { ITalker } from '@types';
+import { RawTalker } from '@types';
 
 export async function getAllTalkers(req:Request, res:Response, next:NextFunction) {
   try {
@@ -28,12 +28,12 @@ export async function createTalker(req:Request, res:Response, next:NextFunction)
 }
 
 export async function updateTalker(
-  req:Request<ITalker>,
+  req:Request<RawTalker>,
   res:Response,
   next:NextFunction,
 ) {
   try {
-    const updatedTalker:ITalker = {
+    const updatedTalker:RawTalker = {
       id: req.params.id,
       name: req.body.name,
     };

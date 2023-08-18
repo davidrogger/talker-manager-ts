@@ -1,10 +1,10 @@
-import { IUser, IUserPublic } from '@types';
+import { RawUser, IUserPublic } from '@types';
 
 import * as userModel from '@models/user.model';
 
 export async function createUser({
   id, email, firstName, lastName, password,
-}:IUser): Promise<IUserPublic> {
+}:RawUser): Promise<IUserPublic> {
   await userModel.createUser({
     id, email, firstName, lastName, password,
   });

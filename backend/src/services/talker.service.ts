@@ -1,4 +1,4 @@
-import { ITalker } from '@types';
+import { RawTalker } from '@types';
 
 import * as talkerModel from '@models/talker.model';
 import BadRequest from '@src/errors/BadRequest';
@@ -8,7 +8,7 @@ export async function getAllTalkers() {
   return talkers;
 }
 
-export async function createTalker(newTalker:ITalker) {
+export async function createTalker(newTalker:RawTalker) {
   await talkerModel.createTalker(newTalker);
 }
 
@@ -19,7 +19,7 @@ export async function findTalkerById(id:string) {
   return talkerFound;
 }
 
-export async function updateTalker(talker:ITalker):Promise<void> {
+export async function updateTalker(talker:RawTalker):Promise<void> {
   await talkerModel.updateTalker(talker);
 }
 
