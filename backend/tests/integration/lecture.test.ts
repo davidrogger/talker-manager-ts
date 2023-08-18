@@ -194,5 +194,21 @@ describe('Testing route /lecure', () => {
         expect(body.message).to.equal(`Missing field "${missingField}"`);
       }));
     });
+
+    it('Should return status 200 "Updated Successfully Completed"', async () => {
+      sinon.stub(jwt, 'verify').returns();
+      const mockDBconnection = sinon.stub(connection, 'execute');
+      mockDBconnection.onFirstCall().resolves([[mockOneLectureResponse], []]);
+      mockDBconnection.onSecondCall().resolves([[mockTalker], []]);
+
+      const { status, body } = await chai
+        .request(app)
+        .put(`${lectureEndpoint}/valid-id`)
+        .set('Authorization', 'valid-token')
+        .send(validLecturePost);
+
+      expect(status).to.be.equal(200);
+      expect(body.message).to.be.equal('Updated Successfully Completed');
+    });
   });
 });
