@@ -75,7 +75,7 @@ export const badTalkersPostFormatTest = [
   },
 ];
 
-export const mockLecturesGetResponse = [
+export const mockAllLecturesResponse = [
   {
     id: 'ca42acdd-f60d-45b6-ba8a-b28c77bb68fc',
     talkerName: 'Jonas Doe',
@@ -101,6 +101,8 @@ export const mockLecturesGetResponse = [
     watchedAt: '07/08/2023',
   },
 ] as ILectureDriverResponse[];
+
+export const [mockOneLectureResponse] = mockAllLecturesResponse;
 
 export const missingLectureFieldsPost = [
   {

@@ -8,11 +8,13 @@ import jwt from 'jsonwebtoken';
 import connection from '@src/models/connection.model';
 import app from '@src/app';
 
+import { send } from 'process';
 import {
   badTokensTest,
   invalidLectureFieldsPost,
   missingLectureFieldsPost,
-  mockLecturesGetResponse,
+  mockAllLecturesResponse,
+  mockOneLectureResponse,
   mockTalker,
   validLecturePost,
 } from './_mockData';
@@ -26,14 +28,14 @@ describe('Testing route /lecure', () => {
   beforeEach(sinon.restore);
   describe('Route GET', () => {
     it('Should return status 200 with all lectures in the data base', async () => {
-      const mockDB = sinon.stub(connection, 'execute').resolves([mockLecturesGetResponse, []]);
+      const mockDB = sinon.stub(connection, 'execute').resolves([mockAllLecturesResponse, []]);
       const { status, body } = await chai
         .request(app)
         .get(lectureEndpoint);
 
       expect(mockDB.called).to.be.equal(true);
       expect(status).to.be.equal(200);
-      expect(body.lectures).to.be.deep.equal(mockLecturesGetResponse);
+      expect(body.lectures).to.be.deep.equal(mockAllLecturesResponse);
     });
   });
 
@@ -148,7 +150,7 @@ describe('Testing route /lecure', () => {
   });
 
   describe('Route PUT', () => {
-    it('Should required a valid token', async () => {
+    it('Should require a valid token', async () => {
       sinon.stub(connection, 'execute').resolves([[], []]);
       sinon.stub(jwt, 'verify').throws();
 
@@ -161,6 +163,36 @@ describe('Testing route /lecure', () => {
 
         expect(status).to.be.equal(401);
         expect(body.message).to.be.equal(expectMessage);
+      }));
+    });
+
+    it('Should have an lecture id valid to update', async () => {
+      sinon.stub(connection, 'execute').resolves([[], []]);
+      sinon.stub(jwt, 'verify').returns();
+
+      const { status, body } = await chai
+        .request(app)
+        .put(`${lectureEndpoint}/invalid-id`)
+        .set('Authorization', 'valid-token')
+        .send(validLecturePost);
+
+      expect(status).to.be.equal(400);
+      expect(body.message).to.be.equal('Lecture not found');
+    });
+
+    it('Should validate all need fields to update a lecture', async () => {
+      sinon.stub(connection, 'execute').resolves([[mockOneLectureResponse], []]);
+      sinon.stub(jwt, 'verify').returns();
+
+      await Promise.all(missingLectureFieldsPost.map(async ({ invalidBody, missingField }) => {
+        const { status, body } = await chai
+          .request(app)
+          .put(`${lectureEndpoint}/valid-id`)
+          .set('Authorization', 'valid-token')
+          .send(invalidBody);
+
+        expect(status).to.equal(400);
+        expect(body.message).to.equal(`Missing field "${missingField}"`);
       }));
     });
   });
