@@ -18,4 +18,10 @@ route.post(
   lectureController.createLecture,
 );
 
+route.put(
+  '/:id',
+  validate.tokenRequired,
+  validate.tokenAuthenticity,
+);
+
 export default route;
