@@ -1,6 +1,7 @@
 import type {
   ILectureDriverResponse, ITalker, IUser, IUserRows,
 } from '@types';
+import { RowDataPacket } from 'mysql2';
 
 const tester:IUser = {
   id: 'generated-id',
@@ -41,6 +42,8 @@ export const mockTalkers = [
     name: 'Marcos Costa',
   },
 ] as ITalker[];
+
+export const [mockTalker] = mockTalkers as RowDataPacket[];
 
 export const badTokensTest = [
   {
@@ -101,47 +104,39 @@ export const mockLecturesGetResponse = [
 
 export const missingLectureFieldsPost = [
   {
-    missingField: 'talkerName',
+    missingField: 'talkerId',
     invalidBody: {
-      title: 'Missing talkerName field',
+      title: 'Missing talkerId field',
       watchedAt: '08/08/2023',
     },
   },
   {
     missingField: 'title',
     invalidBody: {
-      talkerName: 'Jonas Doe',
+      talkerId: 'valid-id',
       watchedAt: '08/08/2023',
     },
   },
   {
     missingField: 'watchedAt',
     invalidBody: {
-      talkerName: 'Jonas Doe',
+      talkerId: 'valid-id',
       title: 'Missing watchedAt field',
     },
   },
 ];
 
 export const validLecturePost = {
-  talkerName: 'Jonas Doe',
-  title: 'Missing talkerName field',
+  talkerId: 'valid-id',
+  title: 'Posting the Lecture successfully test',
   watchedAt: '08/08/2023',
 };
 
 export const invalidLectureFieldsPost = [
   {
-    expectedMsg: 'talkerName need at least 3 characters',
-    invalidBody: {
-      talkerName: 'Jo',
-      title: 'Missing talkerName field',
-      watchedAt: '08/08/2023',
-    },
-  },
-  {
     expectedMsg: 'title need at least 5 characters',
     invalidBody: {
-      talkerName: 'Jonas Doe',
+      talkerId: 'valid-id',
       title: 'Miss',
       watchedAt: '08/08/2023',
     },
@@ -149,7 +144,7 @@ export const invalidLectureFieldsPost = [
   {
     expectedMsg: 'watchedAt need a valid format, dd/mm/yyyy',
     invalidBody: {
-      talkerName: 'Jonas Doe',
+      talkerId: 'valid-id',
       title: 'Invalid watchedAt field',
       watchedAt: '08-08-2023',
     },
@@ -157,7 +152,7 @@ export const invalidLectureFieldsPost = [
   {
     expectedMsg: 'watchedAt need a valid format, dd/mm/yyyy',
     invalidBody: {
-      talkerName: 'Jonas Doe',
+      talkerId: 'valid-id',
       title: 'Invalid watchedAt field',
       watchedAt: '08082023',
     },
@@ -165,7 +160,7 @@ export const invalidLectureFieldsPost = [
   {
     expectedMsg: 'watchedAt need a valid format, dd/mm/yyyy',
     invalidBody: {
-      talkerName: 'Jonas Doe',
+      talkerId: 'valid-id',
       title: 'Invalid watchedAt field',
       watchedAt: '08 de agosto de 2023',
     },
@@ -173,7 +168,7 @@ export const invalidLectureFieldsPost = [
   {
     expectedMsg: 'watchedAt need a valid format, dd/mm/yyyy',
     invalidBody: {
-      talkerName: 'Jonas Doe',
+      talkerId: 'valid-id',
       title: 'Invalid watchedAt field',
       watchedAt: '01/30/2023',
     },

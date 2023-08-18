@@ -22,11 +22,17 @@ export type ITalker = {
 
 export type ITalkerResponse = ITalker & RowDataPacket;
 
-export type ILecture = {
+export type CreateLecture = {
   id: string,
-  talkerName: string,
+  talkerId: string,
   title: string,
   watchedAt: string,
 };
+
+export type UpdateLecture = CreateLecture;
+
+export type ILecture = {
+  talkerName: string,
+} & Omit<CreateLecture, 'talkerId'>;
 
 export type ILectureDriverResponse = RowDataPacket & ILecture;

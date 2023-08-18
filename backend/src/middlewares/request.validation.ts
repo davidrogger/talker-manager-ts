@@ -7,7 +7,6 @@ import * as talkerService from '@services/talker.service';
 import Unauthorized from '@errors/Unauthorized';
 import BadRequest from '@errors/BadRequest';
 import Conflic from '@errors/Conflic';
-import { ITalker } from '@types';
 
 export function newUserRequiredFields(req:Request, _res:Response, next:NextFunction) {
   const user = req.body;
@@ -143,14 +142,28 @@ export function lectureWatchedAtField(req: Request, _res: Response, next: NextFu
   next();
 }
 
-export async function talkerIdExists(
-  req:Request & { talker?:ITalker },
+export async function talkerParamsIdExists(
+  req:Request,
   _res:Response,
   next:NextFunction,
 ) {
   const { id } = req.params;
   try {
     await talkerService.findTalkerById(id);
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function talkerBodyIdExists(
+  req:Request,
+  _res:Response,
+  next:NextFunction,
+) {
+  const { talkerId } = req.body;
+  try {
+    await talkerService.findTalkerById(talkerId);
     next();
   } catch (error) {
     next(error);

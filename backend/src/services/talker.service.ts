@@ -13,6 +13,7 @@ export async function createTalker(newTalker:ITalker) {
 }
 
 export async function findTalkerById(id:string) {
+  if (!id) throw new BadRequest('Missing field "talkerId"');
   const talkerFound = await talkerModel.findTalkerById(id);
   if (!talkerFound) throw new BadRequest('Talker not found');
   return talkerFound;

@@ -1,4 +1,4 @@
-import type { ILecture } from '@types';
+import type { CreateLecture, ILecture } from '@types';
 import type { RowDataPacket } from 'mysql2';
 
 import connection from '@models/connection.model';
@@ -30,8 +30,8 @@ export async function getAllLectures() {
 }
 
 export async function createLecture({
-  id, talkerName, title, watchedAt,
-}:ILecture): Promise<void> {
-  const query = 'INSERT INTO lecture(id, talker_name, title, watchedAt) VALUES (?, ?, ?, ?)';
-  await connection.execute(query, [id, talkerName, title, watchedAt]);
+  id, talkerId, title, watchedAt,
+}:CreateLecture): Promise<void> {
+  const query = 'INSERT INTO lecture(id, talker_id, title, watchedAt) VALUES (?, ?, ?, ?)';
+  await connection.execute(query, [id, talkerId, title, watchedAt]);
 }

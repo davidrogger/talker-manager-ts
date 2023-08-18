@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import * as validation from '@middlewares/request.validation';
+import * as validate from '@middlewares/request.validation';
 
 import * as lectureController from '@controllers/lecture.controller';
 
@@ -10,11 +10,11 @@ route.get('/', lectureController.getAllLectures);
 
 route.post(
   '/',
-  validation.tokenRequired,
-  validation.tokenAuthenticity,
-  validation.lectureTalkerNameField,
-  validation.lectureTitleField,
-  validation.lectureWatchedAtField,
+  validate.tokenRequired,
+  validate.tokenAuthenticity,
+  validate.talkerBodyIdExists,
+  validate.lectureTitleField,
+  validate.lectureWatchedAtField,
   lectureController.createLecture,
 );
 

@@ -25,7 +25,7 @@ route.put(
   '/:id',
   validate.tokenRequired,
   validate.tokenAuthenticity,
-  validate.talkerIdExists,
+  validate.talkerParamsIdExists,
   validate.talkerNameField,
   talkerController.updateTalker,
 );
@@ -34,7 +34,7 @@ route.delete(
   '/:id',
   validate.tokenRequired,
   validate.tokenAuthenticity,
-  validate.talkerIdExists,
+  validate.talkerParamsIdExists,
   talkerController.deleteTalkerById,
 );
 
