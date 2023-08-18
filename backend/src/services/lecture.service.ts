@@ -1,4 +1,4 @@
-import type { CreateLecture } from '@types';
+import type { CreateLecture, UpdateLecture } from '@types';
 
 import * as lectureModel from '@models/lecture.model';
 import BadRequest from '@src/errors/BadRequest';
@@ -16,4 +16,8 @@ export async function findLectureById(id:string) {
   const lectureFound = await lectureModel.findLectureById(id);
   if (!lectureFound) throw new BadRequest('Lecture not found');
   return lectureFound;
+}
+
+export async function updateLectureById(id:string, updatedLecture:UpdateLecture) {
+  await lectureModel.updateLectureById(id, updatedLecture);
 }

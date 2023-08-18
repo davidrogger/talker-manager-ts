@@ -25,6 +25,7 @@ route.put(
   validate.talkerBodyIdExists,
   validate.lectureTitleField,
   validate.lectureWatchedAtField,
+  lectureController.updateLecture,
 );
 
 export default route;

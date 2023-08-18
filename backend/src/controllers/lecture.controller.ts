@@ -24,3 +24,14 @@ export async function createLecture(req:Request, res:Response, next:NextFunction
     next(error);
   }
 }
+
+export async function updateLecture(req:Request, res:Response, next:NextFunction) {
+  const updatedLecture = req.body;
+  const idLectures = req.params.id;
+  try {
+    await lectureService.updateLectureById(idLectures, updatedLecture);
+    res.status(200).json({ message: 'Updated Successfully Completed' });
+  } catch (error) {
+    next(error);
+  }
+}

@@ -1,4 +1,6 @@
-import type { CreateLecture, ILecture, RawLecture } from '@types';
+import type {
+  CreateLecture, ILecture, RawLecture, UpdateLecture,
+} from '@types';
 import type { RowDataPacket } from 'mysql2';
 
 import connection from '@models/connection.model';
@@ -41,4 +43,9 @@ export async function findLectureById(id:string) {
   const [rows] = await connection.execute<RowDataPacket[]>(query, [id]);
   const [lecture] = rows as RawLecture[];
   return lecture;
+}
+
+export async function updateLectureById(id:string, { talkerId, title, watchedAt }:UpdateLecture) {
+  const query = 'UPDATE lecture SET talker_id = ? title = ? watched_at = ? WHERE id = ?';
+  await connection.execute(query, [talkerId, title, watchedAt, id]);
 }
