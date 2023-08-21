@@ -28,4 +28,10 @@ route.put(
   lectureController.updateLecture,
 );
 
+route.delete(
+  '/:id',
+  validate.tokenRequired,
+  validate.tokenAuthenticity,
+);
+
 export default route;
