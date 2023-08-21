@@ -1,4 +1,4 @@
-import TalkersSection from '@/components/TalkersSection';
+import TalkersSection from '@/components/TalkerSection/TalkersSection';
 import { render, screen } from '@testing-library/react';
 import { api } from '@/services/api';
 import userEvent from '@testing-library/user-event';
