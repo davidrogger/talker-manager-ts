@@ -211,4 +211,50 @@ describe('Testing route /lecure', () => {
       expect(body.message).to.be.equal('Updated Successfully Completed');
     });
   });
+
+  describe('Route DELETE', () => {
+    it('Should required a valid token', async () => {
+      sinon.stub(jwt, 'verify').throws();
+      const mockDBConnection = sinon.stub(connection, 'execute').resolves([[], []]);
+
+      await Promise.all(badTokensTest.map(async ({ expectMessage, token }) => {
+        const { status, body } = await chai
+          .request(app)
+          .delete(`${lectureEndpoint}/valid-lecture-id`)
+          .set('Authorization', token);
+
+        expect(mockDBConnection.called).not.to.be.equal(true);
+        expect(status).to.be.equal(401);
+        expect(body.message).to.be.equal(expectMessage);
+      }));
+    });
+
+    it('Should required a valid lecture id', async () => {
+      sinon.stub(jwt, 'verify').returns();
+      sinon.stub(connection, 'execute').resolves([[], []]);
+
+      const { status, body } = await chai
+        .request(app)
+        .delete(`${lectureEndpoint}/invalid-lecture-id`)
+        .set('Authorization', 'valid-token');
+
+      expect(status).to.be.equal(400);
+      expect(body.message).to.be.equal('Lecture id not found');
+    });
+
+    it('Should call the database and remove the row from the database when success', async () => {
+      sinon.stub(jwt, 'verify').returns();
+      const mockDBConnection = sinon.stub(connection, 'execute');
+      mockDBConnection.onFirstCall().resolves([[mockOneLectureResponse], []]);
+      mockDBConnection.onSecondCall().resolves([[], []]);
+
+      const { status } = await chai
+        .request(app)
+        .delete(`${lectureEndpoint}/valid-lecture-id`)
+        .set('Authorization', 'valid-token');
+
+      expect(mockDBConnection.calledTwice).to.be.equal(true);
+      expect(status).to.be.equal(204);
+    });
+  });
 });
