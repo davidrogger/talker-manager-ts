@@ -32,6 +32,8 @@ route.delete(
   '/:id',
   validate.tokenRequired,
   validate.tokenAuthenticity,
+  validate.lectureIdExists,
+  lectureController.deleteLecture,
 );
 
 export default route;

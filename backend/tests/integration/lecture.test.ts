@@ -239,7 +239,7 @@ describe('Testing route /lecure', () => {
         .set('Authorization', 'valid-token');
 
       expect(status).to.be.equal(400);
-      expect(body.message).to.be.equal('Lecture id not found');
+      expect(body.message).to.be.equal('Lecture not found');
     });
 
     it('Should call the database and remove the row from the database when success', async () => {

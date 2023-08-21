@@ -21,3 +21,7 @@ export async function findLectureById(id:string) {
 export async function updateLectureById(id:string, updatedLecture:UpdateLecture) {
   await lectureModel.updateLectureById(id, updatedLecture);
 }
+
+export async function deleteLectureById(id:string) {
+  await lectureModel.deleteLectureById(id);
+}

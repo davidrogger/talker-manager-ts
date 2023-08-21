@@ -5,28 +5,15 @@ import type { RowDataPacket } from 'mysql2';
 
 import connection from '@models/connection.model';
 
-function normalizeLecture(rows: RowDataPacket[]):ILecture[] {
-  const lectures: ILecture[] = rows.map(({
-    id, talkerName, title, watched_at,
-  }) => ({
-    id,
-    talkerName,
-    title,
-    watchedAt: watched_at,
-  }));
-
-  return lectures;
-}
-
 export async function getAllLectures() {
   const query = `
-    SELECT lecture.id, talker.name as talkerName, lecture.title, lecture.watched_at
+    SELECT lecture.id, talker.name as talkerName, lecture.title, lecture.watched_at as watchedAt
     FROM lecture
     INNER JOIN talker
     ON talker.id = lecture.talker_id;`;
 
   const [rows] = await connection.execute<RowDataPacket[]>(query);
-  const lectures = normalizeLecture(rows);
+  const lectures = rows as ILecture[];
 
   return lectures;
 }
@@ -48,4 +35,9 @@ export async function findLectureById(id:string) {
 export async function updateLectureById(id:string, { talkerId, title, watchedAt }:UpdateLecture) {
   const query = 'UPDATE lecture SET talker_id = ?, title = ?, watched_at = ? WHERE id = ?';
   await connection.execute(query, [talkerId, title, watchedAt, id]);
+}
+
+export async function deleteLectureById(id:string) {
+  const query = 'DELETE FROM lecture WHERE id = ?';
+  await connection.execute(query, [id]);
 }

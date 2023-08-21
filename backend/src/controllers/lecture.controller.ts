@@ -35,3 +35,13 @@ export async function updateLecture(req:Request, res:Response, next:NextFunction
     next(error);
   }
 }
+
+export async function deleteLecture(req:Request, res:Response, next:NextFunction) {
+  const { id } = req.params;
+  try {
+    await lectureService.deleteLectureById(id);
+    res.status(204).json();
+  } catch (error) {
+    next(error);
+  }
+}
