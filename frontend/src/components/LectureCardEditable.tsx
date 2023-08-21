@@ -1,8 +1,8 @@
 'use client';
 
 import EditableModeBtns from '@/components/EditableModeBtns';
-import { ILecture, ITalker } from '@/types';
-import { normizeDateToDatePicker } from '@/utils/dateHandler';
+import { ILecture, ITalker, LectureFields } from '@/types';
+import { normalizeDateToApiResponse, normizeDateToDatePicker } from '@/utils/dateHandler';
 import {
   ChangeEvent, Dispatch, SetStateAction, useEffect, useState,
 } from 'react';
@@ -37,18 +37,23 @@ export default function LectureCardEditable(
     loadTalkersName();
   }, [talkers]);
 
-  function checkInputModifies() {
-    const titleModified = lecture.title !== lectureInputs.title;
-    const talkerNameModified = lecture.talkerName !== lectureInputs.talkerName;
-    const watchedAtModified = lecture.watchedAt !== lectureInputs.watchedAt;
-
-    setModified(titleModified || talkerNameModified || watchedAtModified);
+  function checkInputModifies(updatedField:LectureFields, newValue:string) {
+    if (updatedField === LectureFields.watchedAt) {
+      const newDateNormalized = normalizeDateToApiResponse(newValue);
+      setModified(
+        lecture[LectureFields[updatedField]] !== newDateNormalized,
+      );
+    } else {
+      setModified(
+        lecture[LectureFields[updatedField]] !== newValue,
+      );
+    }
   }
 
-  function inputChangeHandler(e:ChangeEvent<HTMLInputElement>) {
-    const fieldName = e.target.name;
+  function inputChangeHandler(e:ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+    const fieldName = e.target.name as LectureFields;
     setLecturesInputs((old) => ({ ...old, [fieldName]: e.target.value }));
-    checkInputModifies();
+    checkInputModifies(LectureFields[fieldName], e.target.value);
   }
 
   async function cancelHandle() {
@@ -72,16 +77,23 @@ export default function LectureCardEditable(
       <select
         className='w-full text-center rounded'
         name="talkerName"
-        value='f55a0429-e03a-4fdb-bffa-071ccb1a5a1a'
+        data-testid='test-select-talker'
+        value={lectureInputs.talkerName}
+        onChange={inputChangeHandler}
         id="talkerName"
       >
         {talkers.map((talker) => (
-          <option key={talker.id} value={talker.id}>{talker.name}</option>
+          <option
+            key={talker.id}
+            value={talker.name}
+          >
+              {talker.name}
+            </option>
         ))}
       </select>
 
       <input
-        className='w-32 text-center rounded'
+        className='w-32 text-center rounded z-10'
         type="date"
         name='watchedAt'
         data-testid='date-picker'
@@ -93,7 +105,7 @@ export default function LectureCardEditable(
         <EditableModeBtns
             confirmHandle={confirmHandle}
             cancelHandle={cancelHandle}
-            isConfirmDisabled={isModified}
+            isConfirmDisabled={!isModified}
           />
       </LectureBtns>
     </>

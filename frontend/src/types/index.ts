@@ -16,6 +16,13 @@ export type LoggedUser = {
   email: string;
 }
 
+export enum LectureFields {
+  id = 'id',
+  talkerName = 'talkerName',
+  title = 'title',
+  watchedAt = 'watchedAt'
+}
+
 export type ILecture = {
   id: string,
   talkerName: string,
