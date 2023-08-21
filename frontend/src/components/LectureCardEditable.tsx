@@ -84,6 +84,7 @@ export default function LectureCardEditable(
         className='w-32 text-center rounded'
         type="date"
         name='watchedAt'
+        data-testid='date-picker'
         value={lectureInputs.watchedAt}
         onChange={inputChangeHandler}
       />
