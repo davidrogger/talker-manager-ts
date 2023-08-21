@@ -7,10 +7,8 @@ export async function findUserByEmail(email:string): Promise<RawUser | undefined
   const selectedFields = 'id, first_name AS firstName, last_name AS lastName, email, password';
   const query = `SELECT ${selectedFields} FROM user WHERE email = ?`;
 
-  const [[userFound]] = await connection.execute<IUserDriverResponse[]>(
-    query,
-    [email],
-  );
+  const [[userFound]] = await connection
+    .execute<IUserDriverResponse[]>(query, [email]);
 
   return userFound;
 }
