@@ -4,6 +4,7 @@ import { AuthContext, IAuthContext } from '@/contexts/Auth';
 import userEvent from '@testing-library/user-event';
 import { api } from '@/services/api';
 import { normizeDateToDatePicker } from '@/utils/dateHandler';
+import { before } from 'node:test';
 import { mockGetTalkersResponse } from '../utils/_mockData';
 
 describe('Testing <LectureCard />', () => {
@@ -13,6 +14,7 @@ describe('Testing <LectureCard />', () => {
     title: 'Testing Card',
     watchedAt: '17/08/2023',
   };
+
   const RenderLectureCardAuthenticated = () => (
     <AuthContext.Provider value={ { isAuthenticated: true } as IAuthContext }>
       <LectureCard lecture={lectureCardTestingProps} />
@@ -39,18 +41,82 @@ describe('Testing <LectureCard />', () => {
     expect(deleteBtn).toBeVisible();
   });
 
-  it('Should change to editable mode element after clicked in the edit button', async () => {
-    jest.spyOn(api, 'get').mockResolvedValue({ data: { talkers: mockGetTalkersResponse } });
+  describe('When change to editable mode, after clicked in edit button', () => {
     const { talkerName, title, watchedAt } = lectureCardTestingProps;
+    jest.spyOn(api, 'get').mockResolvedValue({ data: { talkers: mockGetTalkersResponse } });
 
-    render(<RenderLectureCardAuthenticated />);
-    const editBtn = screen.getByTestId('test-edit-button');
-    await userEvent.click(editBtn);
+    it('Should have an input element title visible', async () => {
+      render(<RenderLectureCardAuthenticated />);
+      const editBtn = screen.getByTestId('test-edit-button');
+      await userEvent.click(editBtn);
+      expect(screen.getByDisplayValue(title)).toBeVisible();
+    });
 
-    expect(await screen.findByRole('option', { name: talkerName })).toBeVisible();
-    expect(screen.getByDisplayValue(title)).toBeVisible();
-    expect(screen.getByTestId('date-picker')).toHaveValue(normizeDateToDatePicker(watchedAt));
-    expect(screen.getByTestId('test-confirm-button')).toBeVisible();
-    expect(screen.getByTestId('test-cancel-button')).toBeVisible();
+    it('Should have a list of talker with the right talker selected', async () => {
+      render(<RenderLectureCardAuthenticated />);
+      const editBtn = screen.getByTestId('test-edit-button');
+      await userEvent.click(editBtn);
+
+      expect(screen.getAllByRole('option')).toHaveLength(3);
+      const talkerSelected = await screen.findByRole<HTMLOptionElement>('option', { name: talkerName });
+      expect(talkerSelected.selected).toBeTruthy();
+    });
+
+    it('Should have a date picker element with the correct date', async () => {
+      render(<RenderLectureCardAuthenticated />);
+      const editBtn = screen.getByTestId('test-edit-button');
+      await userEvent.click(editBtn);
+
+      expect(screen.getByTestId('date-picker')).toHaveValue(normizeDateToDatePicker(watchedAt));
+    });
+
+    it('Should have the buttons to confirm or cancel the change in the card', async () => {
+      render(<RenderLectureCardAuthenticated />);
+      const editBtn = screen.getByTestId('test-edit-button');
+      await userEvent.click(editBtn);
+
+      expect(screen.getByTestId('test-confirm-button')).toBeVisible();
+      expect(screen.getByTestId('test-cancel-button')).toBeVisible();
+    });
+  });
+
+  describe('When in Editing mode', () => {
+    jest.spyOn(api, 'get').mockResolvedValue({ data: { talkers: mockGetTalkersResponse } });
+    it('Should be able to change the lecture title', async () => {
+      render(<RenderLectureCardAuthenticated />);
+      const editBtn = screen.getByTestId('test-edit-button');
+      await userEvent.click(editBtn);
+
+      const titleInput = screen.getByDisplayValue(lectureCardTestingProps.title);
+      const newTitle = 'New title test';
+      await userEvent.clear(titleInput);
+      await userEvent.type(titleInput, newTitle);
+
+      expect(titleInput).toHaveValue(newTitle);
+    });
+
+    it('Should be able to select a new talker name', async () => {
+      render(<RenderLectureCardAuthenticated />);
+      const editBtn = screen.getByTestId('test-edit-button');
+      await userEvent.click(editBtn);
+
+      const talkerSelection = screen.getByRole('combobox');
+      const galeTalker = screen.getByRole<HTMLOptionElement>('option', { name: 'Gale' });
+      const jonasTalker = screen.getByRole<HTMLOptionElement>('option', { name: 'Jonas Doe' });
+
+      await userEvent.selectOptions(talkerSelection, galeTalker);
+      expect(galeTalker.selected).toBeTruthy();
+      expect(jonasTalker.selected).toBeFalsy();
+    });
+
+    it('Should be able to change de date picker', async () => {
+      render(<RenderLectureCardAuthenticated />);
+      const editBtn = screen.getByTestId('test-edit-button');
+      await userEvent.click(editBtn);
+
+      const datePicker = screen.getByTestId('date-picker');
+      await userEvent.type(datePicker, '2023-10-10');
+      expect(datePicker).toHaveValue('2023-10-10');
+    });
   });
 });
