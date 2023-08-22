@@ -5,15 +5,11 @@ import userEvent from '@testing-library/user-event';
 import { api } from '@/services/api';
 import { normizeDateToDatePicker } from '@/utils/dateHandler';
 import { mockGetTalkersResponse } from '../utils/_mockData';
+import {
+  changeDate, changeTalker, changeTitle, lectureCardTestingProps,
+} from '../utils';
 
 describe('Testing <LectureCard />', () => {
-  const lectureCardTestingProps = {
-    id: 'valid-id',
-    talkerName: 'Jonas Doe',
-    title: 'Testing Card',
-    watchedAt: '17/08/2023',
-  };
-
   const RenderLectureCardAuthenticated = () => (
     <AuthContext.Provider value={ { isAuthenticated: true } as IAuthContext }>
       <LectureCard lecture={lectureCardTestingProps} />
@@ -86,10 +82,7 @@ describe('Testing <LectureCard />', () => {
       const editBtn = screen.getByTestId('test-edit-button');
       await userEvent.click(editBtn);
 
-      const titleInput = screen.getByDisplayValue(lectureCardTestingProps.title);
-      const newTitle = 'New title test';
-      await userEvent.clear(titleInput);
-      await userEvent.type(titleInput, newTitle);
+      const { titleInput, newTitle } = await changeTitle();
 
       expect(titleInput).toHaveValue(newTitle);
     });
@@ -99,11 +92,8 @@ describe('Testing <LectureCard />', () => {
       const editBtn = screen.getByTestId('test-edit-button');
       await userEvent.click(editBtn);
 
-      const talkerSelection = screen.getByRole('combobox');
-      const galeTalker = screen.getByRole<HTMLOptionElement>('option', { name: 'Gale' });
-      const jonasTalker = screen.getByRole<HTMLOptionElement>('option', { name: 'Jonas Doe' });
+      const { galeTalker, jonasTalker } = await changeTalker();
 
-      await userEvent.selectOptions(talkerSelection, galeTalker);
       expect(galeTalker.selected).toBeTruthy();
       expect(jonasTalker.selected).toBeFalsy();
     });
@@ -113,11 +103,7 @@ describe('Testing <LectureCard />', () => {
       const editBtn = screen.getByTestId('test-edit-button');
       await userEvent.click(editBtn);
 
-      const datePickerElement = screen.getByTestId<HTMLInputElement>('date-picker');
-      const newDate = '2023-10-10';
-
-      await userEvent.clear(datePickerElement);
-      await userEvent.type(datePickerElement, newDate);
+      const { datePickerElement, newDate } = await changeDate();
 
       expect(datePickerElement).toHaveValue(newDate);
     });
@@ -127,21 +113,9 @@ describe('Testing <LectureCard />', () => {
       const editBtn = screen.getByTestId('test-edit-button');
       await userEvent.click(editBtn);
 
-      const titleInput = screen.getByDisplayValue(lectureCardTestingProps.title);
-      const newTitle = 'New title test';
-      await userEvent.clear(titleInput);
-      await userEvent.type(titleInput, newTitle);
-
-      const talkerSelection = screen.getByRole('combobox');
-      const galeTalker = screen.getByRole<HTMLOptionElement>('option', { name: 'Gale' });
-
-      await userEvent.selectOptions(talkerSelection, galeTalker);
-
-      const datePickerElement = screen.getByTestId<HTMLInputElement>('date-picker');
-      const newDate = '2023-10-10';
-
-      await userEvent.clear(datePickerElement);
-      await userEvent.type(datePickerElement, newDate);
+      const { titleInput } = await changeTitle();
+      const { talkerSelection } = await changeTalker();
+      const { datePickerElement } = await changeDate();
 
       const cancelBtn = screen.getByTestId('test-cancel-button');
       await userEvent.click(cancelBtn);
@@ -156,6 +130,54 @@ describe('Testing <LectureCard />', () => {
 
       expect(datePickerElement).not.toBeVisible();
       expect(screen.getByText(watchedAt)).toBeVisible();
+    });
+
+    it('Shoud enable the confirm button when the title is changed', async () => {
+      render(<RenderLectureCardAuthenticated />);
+      const editBtn = screen.getByTestId('test-edit-button');
+      await userEvent.click(editBtn);
+
+      const confirmBtn = screen.getByTestId('test-confirm-button');
+
+      expect(confirmBtn).toBeDisabled();
+
+      await changeTitle();
+      expect(confirmBtn).toBeEnabled();
+
+      await changeTitle(lectureCardTestingProps.title);
+      expect(confirmBtn).toBeDisabled();
+    });
+
+    it('Shoud enable the confirm button when the talker name is changed', async () => {
+      render(<RenderLectureCardAuthenticated />);
+      const editBtn = screen.getByTestId('test-edit-button');
+      await userEvent.click(editBtn);
+
+      const confirmBtn = screen.getByTestId('test-confirm-button');
+
+      expect(confirmBtn).toBeDisabled();
+
+      await changeTalker();
+      expect(confirmBtn).toBeEnabled();
+
+      await changeTalker(0);
+      expect(confirmBtn).toBeDisabled();
+    });
+
+    it('Shoud enable the confirm button when the date is changed', async () => {
+      render(<RenderLectureCardAuthenticated />);
+      const editBtn = screen.getByTestId('test-edit-button');
+      await userEvent.click(editBtn);
+
+      const confirmBtn = screen.getByTestId('test-confirm-button');
+
+      expect(confirmBtn).toBeDisabled();
+
+      await changeDate();
+      expect(confirmBtn).toBeEnabled();
+
+      await changeDate('2023-08-17');
+      expect(confirmBtn).toBeDisabled();
     });
   });
 });

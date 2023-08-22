@@ -69,6 +69,7 @@ export default function LectureCardEditable(
       <input
         className='w-full text-center text-lg text-red-800 rounded'
         type="text"
+        data-testid='test-title-input'
         name='title'
         value={lectureInputs.title}
         onChange={inputChangeHandler}
