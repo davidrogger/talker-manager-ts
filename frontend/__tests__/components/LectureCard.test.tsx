@@ -4,7 +4,6 @@ import { AuthContext, IAuthContext } from '@/contexts/Auth';
 import userEvent from '@testing-library/user-event';
 import { api } from '@/services/api';
 import { normizeDateToDatePicker } from '@/utils/dateHandler';
-import { before } from 'node:test';
 import { mockGetTalkersResponse } from '../utils/_mockData';
 
 describe('Testing <LectureCard />', () => {
@@ -114,9 +113,13 @@ describe('Testing <LectureCard />', () => {
       const editBtn = screen.getByTestId('test-edit-button');
       await userEvent.click(editBtn);
 
-      const datePicker = screen.getByTestId('date-picker');
-      await userEvent.type(datePicker, '2023-10-10');
-      expect(datePicker).toHaveValue('2023-10-10');
+      const datePickerElement = screen.getByTestId<HTMLInputElement>('date-picker');
+      const newDate = '2023-10-10';
+
+      await userEvent.clear(datePickerElement);
+      await userEvent.type(datePickerElement, newDate);
+
+      expect(datePickerElement).toHaveValue(newDate);
     });
   });
 });
