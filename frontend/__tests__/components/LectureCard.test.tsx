@@ -4,7 +4,7 @@ import { AuthContext, IAuthContext } from '@/contexts/Auth';
 import userEvent from '@testing-library/user-event';
 import { api } from '@/services/api';
 import { normizeDateToDatePicker } from '@/utils/dateHandler';
-import { mockGetTalkersResponse } from '../utils/_mockData';
+import { expectedLectureUpdateRequest, mockGetTalkersResponse } from '../utils/_mockData';
 import {
   changeDate, changeTalker, changeTitle, lectureCardTestingProps,
 } from '../utils';
@@ -132,7 +132,7 @@ describe('Testing <LectureCard />', () => {
       expect(screen.getByText(watchedAt)).toBeVisible();
     });
 
-    it('Shoud enable the confirm button when the title is changed', async () => {
+    it('Should enable the confirm button when the title is changed', async () => {
       render(<RenderLectureCardAuthenticated />);
       const editBtn = screen.getByTestId('test-edit-button');
       await userEvent.click(editBtn);
@@ -148,7 +148,7 @@ describe('Testing <LectureCard />', () => {
       expect(confirmBtn).toBeDisabled();
     });
 
-    it('Shoud enable the confirm button when the talker name is changed', async () => {
+    it('Should enable the confirm button when the talker name is changed', async () => {
       render(<RenderLectureCardAuthenticated />);
       const editBtn = screen.getByTestId('test-edit-button');
       await userEvent.click(editBtn);
@@ -164,7 +164,7 @@ describe('Testing <LectureCard />', () => {
       expect(confirmBtn).toBeDisabled();
     });
 
-    it('Shoud enable the confirm button when the date is changed', async () => {
+    it('Should enable the confirm button when the date is changed', async () => {
       render(<RenderLectureCardAuthenticated />);
       const editBtn = screen.getByTestId('test-edit-button');
       await userEvent.click(editBtn);
@@ -178,6 +178,28 @@ describe('Testing <LectureCard />', () => {
 
       await changeDate('2023-08-17');
       expect(confirmBtn).toBeDisabled();
+    });
+
+    it('Should send the update to the API when clicked at the confirm button', async () => {
+      const mockAPI = jest.spyOn(api, 'put');
+      render(<RenderLectureCardAuthenticated />);
+      const editBtn = screen.getByTestId('test-edit-button');
+      await userEvent.click(editBtn);
+
+      await changeTitle();
+      await changeTalker();
+      await changeDate();
+
+      const confirmBtn = screen.getByTestId('test-confirm-button');
+      await userEvent.click(confirmBtn);
+
+      expect(mockAPI).toHaveBeenCalledTimes(1);
+      expect(mockAPI)
+        .toHaveBeenCalledWith(
+          '/lecture/valid-id',
+          expectedLectureUpdateRequest,
+          { headers: { Authorization: 'valid-token' } },
+        );
     });
   });
 });

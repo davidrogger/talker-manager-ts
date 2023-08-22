@@ -81,3 +81,11 @@ export async function fakeTalkerUpdate(endpoint:string, payload:unknown) {
   const talkerIndex = mockGetTalkersResponse.findIndex((talker) => talker.id === id);
   mockGetTalkersResponse.splice(talkerIndex, 1, payload as ITalker);
 }
+
+const [,, galeTalker] = mockGetTalkersResponse;
+
+export const expectedLectureUpdateRequest = {
+  talkerId: galeTalker.id,
+  title: 'New title test',
+  watchedAt: '10/10/2023',
+};
