@@ -12,9 +12,10 @@ import {
   badTokensTest,
   invalidLectureFieldsPost,
   missingLectureFieldsPost,
-  mockAllLecturesResponse,
+  mockAllLectureAPIResponse,
+  mockAllLectureDBResponse,
   mockOneLectureResponse,
-  mockTalker,
+  mockTalker1,
   validLecturePost,
 } from './_mockData';
 
@@ -23,18 +24,30 @@ const { expect } = chai;
 
 const lectureEndpoint = '/lecture';
 
-describe('Testing route /lecure', () => {
+describe('Testing route /lecture', () => {
   beforeEach(sinon.restore);
   describe('Route GET', () => {
     it('Should return status 200 with all lectures in the data base', async () => {
-      const mockDB = sinon.stub(connection, 'execute').resolves([mockAllLecturesResponse, []]);
+      const mockDB = sinon.stub(connection, 'execute').resolves([mockAllLectureDBResponse, []]);
       const { status, body } = await chai
         .request(app)
         .get(lectureEndpoint);
 
       expect(mockDB.called).to.be.equal(true);
       expect(status).to.be.equal(200);
-      expect(body.lectures).to.be.deep.equal(mockAllLecturesResponse);
+      expect(body.lectures).to.be.deep.equal(mockAllLectureAPIResponse);
+    });
+
+    it('Should have all lecture fields fill correctly', async () => {
+      sinon.stub(connection, 'execute').resolves([mockAllLectureDBResponse, []]);
+      const { status, body } = await chai
+        .request(app)
+        .get(lectureEndpoint);
+
+      const [firstLecture] = body.lectures;
+
+      expect(status).to.be.equal(200);
+      expect(firstLecture).to.have.all.keys(['id', 'talker', 'title', 'watchedAt']);
     });
   });
 
@@ -75,7 +88,7 @@ describe('Testing route /lecure', () => {
     describe('Missing required fields', () => {
       it('Should return status 400 with a message when missing field "x"', async () => {
         sinon.stub(jwt, 'verify').returns();
-        sinon.stub(connection, 'execute').resolves([[mockTalker], []]);
+        sinon.stub(connection, 'execute').resolves([[mockTalker1], []]);
 
         await Promise.all(missingLectureFieldsPost.map(async ({ invalidBody, missingField }) => {
           const { status, body } = await chai
@@ -114,7 +127,7 @@ describe('Testing route /lecure', () => {
       it('Should return status 400 with a message showing the requiment for that field', async () => {
         sinon.stub(jwt, 'verify').returns();
         sinon.stub(connection, 'execute')
-          .resolves([[mockTalker], []]);
+          .resolves([[mockTalker1], []]);
 
         await Promise.all(invalidLectureFieldsPost.map(async ({ invalidBody, expectedMsg }) => {
           const { status, body } = await chai
@@ -132,7 +145,7 @@ describe('Testing route /lecure', () => {
     describe('Success lecture post', () => {
       it('Should return 201, with a message "Lecture recorded with success"', async () => {
         const mockJWT = sinon.stub(jwt, 'verify').returns();
-        const mockDBconnection = sinon.stub(connection, 'execute').resolves([[mockTalker], []]);
+        const mockDBconnection = sinon.stub(connection, 'execute').resolves([[mockTalker1], []]);
 
         const { status, body } = await chai
           .request(app)
@@ -199,7 +212,7 @@ describe('Testing route /lecure', () => {
       sinon.stub(jwt, 'verify').returns();
       const mockDBconnection = sinon.stub(connection, 'execute');
       mockDBconnection.onFirstCall().resolves([[mockOneLectureResponse], []]);
-      mockDBconnection.onSecondCall().resolves([[mockTalker], []]);
+      mockDBconnection.onSecondCall().resolves([[mockTalker1], []]);
 
       const { status, body } = await chai
         .request(app)
