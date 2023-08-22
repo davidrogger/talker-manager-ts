@@ -1,7 +1,6 @@
 import type {
-  ILectureDriverResponse, RawTalker, RawUser, IUserDriverResponse,
+  RawTalker, RawUser, IUserDriverResponse, ITalkerDriverResponse, RowLectures, ILecture,
 } from '@types';
-import { RowDataPacket } from 'mysql2';
 
 const tester:RawUser = {
   id: 'generated-id',
@@ -43,7 +42,7 @@ export const mockTalkers = [
   },
 ] as RawTalker[];
 
-export const [mockTalker] = mockTalkers as RowDataPacket[];
+export const [mockTalker1, mockTalker2, mockTalker3] = mockTalkers as ITalkerDriverResponse[];
 
 export const badTokensTest = [
   {
@@ -75,34 +74,39 @@ export const badTalkersPostFormatTest = [
   },
 ];
 
-export const mockAllLecturesResponse = [
-  {
-    id: 'ca42acdd-f60d-45b6-ba8a-b28c77bb68fc',
-    talkerName: 'Jonas Doe',
-    title: 'Testing Lecture',
-    watchedAt: '07/08/2023',
-  },
+export const mockAllLectureAPIResponse = [
   {
     id: '53aed9b7-85cb-4887-a28e-1931132492a9',
-    talkerName: 'Henrique Albuquerque',
+    talker: mockTalker1,
     title: 'Testing Lecture2',
     watchedAt: '07/08/2023',
   },
   {
     id: '7b4485da-5e62-4423-8a03-392bd35181f4',
-    talkerName: 'Heloísa Albuquerque',
+    talker: mockTalker2,
     title: 'Testing Lecture3',
     watchedAt: '07/08/2023',
   },
   {
     id: 'a4c44fae-248c-4433-8172-6b4bce04f73e',
-    talkerName: 'Ricardo Xavier Filho',
+    talker: mockTalker3,
     title: 'Testing Lecture4',
     watchedAt: '07/08/2023',
   },
-] as ILectureDriverResponse[];
+] as ILecture[];
 
-export const [mockOneLectureResponse] = mockAllLecturesResponse;
+export const mockAllLectureDBResponse = mockAllLectureAPIResponse
+  .map(({
+    id, title, watchedAt, talker,
+  }) => ({
+    id,
+    title,
+    watchedAt,
+    talkerId: talker.id,
+    talkerName: talker.name,
+  })) as RowLectures[];
+
+export const [mockOneLectureResponse] = mockAllLectureDBResponse;
 
 export const missingLectureFieldsPost = [
   {

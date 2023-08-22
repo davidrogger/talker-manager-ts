@@ -1,7 +1,9 @@
 'use client';
 
 import EditableModeBtns from '@/components/EditableModeBtns';
-import { ILecture, ITalker, LectureFields } from '@/types';
+import {
+  ILecture, ITalker, LectureFields,
+} from '@/types';
 import { normalizeDateToApiResponse, normizeDateToDatePicker } from '@/utils/dateHandler';
 import {
   ChangeEvent, Dispatch, SetStateAction, useEffect, useState,
@@ -50,10 +52,18 @@ export default function LectureCardEditable(
     }
   }
 
-  function inputChangeHandler(e:ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+  function inputChangeHandler(e:ChangeEvent<HTMLInputElement>) {
     const fieldName = e.target.name as LectureFields;
     setLecturesInputs((old) => ({ ...old, [fieldName]: e.target.value }));
     checkInputModifies(LectureFields[fieldName], e.target.value);
+  }
+
+  function talkerChangeHandler(e:ChangeEvent<HTMLSelectElement>) {
+    const talkerIndex = Number(e.target.value);
+    const talker = talkers[talkerIndex];
+
+    setLecturesInputs((prev) => ({ ...prev, talker }));
+    setModified(lecture.talker.id !== talker.id);
   }
 
   async function cancelHandle() {
@@ -77,16 +87,16 @@ export default function LectureCardEditable(
 
       <select
         className='w-full text-center rounded'
-        name="talkerName"
+        name="talker"
         data-testid='test-select-talker'
-        value={lectureInputs.talkerName}
-        onChange={inputChangeHandler}
+        value={lectureInputs.talker.id}
+        onChange={talkerChangeHandler}
         id="talkerName"
       >
-        {talkers.map((talker) => (
+        {talkers.map((talker, index) => (
           <option
             key={talker.id}
-            value={talker.name}
+            value={index}
           >
               {talker.name}
             </option>

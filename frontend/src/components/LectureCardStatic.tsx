@@ -22,7 +22,7 @@ export default function LectureCardStatic(
   return (
     <>
       <h1 className="text-lg text-red-800 whitespace-nowrap overflow-hidden">{lecture.title}</h1>
-      <p>{lecture.talkerName}</p>
+      <p>{lecture.talker.name}</p>
       <p className="opacity-50">{lecture.watchedAt}</p>
 
       <LectureBtns>

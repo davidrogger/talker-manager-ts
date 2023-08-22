@@ -18,21 +18,23 @@ export type RawTalker = {
   name: string,
 };
 
-export type RawLecture = {
+export type ILecture = {
   id: string,
-  talkerId: string,
+  talker: RawTalker,
   title: string,
   watchedAt: string,
 };
 
-export type CreateLecture = Omit<RawLecture, 'id'>;
+export type RowLectures = {
+  talkerId: string,
+  talkerName: string,
+} & Omit<ILecture, 'talker'> & RowDataPacket;
+
+export type CreateLecture = {
+  talkerId: string,
+} & Omit<ILecture, 'id' | 'talker'>;
 
 export type UpdateLecture = CreateLecture;
 
-export type ILecture = {
-  talkerName: string,
-} & Omit<CreateLecture, 'talkerId'>;
-
-export type ILectureDriverResponse = RowDataPacket & ILecture;
 export type IUserDriverResponse = RawUser & RowDataPacket;
 export type ITalkerDriverResponse = RawTalker & RowDataPacket;

@@ -1,19 +1,18 @@
 import type {
-  CreateLecture, ILecture, RawLecture, UpdateLecture,
+  CreateLecture, ILecture, RowLectures, UpdateLecture,
 } from '@types';
 import type { RowDataPacket } from 'mysql2';
 
 import connection from '@models/connection.model';
 
-export async function getAllLectures() {
+export async function getAllLectures():Promise<RowLectures[]> {
   const query = `
-    SELECT lecture.id, talker.name as talkerName, lecture.title, lecture.watched_at as watchedAt
+    SELECT lecture.id, talker.id as talkerId, talker.name as talkerName, lecture.title, lecture.watched_at as watchedAt
     FROM lecture
     INNER JOIN talker
     ON talker.id = lecture.talker_id;`;
 
-  const [rows] = await connection.execute<RowDataPacket[]>(query);
-  const lectures = rows as ILecture[];
+  const [lectures] = await connection.execute<RowLectures[]>(query);
 
   return lectures;
 }
@@ -28,7 +27,7 @@ export async function createLecture({
 export async function findLectureById(id:string) {
   const query = 'SELECT * FROM lecture WHERE id = ?';
   const [rows] = await connection.execute<RowDataPacket[]>(query, [id]);
-  const [lecture] = rows as RawLecture[];
+  const [lecture] = rows as ILecture[];
   return lecture;
 }
 

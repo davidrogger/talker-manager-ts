@@ -1,10 +1,28 @@
-import type { CreateLecture, UpdateLecture } from '@types';
+import type {
+  CreateLecture, ILecture, RowLectures, UpdateLecture,
+} from '@types';
 
 import * as lectureModel from '@models/lecture.model';
 import BadRequest from '@src/errors/BadRequest';
 
+function normilizeLectures(rowLectures:RowLectures[]) {
+  return rowLectures.map(({
+    id, title, watchedAt, talkerId, talkerName,
+  }) => ({
+    id,
+    title,
+    watchedAt,
+    talker: {
+      id: talkerId,
+      name: talkerName,
+    },
+  } as ILecture));
+}
+
 export async function getAllLectures() {
-  return lectureModel.getAllLectures();
+  const rawLectures = await lectureModel.getAllLectures();
+  const lectures = normilizeLectures(rawLectures);
+  return lectures;
 }
 
 export async function createLecture(lecture:CreateLecture & { id: string }):Promise<string> {

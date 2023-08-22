@@ -18,21 +18,21 @@ export type LoggedUser = {
 
 export enum LectureFields {
   id = 'id',
-  talkerName = 'talkerName',
+  talker = 'talker',
   title = 'title',
   watchedAt = 'watchedAt'
-}
-
-export type ILecture = {
-  id: string,
-  talkerName: string,
-  title: string,
-  watchedAt: string,
 }
 
 export type ITalker = {
   id: string,
   name: string,
+}
+
+export type ILecture = {
+  id: string,
+  talker: ITalker,
+  title: string,
+  watchedAt: string,
 }
 
 /** Defined standard to render by **Api Status:** PENDING, RESOLVED or REJECTED */
