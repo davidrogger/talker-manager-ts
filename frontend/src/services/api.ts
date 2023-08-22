@@ -1,5 +1,5 @@
 import {
-  LoginReponse, LoginInput, LoggedUser, ILecture, ITalker,
+  LoginReponse, LoginInput, LoggedUser, ILecture, ITalker, ILectureUpdate,
 } from '@/types';
 import { getStoredToken } from '@/utils/localStorageHandler';
 import axios from 'axios';
@@ -106,6 +106,15 @@ export async function deleteTalkerById(id:string) {
   try {
     const token = getStoredToken();
     await api.delete(`/talker/${id}`, { headers: { Authorization: token } });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function updateLectureById(id:string, updateLecture:ILectureUpdate) {
+  try {
+    const token = getStoredToken();
+    await api.put(`/lecture/${id}`, updateLecture, { headers: { Authorization: token } });
   } catch (error) {
     console.error(error);
   }

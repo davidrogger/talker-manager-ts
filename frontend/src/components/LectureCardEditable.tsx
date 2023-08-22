@@ -4,20 +4,21 @@ import EditableModeBtns from '@/components/EditableModeBtns';
 import {
   ILecture, ITalker, LectureFields,
 } from '@/types';
-import { normalizeDateToApiResponse, normizeDateToDatePicker } from '@/utils/dateHandler';
+import { normalizeDateToApi, normizeDateToDatePicker } from '@/utils/dateHandler';
 import {
   ChangeEvent, Dispatch, SetStateAction, useEffect, useState,
 } from 'react';
-import { getAllTalkers } from '@/services/api';
+import { getAllTalkers, updateLectureById } from '@/services/api';
 import LectureBtns from './LectureBtns';
 
 type LectureCardEditableProps = {
-  setEditable: Dispatch<SetStateAction<boolean>>
+  setEditable: Dispatch<SetStateAction<boolean>>;
+  setDisplayedLecture: Dispatch<SetStateAction<ILecture>>;
   lecture: ILecture;
 }
 
 export default function LectureCardEditable(
-  { setEditable, lecture }:LectureCardEditableProps,
+  { setEditable, lecture, setDisplayedLecture }:LectureCardEditableProps,
 ) {
   const [isModified, setModified] = useState<boolean>(false);
   const [talkers, setTalkers] = useState<ITalker[]>([]);
@@ -41,7 +42,7 @@ export default function LectureCardEditable(
 
   function checkInputModifies(updatedField:LectureFields, newValue:string) {
     if (updatedField === LectureFields.watchedAt) {
-      const newDateNormalized = normalizeDateToApiResponse(newValue);
+      const newDateNormalized = normalizeDateToApi(newValue);
       setModified(
         lecture[LectureFields[updatedField]] !== newDateNormalized,
       );
@@ -59,7 +60,7 @@ export default function LectureCardEditable(
   }
 
   function talkerChangeHandler(e:ChangeEvent<HTMLSelectElement>) {
-    const talkerIndex = Number(e.target.value);
+    const talkerIndex = talkers.findIndex(({ id }) => id === e.target.value);
     const talker = talkers[talkerIndex];
 
     setLecturesInputs((prev) => ({ ...prev, talker }));
@@ -71,7 +72,12 @@ export default function LectureCardEditable(
   }
 
   async function confirmHandle() {
-    console.log(lectureInputs);
+    const {
+      id, title, watchedAt, talker: { id: talkerId },
+    } = lectureInputs;
+    await updateLectureById(id, { title, watchedAt: normalizeDateToApi(watchedAt), talkerId });
+    setDisplayedLecture(lectureInputs);
+    setEditable(false);
   }
 
   return (
@@ -93,10 +99,10 @@ export default function LectureCardEditable(
         onChange={talkerChangeHandler}
         id="talkerName"
       >
-        {talkers.map((talker, index) => (
+        {talkers.map((talker) => (
           <option
             key={talker.id}
-            value={index}
+            value={talker.id}
           >
               {talker.name}
             </option>

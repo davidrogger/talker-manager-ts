@@ -35,6 +35,10 @@ export type ILecture = {
   watchedAt: string,
 }
 
+export type ILectureUpdate = {
+  talkerId: string,
+} & Omit<ILecture, 'talker' | 'id'>
+
 /** Defined standard to render by **Api Status:** PENDING, RESOLVED or REJECTED */
 export enum ApiStatus {
   PENDING = 'pending',
