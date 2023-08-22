@@ -121,5 +121,41 @@ describe('Testing <LectureCard />', () => {
 
       expect(datePickerElement).toHaveValue(newDate);
     });
+
+    it('Should rollback all data, when clicked at the cancel button', async () => {
+      render(<RenderLectureCardAuthenticated />);
+      const editBtn = screen.getByTestId('test-edit-button');
+      await userEvent.click(editBtn);
+
+      const titleInput = screen.getByDisplayValue(lectureCardTestingProps.title);
+      const newTitle = 'New title test';
+      await userEvent.clear(titleInput);
+      await userEvent.type(titleInput, newTitle);
+
+      const talkerSelection = screen.getByRole('combobox');
+      const galeTalker = screen.getByRole<HTMLOptionElement>('option', { name: 'Gale' });
+
+      await userEvent.selectOptions(talkerSelection, galeTalker);
+
+      const datePickerElement = screen.getByTestId<HTMLInputElement>('date-picker');
+      const newDate = '2023-10-10';
+
+      await userEvent.clear(datePickerElement);
+      await userEvent.type(datePickerElement, newDate);
+
+      const cancelBtn = screen.getByTestId('test-cancel-button');
+      await userEvent.click(cancelBtn);
+
+      const { title, talkerName, watchedAt } = lectureCardTestingProps;
+
+      expect(titleInput).not.toBeVisible();
+      expect(screen.getByRole('heading', { name: title })).toBeVisible();
+
+      expect(talkerSelection).not.toBeVisible();
+      expect(screen.getByText(talkerName)).toBeVisible();
+
+      expect(datePickerElement).not.toBeVisible();
+      expect(screen.getByText(watchedAt)).toBeVisible();
+    });
   });
 });
