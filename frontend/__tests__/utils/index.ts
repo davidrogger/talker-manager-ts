@@ -10,15 +10,17 @@ export async function eventually(asyncExpected:unknown) {
 }
 
 export const lectureCardTestingProps = {
-  id: 'valid-id',
-  talkerName: 'Jonas Doe',
+  id: 'lecture-id',
+  talker: {
+    id: 'talker-id',
+    name: 'Jonas Doe',
+  },
   title: 'Testing Card',
   watchedAt: '17/08/2023',
 };
 
 const DEFAULT_TITLE_CHANGE = 'New title test';
 const DEFAULT_DATE_CHANGE = '2023-10-10';
-const DEAFULT_TALKER_CHANGE = 2;
 
 export async function changeTitle(newTitle:string = DEFAULT_TITLE_CHANGE) {
   const titleInput = screen.getByTestId('test-title-input');
@@ -31,15 +33,16 @@ export async function changeTitle(newTitle:string = DEFAULT_TITLE_CHANGE) {
   };
 }
 
-export async function changeTalker(talkerIndex:0 | 1 | 2 = DEAFULT_TALKER_CHANGE) {
+export async function changeTalker(changeDefaulTalker?:HTMLOptionElement) {
   const talkerSelection = screen.getByRole('combobox');
   const talkers = screen.getAllByRole<HTMLOptionElement>('option');
-  const [jonasTalker, davidTalker, galeTalker] = talkers;
-  await userEvent.selectOptions(talkerSelection, talkers[talkerIndex]);
+  const [jonasTalker, davidTalker, defaultChange] = talkers;
+  const talker = changeDefaulTalker ?? defaultChange;
+  await userEvent.selectOptions(talkerSelection, talker);
 
   return {
     talkerSelection,
-    galeTalker,
+    galeTalker: defaultChange,
     jonasTalker,
     davidTalker,
   };

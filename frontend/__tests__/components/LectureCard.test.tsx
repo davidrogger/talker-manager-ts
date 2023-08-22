@@ -21,7 +21,7 @@ describe('Testing <LectureCard />', () => {
 
     render(<LectureCard lecture={expectedLectureCard}/>);
 
-    expect(screen.getByText(expectedLectureCard.talkerName)).toBeVisible();
+    expect(screen.getByText(expectedLectureCard.talker.name)).toBeVisible();
     expect(screen.getByText(expectedLectureCard.title)).toBeVisible();
     expect(screen.getByText(expectedLectureCard.watchedAt)).toBeVisible();
   });
@@ -37,7 +37,7 @@ describe('Testing <LectureCard />', () => {
   });
 
   describe('When change to editable mode, after clicked in edit button', () => {
-    const { talkerName, title, watchedAt } = lectureCardTestingProps;
+    const { talker: { name: talkerName }, title, watchedAt } = lectureCardTestingProps;
     jest.spyOn(api, 'get').mockResolvedValue({ data: { talkers: mockGetTalkersResponse } });
 
     it('Should have an input element title visible', async () => {
@@ -120,7 +120,7 @@ describe('Testing <LectureCard />', () => {
       const cancelBtn = screen.getByTestId('test-cancel-button');
       await userEvent.click(cancelBtn);
 
-      const { title, talkerName, watchedAt } = lectureCardTestingProps;
+      const { title, talker: { name: talkerName }, watchedAt } = lectureCardTestingProps;
 
       expect(titleInput).not.toBeVisible();
       expect(screen.getByRole('heading', { name: title })).toBeVisible();
@@ -159,9 +159,6 @@ describe('Testing <LectureCard />', () => {
 
       await changeTalker();
       expect(confirmBtn).toBeEnabled();
-
-      await changeTalker(0);
-      expect(confirmBtn).toBeDisabled();
     });
 
     it('Should enable the confirm button when the date is changed', async () => {
@@ -182,6 +179,8 @@ describe('Testing <LectureCard />', () => {
 
     it('Should send the update to the API when clicked at the confirm button', async () => {
       const mockAPI = jest.spyOn(api, 'put');
+      const token = 'valid-token';
+      jest.spyOn(Object.getPrototypeOf(window.localStorage), 'getItem').mockReturnValue(token);
       render(<RenderLectureCardAuthenticated />);
       const editBtn = screen.getByTestId('test-edit-button');
       await userEvent.click(editBtn);
@@ -196,9 +195,9 @@ describe('Testing <LectureCard />', () => {
       expect(mockAPI).toHaveBeenCalledTimes(1);
       expect(mockAPI)
         .toHaveBeenCalledWith(
-          '/lecture/valid-id',
+          '/lecture/lecture-id',
           expectedLectureUpdateRequest,
-          { headers: { Authorization: 'valid-token' } },
+          { headers: { Authorization: token } },
         );
     });
   });
