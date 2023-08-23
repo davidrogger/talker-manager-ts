@@ -14,11 +14,11 @@ export default function DeleteTalkerWarning(
     setDeleteWarning,
   }: DeleteTalkerWarningProps,
 ) {
-  const { loadTalkers } = useDashboardContext();
+  const { setLoadingTalkers } = useDashboardContext();
 
   function deleteTalkerHandler() {
     deleteTalkerById(talker.id);
-    loadTalkers();
+    setLoadingTalkers(true);
     setDeleteWarning(false);
   }
 

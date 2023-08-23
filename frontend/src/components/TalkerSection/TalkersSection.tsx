@@ -14,10 +14,10 @@ export default function TalkersSection() {
   const [newTalkerVisible, setNewTalkerVisible] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!displayedTalkers.length) {
+    if (isLoadingTalkers) {
       loadTalkers();
     }
-  }, [loadTalkers, displayedTalkers]);
+  }, [isLoadingTalkers, loadTalkers]);
 
   function getHeaders():string[] {
     const defaultHeader = {

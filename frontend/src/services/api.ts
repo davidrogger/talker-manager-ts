@@ -73,6 +73,7 @@ export async function getAllLectures(time:number = 700):Promise<getAllLecturesRe
 
 export async function getAllTalkers():Promise<getAllTalkersResponse> {
   const token = getStoredToken();
+  await delay();
   try {
     const { data: { talkers } } = await api
       .get('/talker', { headers: { Authorization: token } });
@@ -117,5 +118,14 @@ export async function updateLectureById(id:string, updateLecture:ILectureUpdate)
     await api.put(`/lecture/${id}`, updateLecture, { headers: { Authorization: token } });
   } catch (error) {
     console.error(error);
+  }
+}
+
+export async function deleteLectureById(id: string) {
+  try {
+    const token = getStoredToken();
+    await api.delete(`/lecture/${id}`, { headers: { Authorization: token } });
+  } catch (error) {
+    console.log(error);
   }
 }

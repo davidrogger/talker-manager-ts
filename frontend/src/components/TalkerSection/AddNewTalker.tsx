@@ -10,7 +10,7 @@ type AddNewTalkerProps = {
 }
 
 export default function AddNewTalker({ openWindow }:AddNewTalkerProps) {
-  const { loadTalkers } = useDashboardContext();
+  const { setLoadingTalkers } = useDashboardContext();
   const [talkerName, setTalkerName] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isButtonDisabled, setButtonDisabled] = useState<boolean>(true);
@@ -25,7 +25,7 @@ export default function AddNewTalker({ openWindow }:AddNewTalkerProps) {
 
     setIsLoading(false);
     openWindow(false);
-    loadTalkers();
+    setLoadingTalkers(true);
   }
 
   function inputNameHandler(e:ChangeEvent<HTMLInputElement>) {

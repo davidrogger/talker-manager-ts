@@ -1,6 +1,7 @@
 import { ILecture } from '@/types';
 import UpdateBtns from '@/components/UpdateBtns';
 import { Dispatch, SetStateAction, useState } from 'react';
+import { deleteLectureById } from '@/services/api';
 import LectureBtns from './LectureBtns';
 import DeleteWarning from './DeleteWarning';
 
@@ -31,7 +32,7 @@ export default function LectureCardStatic(
 
       {isDeleteWarning && (
       <DeleteWarning
-        deleteEntityById={async () => {}}
+        deleteEntityById={deleteLectureById}
         entity={lecture}
         setDeleteWarning={setDeleteWarning}
         setDeleted={setDeleted}

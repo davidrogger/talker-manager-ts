@@ -14,11 +14,10 @@ export type IDashboardContextProps = {
 const DashboardContext = createContext({} as IDashboardContextProps);
 
 export default function DashboardProvider({ children }: { children:ReactNode }) {
-  const [isLoadingTalkers, setLoadingTalkers] = useState<boolean>(false);
+  const [isLoadingTalkers, setLoadingTalkers] = useState<boolean>(true);
   const [displayedTalkers, setDisplayedTalkers] = useState<ITalker[]>([]);
 
   async function loadTalkers() {
-    setLoadingTalkers(true);
     const { talkers } = await getAllTalkers();
 
     if (talkers) {
