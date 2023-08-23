@@ -1,9 +1,9 @@
 import { api } from '@/services/api';
-import { screen } from '@testing-library/react';
-
-import plusImg from '@/images/plus.svg';
+import { render, screen } from '@testing-library/react';
 
 import Home from '@/app/page';
+
+import { AuthContext, IAuthContext } from '@/contexts/Auth';
 import RenderWithAuthProvider from '../utils/RenderWithAuthProvider';
 
 import { mockLectures } from '../utils/_mockData';
@@ -30,10 +30,22 @@ describe('Testing Home Page', () => {
     expect(refreshBtn).toBeVisible();
   });
 
-  it('Should have a card with a button to add new lectures', async () => {
+  it('Should not have a card with a button to add new lecture when is not authenticated', async () => {
+    jest.spyOn(api, 'get').mockResolvedValue({ data: { lectures: mockLectures } });
     RenderWithAuthProvider(<Home />);
+    await screen.findAllByText('Davíd Roggér');
 
-    expect(screen.getAllByRole<HTMLButtonElement>('button', { value: plusImg })).toBeVisible();
+    expect(screen.queryByTestId<HTMLButtonElement>('test-add-lecture-button')).not.toBeInTheDocument();
+  });
+
+  it('Should have a card with a button to add a new lecture when is authenticated', async () => {
+    render(
+      <AuthContext.Provider value={ { isAuthenticated: true } as IAuthContext }>
+        <Home />
+      </AuthContext.Provider>,
+    );
+
+    expect(await screen.findByTestId<HTMLButtonElement>('test-add-lecture-button')).toBeInTheDocument();
   });
 });
 
