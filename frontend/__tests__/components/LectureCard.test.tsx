@@ -92,10 +92,10 @@ describe('Testing <LectureCard />', () => {
       const editBtn = screen.getByTestId('test-edit-button');
       await userEvent.click(editBtn);
 
-      const { galeTalker, jonasTalker } = await changeTalker();
+      const { galeOption, jonasOption } = await changeTalker();
 
-      expect(galeTalker.selected).toBeTruthy();
-      expect(jonasTalker.selected).toBeFalsy();
+      expect(galeOption.selected).toBeTruthy();
+      expect(jonasOption.selected).toBeFalsy();
     });
 
     it('Should be able to change de date picker', async () => {
@@ -153,12 +153,15 @@ describe('Testing <LectureCard />', () => {
       const editBtn = screen.getByTestId('test-edit-button');
       await userEvent.click(editBtn);
 
-      const confirmBtn = screen.getByTestId('test-confirm-button');
+      const confirmBtn = screen.getByTestId<HTMLButtonElement>('test-confirm-button');
 
       expect(confirmBtn).toBeDisabled();
 
-      await changeTalker();
+      const { jonasOption } = await changeTalker();
       expect(confirmBtn).toBeEnabled();
+
+      await changeTalker(jonasOption);
+      expect(confirmBtn).toBeDisabled();
     });
 
     it('Should enable the confirm button when the date is changed', async () => {

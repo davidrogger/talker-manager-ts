@@ -106,7 +106,7 @@ export async function fakeTalkerUpdate(endpoint:string, payload:unknown) {
   mockGetTalkersResponse.splice(talkerIndex, 1, payload as ITalker);
 }
 
-const [,, galeTalker] = mockGetTalkersResponse;
+export const [jonasTalker,, galeTalker] = mockGetTalkersResponse;
 
 export const expectedLectureUpdateRequest = {
   talkerId: galeTalker.id,

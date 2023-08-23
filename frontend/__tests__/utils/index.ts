@@ -1,5 +1,6 @@
 import userEvent from '@testing-library/user-event';
 import { screen } from '@testing-library/react';
+import { jonasTalker } from './_mockData';
 
 export async function eventually(asyncExpected:unknown) {
   await new Promise((resolve) => {
@@ -11,10 +12,7 @@ export async function eventually(asyncExpected:unknown) {
 
 export const lectureCardTestingProps = {
   id: 'lecture-id',
-  talker: {
-    id: 'talker-id',
-    name: 'Jonas Doe',
-  },
+  talker: jonasTalker,
   title: 'Testing Card',
   watchedAt: '17/08/2023',
 };
@@ -36,15 +34,16 @@ export async function changeTitle(newTitle:string = DEFAULT_TITLE_CHANGE) {
 export async function changeTalker(changeDefaulTalker?:HTMLOptionElement) {
   const talkerSelection = screen.getByRole('combobox');
   const talkers = screen.getAllByRole<HTMLOptionElement>('option');
-  const [jonasTalker, davidTalker, defaultChange] = talkers;
-  const talker = changeDefaulTalker ?? defaultChange;
+  const [jonasOption, davidOption, defaultOption] = talkers;
+
+  const talker = changeDefaulTalker ?? defaultOption;
   await userEvent.selectOptions(talkerSelection, talker);
 
   return {
     talkerSelection,
-    galeTalker: defaultChange,
-    jonasTalker,
-    davidTalker,
+    galeOption: defaultOption,
+    jonasOption,
+    davidOption,
   };
 }
 
