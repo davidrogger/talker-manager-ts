@@ -1,5 +1,5 @@
 import LectureCard from '@/components/LectureCard';
-import { getByText, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { AuthContext, IAuthContext } from '@/contexts/Auth';
 import userEvent from '@testing-library/user-event';
 import { api } from '@/services/api';
@@ -205,14 +205,29 @@ describe('Testing <LectureCard />', () => {
     });
   });
 
-  it('Should popup a message to confirm the lecture exclusion', async () => {
-    render(<RenderLectureCardAuthenticated />);
-    const deleteBtn = screen.getByTestId('test-delete-button');
-    await userEvent.click(deleteBtn);
+  describe('When excluding a lecture', () => {
+    it('Should popup a message to confirm the lecture exclusion', async () => {
+      render(<RenderLectureCardAuthenticated />);
+      const deleteBtn = screen.getByTestId('test-delete-button');
+      await userEvent.click(deleteBtn);
 
-    expect(screen.getByText('Please confirm to exclude:')).toBeVisible();
-    expect(screen.getByTestId('test-highlight-delete-name')).toHaveTextContent(lectureCardTestingProps.title);
-    expect(screen.getByText('Yes')).toBeVisible();
-    expect(screen.getByText('No')).toBeVisible();
+      expect(screen.getByText('Please confirm to exclude:')).toBeVisible();
+      expect(screen.getByTestId('test-highlight-delete-name')).toHaveTextContent(lectureCardTestingProps.title);
+      expect(screen.getByText('Yes')).toBeVisible();
+      expect(screen.getByText('No')).toBeVisible();
+    });
+
+    it('Should close the popup option when clicked in the no confirmation', async () => {
+      render(<RenderLectureCardAuthenticated />);
+      const deleteBtn = screen.getByTestId('test-delete-button');
+      await userEvent.click(deleteBtn);
+
+      const titleHighlight = screen.getByTestId('test-highlight-delete-name');
+      const noBtn = screen.getByText('No');
+      await userEvent.click(noBtn);
+
+      expect(titleHighlight).not.toBeVisible();
+      expect(noBtn).not.toBeVisible();
+    });
   });
 });
