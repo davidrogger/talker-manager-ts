@@ -217,7 +217,7 @@ describe('Testing <LectureCard />', () => {
       expect(screen.getByText('No')).toBeVisible();
     });
 
-    it('Should close the popup option when clicked in the no confirmation', async () => {
+    it('Should close the popup option when clicked in the "No" confirmation', async () => {
       render(<RenderLectureCardAuthenticated />);
       const deleteBtn = screen.getByTestId('test-delete-button');
       await userEvent.click(deleteBtn);
@@ -228,6 +228,23 @@ describe('Testing <LectureCard />', () => {
 
       expect(titleHighlight).not.toBeVisible();
       expect(noBtn).not.toBeVisible();
+    });
+
+    it('Should request the API to exclude an lecture when clicked in the "Yes" confirmation', async () => {
+      const token = 'valid-token';
+      const mockAPI = jest.spyOn(api, 'delete');
+      jest.spyOn(Object.getPrototypeOf(window.localStorage), 'getItem').mockReturnValue(token);
+
+      render(<RenderLectureCardAuthenticated />);
+
+      const deleteBtn = screen.getByTestId('test-delete-button');
+      await userEvent.click(deleteBtn);
+
+      const yesBtn = screen.getByText('Yes');
+      await userEvent.click(yesBtn);
+
+      expect(mockAPI).toHaveBeenCalledWith('/lecture/lecture-id', { Authorization: token });
+      expect(yesBtn).not.toBeVisible();
     });
   });
 });
