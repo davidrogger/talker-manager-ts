@@ -1,8 +1,12 @@
-import Home from '@/app/page';
 import { api } from '@/services/api';
 import { screen } from '@testing-library/react';
-import { mockLectures } from '../utils/_mockData';
+
+import plusImg from '@/images/plus.svg';
+
+import Home from '@/app/page';
 import RenderWithAuthProvider from '../utils/RenderWithAuthProvider';
+
+import { mockLectures } from '../utils/_mockData';
 
 describe('Testing Home Page', () => {
   beforeEach(jest.restoreAllMocks);
@@ -24,6 +28,12 @@ describe('Testing Home Page', () => {
     const refreshBtn = await screen.findByRole('button', { name: 'Refresh' });
     expect(refreshBtn).toBeInTheDocument();
     expect(refreshBtn).toBeVisible();
+  });
+
+  it('Should have a card with a button to add new lectures', async () => {
+    RenderWithAuthProvider(<Home />);
+
+    expect(screen.getAllByRole<HTMLButtonElement>('button', { value: plusImg })).toBeVisible();
   });
 });
 
