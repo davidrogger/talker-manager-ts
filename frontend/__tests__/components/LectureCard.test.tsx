@@ -243,7 +243,7 @@ describe('Testing <LectureCard />', () => {
       const yesBtn = screen.getByText('Yes');
       await userEvent.click(yesBtn);
 
-      expect(mockAPI).toHaveBeenCalledWith('/lecture/lecture-id', { Authorization: token });
+      expect(mockAPI).toHaveBeenCalledWith('/lecture/lecture-id', { headers: { Authorization: token } });
       expect(yesBtn).not.toBeVisible();
     });
   });
