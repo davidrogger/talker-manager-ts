@@ -39,7 +39,7 @@ export default function LectureCardStatic(
       />)}
 
       {wasDeleted && (
-        <div className='absolute -inset-0.5 rounded z-10 bg-red-600 opacity-70 transition-opacity duration-500'></div>
+        <div className='absolute -inset-0.5 rounded z-10 bg-red-950 bg-opacity-80 transition-opacity duration-500  backdrop-grayscale'></div>
       )}
 
       <LectureBtns>

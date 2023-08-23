@@ -1,21 +1,16 @@
-import { ApiStatus, ILecture } from '@/types';
+import { ApiStatus } from '@/types';
+import { useLectureContext } from '@/contexts/Lectures';
 import LecturesDisplay from './LecturesDisplay';
 import RefreshWindow from './RefreshWindow';
 import LecturesLoading from './LecturesLoading';
 
-type RenderContentByApiStatusProps = {
-  status: ApiStatus;
-  lectures: ILecture[];
-}
-
-export default function RenderContentByApiStatus(
-  { status, lectures }:RenderContentByApiStatusProps,
-) {
-  switch (status) {
+export default function RenderContentByApiStatus() {
+  const { lectureApiStatus, displayedLectures } = useLectureContext();
+  switch (lectureApiStatus) {
     case ApiStatus.PENDING:
       return (<LecturesLoading />);
     case ApiStatus.RESOLVED:
-      return (<LecturesDisplay lectures={lectures} />);
+      return (<LecturesDisplay lectures={displayedLectures} />);
     default:
       return (<RefreshWindow message='Something went wrong!' />);
   }
