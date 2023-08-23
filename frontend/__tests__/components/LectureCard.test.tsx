@@ -1,5 +1,5 @@
 import LectureCard from '@/components/LectureCard';
-import { render, screen } from '@testing-library/react';
+import { getByText, render, screen } from '@testing-library/react';
 import { AuthContext, IAuthContext } from '@/contexts/Auth';
 import userEvent from '@testing-library/user-event';
 import { api } from '@/services/api';
@@ -203,5 +203,16 @@ describe('Testing <LectureCard />', () => {
           { headers: { Authorization: token } },
         );
     });
+  });
+
+  it('Should popup a message to confirm the lecture exclusion', async () => {
+    render(<RenderLectureCardAuthenticated />);
+    const deleteBtn = screen.getByTestId('test-delete-button');
+    await userEvent.click(deleteBtn);
+
+    expect(screen.getByText('Please confirm to exclude:')).toBeVisible();
+    expect(screen.getByTestId('test-highlight-delete-name')).toHaveTextContent(lectureCardTestingProps.title);
+    expect(screen.getByText('Yes')).toBeVisible();
+    expect(screen.getByText('No')).toBeVisible();
   });
 });
