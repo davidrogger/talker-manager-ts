@@ -4,6 +4,7 @@ import { ILecture } from '@/types';
 import { useState } from 'react';
 import LectureCardStatic from './LectureCardStatic';
 import LectureCardEditable from './LectureCardEditable';
+import LectureCardContainer from './LectureCardContainer';
 
 type LectureCardProps = {
   lecture: ILecture;
@@ -13,18 +14,16 @@ export default function LectureCard({
   lecture,
 }:LectureCardProps) {
   const [isEditable, setEditable] = useState<boolean>(false);
-  const [displayedLecture, setDisplayedLecture] = useState<ILecture>(lecture);
 
-  const sharedProps = { lecture: displayedLecture, setDisplayedLecture, setEditable };
+  const sharedProps = { lecture, setEditable };
   return (
-    <div
-      className="relative flex flex-col justify-between items-center m-4 border rounded w-52 h-32 p-4 text-center shadow-lg hover:shadow-xl"
-    >
+    <LectureCardContainer>
+
       {isEditable
         ? <LectureCardEditable {...sharedProps} />
         : <LectureCardStatic {...sharedProps} />
       }
 
-    </div>
+    </LectureCardContainer>
   );
 }
