@@ -43,6 +43,10 @@ describe('Testing Component <LectureCardPlus />', () => {
     const buttonElement = screen.getByRole<HTMLButtonElement>('button');
     await userEvent.click(buttonElement);
 
+    const talkers = await screen.findAllByRole('option');
+
+    expect(talkers).toHaveLength(3);
+
     const titleElement = await screen.findByTestId('test-title-input');
     expect(titleElement).toBeVisible();
     expect(titleElement).toHaveValue('');
@@ -50,5 +54,21 @@ describe('Testing Component <LectureCardPlus />', () => {
     const newInput = 'New Test title';
     await userEvent.type(titleElement, newInput);
     expect(titleElement).toHaveValue(newInput);
+  });
+
+  it('Should render select with all talkers', async () => {
+    jest.spyOn(api, 'get').mockResolvedValue({ data: { talkers: mockGetTalkersResponse } });
+    render(<LectureCardWithContext />);
+
+    const buttonElement = screen.getByRole<HTMLButtonElement>('button');
+    await userEvent.click(buttonElement);
+
+    const talkers = await screen.findAllByRole<HTMLOptionElement>('option');
+    const [talker] = talkers;
+    const selectElement = await screen.findByRole<HTMLSelectElement>('combobox');
+
+    expect(selectElement).toBeVisible();
+    expect(talkers).toHaveLength(3);
+    expect(talker.selected).toBeTruthy();
   });
 });
