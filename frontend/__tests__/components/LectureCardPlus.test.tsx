@@ -101,4 +101,24 @@ describe('Testing Component <LectureCardPlus />', () => {
     expect(await screen.findByTestId('test-confirm-button')).toBeVisible();
     expect(await screen.findByTestId('test-cancel-button')).toBeVisible();
   });
+
+  it('Should remove the inputs and render the original content', async () => {
+    jest.spyOn(api, 'get').mockResolvedValue({ data: { talkers: mockGetTalkersResponse } });
+    render(<LectureCardWithContext />);
+
+    await userEvent.click(screen.getByRole<HTMLButtonElement>('button'));
+
+    const titleElement = await screen.findByTestId('test-title-input');
+    const selectElement = await screen.findByTestId('test-select-talker');
+    const dateElement = await screen.findByTestId('date-picker');
+
+    const cancelBtn = await screen.findByTestId('test-cancel-button');
+    await userEvent.click(cancelBtn);
+
+    expect(titleElement).not.toBeInTheDocument();
+    expect(selectElement).not.toBeInTheDocument();
+    expect(dateElement).not.toBeInTheDocument();
+
+    expect(screen.getByRole<HTMLButtonElement>('button')).toBeVisible();
+  });
 });
