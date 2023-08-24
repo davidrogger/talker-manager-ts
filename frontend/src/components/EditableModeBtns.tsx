@@ -1,7 +1,7 @@
 import confirmImg from '@/images/confirm.svg';
 import cancelImg from '@/images/cancel.svg';
 
-import RequestBtn from './RequestBtn';
+import RequestBtn from '@/components/RequestBtn';
 
 type EditableModeBtnsProps = {
   confirmHandle: () => void;

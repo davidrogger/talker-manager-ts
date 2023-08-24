@@ -1,7 +1,9 @@
 'use client';
 
 import MainTitle from '@/components/MainTitle';
+
 import RenderContentByApiStatus from '@/components/RenderContentByApiStatus';
+
 import { LectureProvider } from '@/contexts/Lectures';
 
 export default function Home() {

@@ -1,10 +1,13 @@
-import { getAllLectures } from '@/services/api';
-import { ApiStatus, ILecture } from '@/types';
 import {
   Dispatch,
   ReactNode, SetStateAction, createContext, useContext, useEffect, useState,
 } from 'react';
-import { useAuthContext } from './Auth';
+
+import { getAllLectures } from '@/services/api';
+
+import { ApiStatus, ILecture } from '@/types';
+
+import { useAuthContext } from '@/contexts/Auth';
 
 type ILectureContext = {
   displayedLectures: ILecture[],

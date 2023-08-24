@@ -1,8 +1,10 @@
-import { getAllTalkers } from '@/services/api';
-import { ITalker } from '@/types';
 import {
   Dispatch, ReactNode, SetStateAction, createContext, useContext, useState,
 } from 'react';
+
+import { getAllTalkers } from '@/services/api';
+
+import { ITalker } from '@/types';
 
 export type IDashboardContextProps = {
   isLoadingTalkers: boolean;

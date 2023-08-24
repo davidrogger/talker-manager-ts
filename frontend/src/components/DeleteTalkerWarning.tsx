@@ -1,7 +1,10 @@
-import { useDashboardContext } from '@/contexts/Dashboard';
-import { deleteTalkerById } from '@/services/api';
-import { ITalker } from '@/types';
 import { Dispatch, SetStateAction } from 'react';
+
+import { ITalker } from '@/types';
+
+import { useDashboardContext } from '@/contexts/Dashboard';
+
+import { deleteTalkerById } from '@/services/api';
 
 type DeleteTalkerWarningProps = {
   talker: ITalker,

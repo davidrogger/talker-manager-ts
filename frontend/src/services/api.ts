@@ -1,5 +1,5 @@
 import {
-  LoginReponse, LoginInput, LoggedUser, ILecture, ITalker, ILectureUpdate,
+  LoginReponse, LoginInput, LoggedUser, ILecture, ITalker, ICreateNewLecture, ILectureUpdate,
 } from '@/types';
 import { getStoredToken } from '@/utils/localStorageHandler';
 import axios from 'axios';
@@ -112,10 +112,14 @@ export async function deleteTalkerById(id:string) {
   }
 }
 
-export async function updateLectureById(id:string, updateLecture:ILectureUpdate) {
+export async function updateLectureById(
+  {
+    id, talkerId, title, watchedAt,
+  }:ILectureUpdate,
+) {
   try {
     const token = getStoredToken();
-    await api.put(`/lecture/${id}`, updateLecture, { headers: { Authorization: token } });
+    await api.put(`/lecture/${id}`, { talkerId, title, watchedAt }, { headers: { Authorization: token } });
   } catch (error) {
     console.error(error);
   }
@@ -125,6 +129,16 @@ export async function deleteLectureById(id: string) {
   try {
     const token = getStoredToken();
     await api.delete(`/lecture/${id}`, { headers: { Authorization: token } });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function createLecture({ talkerId, title, watchedAt }:ICreateNewLecture) {
+  try {
+    const token = getStoredToken();
+    console.log({ talkerId, title, watchedAt });
+    await api.post('/lecture', { talkerId, title, watchedAt }, { headers: { Authorization: token } });
   } catch (error) {
     console.log(error);
   }

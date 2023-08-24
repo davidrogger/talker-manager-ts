@@ -1,7 +1,9 @@
 import { ILecture } from '@/types';
+
 import { useAuthContext } from '@/contexts/Auth';
-import LectureCard from './LectureCard';
-import LectureCardPlus from './LectureCardPlus';
+
+import LectureCard from '@/components/LectureSection/LectureCard';
+import LectureCardPlus from '@/components/LectureSection/LectureCardPlus';
 
 type LecturesDisplayProps = {
   lectures: ILecture[];

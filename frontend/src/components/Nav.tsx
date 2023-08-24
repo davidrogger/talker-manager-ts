@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuthContext } from '@/contexts/Auth';
-import AnimatedLink from './AnimatedLink';
+import AnimatedLink from '@/components/AnimatedLink';
 
 export default function Nav() {
   const { isAuthenticated, signOut } = useAuthContext();

@@ -1,12 +1,16 @@
 'use client';
 
-import { getUserData, loginAuth } from '@/services/api';
-import { LoggedUser, LoginInput } from '@/types';
-import { getStoredToken, storeToken } from '@/utils/localStorageHandler';
-import { useRouter } from 'next/navigation';
 import {
   ReactNode, createContext, useContext, useState,
 } from 'react';
+
+import { getUserData, loginAuth } from '@/services/api';
+
+import { LoggedUser, LoginInput } from '@/types';
+
+import { getStoredToken, storeToken } from '@/utils/localStorageHandler';
+
+import { useRouter } from 'next/navigation';
 
 export type IAuthContext = {
   isAuthenticated: boolean;

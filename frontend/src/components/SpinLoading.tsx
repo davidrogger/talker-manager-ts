@@ -13,9 +13,9 @@ type SpinLoadingProps = {
 
 export default function SpinLoading({ color = 'white', background = 'inherit' }:SpinLoadingProps) {
   return (
-    <div className={`absolute top-0 left-0 flex justify-center items-center w-full h-full bg-${tailwindColors[background]}`}>
-      <div
-        className={`inline-block h-5 w-5 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite] border-${tailwindColors[color]}`}></div>
-    </div>
+    <span className={`absolute top-0 left-0 flex justify-center items-center w-full h-full bg-${tailwindColors[background]}`}>
+      <span
+        className={`inline-block h-5 w-5 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite] border-${tailwindColors[color]}`}></span>
+    </span>
   );
 }

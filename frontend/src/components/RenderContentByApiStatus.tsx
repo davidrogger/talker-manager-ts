@@ -1,8 +1,10 @@
 import { ApiStatus } from '@/types';
+
 import { useLectureContext } from '@/contexts/Lectures';
-import LecturesDisplay from './LecturesDisplay';
-import RefreshWindow from './RefreshWindow';
-import LecturesLoading from './LecturesLoading';
+
+import LecturesLoading from '@/components/LectureSection/LecturesLoading';
+import LecturesDisplay from '@/components/LectureSection/LecturesDisplay';
+import RefreshWindow from '@/components/RefreshWindow';
 
 export default function RenderContentByApiStatus() {
   const { lectureApiStatus, displayedLectures } = useLectureContext();

@@ -1,9 +1,12 @@
-import { ILecture } from '@/types';
-import UpdateBtns from '@/components/UpdateBtns';
 import { Dispatch, SetStateAction, useState } from 'react';
+
+import { ILecture } from '@/types';
+
 import { deleteLectureById } from '@/services/api';
-import LectureBtns from './LectureBtns';
-import DeleteWarning from './DeleteWarning';
+
+import UpdateBtns from '@/components/UpdateBtns';
+import LectureBtns from '@/components/LectureSection/LectureBtns';
+import DeleteWarning from '@/components/DeleteWarning';
 
 type LectureCardStaticProps = {
   lecture: ILecture;

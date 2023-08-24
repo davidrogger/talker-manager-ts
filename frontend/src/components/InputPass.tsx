@@ -6,7 +6,7 @@ import Image from 'next/image';
 import openEye from '@/images/openEye.svg';
 import closeEye from '@/images/closeEye.svg';
 
-import InputText from './InputText';
+import InputText from '@/components/InputText';
 
 type InputPassProps = {
   placeholder: string,

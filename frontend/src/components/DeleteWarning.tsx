@@ -1,6 +1,8 @@
-import { useLectureContext } from '@/contexts/Lectures';
-import { ApiStatus } from '@/types';
 import { Dispatch, SetStateAction } from 'react';
+
+import { ApiStatus } from '@/types';
+
+import { useLectureContext } from '@/contexts/Lectures';
 
 type DeleteWarningProps = {
   entity: {

@@ -37,7 +37,9 @@ export type ILecture = {
 
 export type ILectureUpdate = {
   talkerId: string,
-} & Omit<ILecture, 'talker' | 'id'>
+} & Omit<ILecture, 'talker'>
+
+export type ICreateNewLecture = Omit<ILectureUpdate, 'id'>;
 
 /** Defined standard to render by **Api Status:** PENDING, RESOLVED or REJECTED */
 export enum ApiStatus {

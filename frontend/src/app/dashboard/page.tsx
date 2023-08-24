@@ -1,12 +1,14 @@
 'use client';
 
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+
 import MainTitle from '@/components/MainTitle';
 import TalkersSection from '@/components/TalkerSection/TalkersSection';
 import Welcome from '@/components/Welcome';
+
 import { useAuthContext } from '@/contexts/Auth';
 import DashboardProvider from '@/contexts/Dashboard';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 
 function Dashboard() {
   const { isAuthenticated, authStoredToken } = useAuthContext();
