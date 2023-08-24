@@ -102,7 +102,7 @@ describe('Testing Component <LectureCardPlus />', () => {
     expect(await screen.findByTestId('test-cancel-button')).toBeVisible();
   });
 
-  it('Should remove the inputs and render the original content', async () => {
+  it('Should remove the inputs and render the original content when clicked in "confirm" button', async () => {
     jest.spyOn(api, 'get').mockResolvedValue({ data: { talkers: mockGetTalkersResponse } });
     render(<LectureCardWithContext />);
 
@@ -120,5 +120,40 @@ describe('Testing Component <LectureCardPlus />', () => {
     expect(dateElement).not.toBeInTheDocument();
 
     expect(screen.getByRole<HTMLButtonElement>('button')).toBeVisible();
+  });
+
+  it('Should request the api to create a new lecture when clicked in "confirm" button', async () => {
+    const token = 'valid-token';
+    jest.spyOn(Object.getPrototypeOf(window.localStorage), 'getItem').mockReturnValue(token);
+    jest.spyOn(api, 'get').mockResolvedValue({ data: { talkers: mockGetTalkersResponse } });
+    const mockAPI = jest.spyOn(api, 'post');
+
+    const [talkerSelected] = mockGetTalkersResponse;
+
+    const payload = {
+      talkerId: talkerSelected.id,
+      title: 'New title test',
+      watchedAt: '10/10/2025',
+    };
+
+    render(<LectureCardWithContext />);
+
+    await userEvent.click(screen.getByRole<HTMLButtonElement>('button'));
+
+    const titleElement = await screen.findByTestId('test-title-input');
+    await userEvent.type(titleElement, payload.title);
+
+    const selectElement = await screen.findByTestId<HTMLSelectElement>('test-select-talker');
+    const [talker1] = await screen.findAllByRole<HTMLOptionElement>('option');
+    await userEvent.selectOptions(selectElement, talker1);
+
+    const dateElement = await screen.findByTestId('date-picker');
+    await userEvent.clear(dateElement);
+    await userEvent.type(dateElement, '2025-10-10');
+
+    const confirmBtn = await screen.findByTestId('test-confirm-button');
+    await userEvent.click(confirmBtn);
+
+    expect(mockAPI).toHaveBeenCalledWith('/lecture', payload, { headers: { Authorization: token } });
   });
 });
