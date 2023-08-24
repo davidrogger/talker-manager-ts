@@ -2,7 +2,7 @@ import LectureCardPlus from '@/components/LectureSection/LectureCardPlus';
 import { AuthContext, IAuthContext } from '@/contexts/Auth';
 import { LectureProvider } from '@/contexts/Lectures';
 import { api } from '@/services/api';
-import { render, screen } from '@testing-library/react';
+import { findByTestId, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { mockGetTalkersResponse } from '../utils/_mockData';
 
@@ -64,11 +64,30 @@ describe('Testing Component <LectureCardPlus />', () => {
     await userEvent.click(buttonElement);
 
     const talkers = await screen.findAllByRole<HTMLOptionElement>('option');
-    const [talker] = talkers;
+    const [talker1, talker2] = talkers;
     const selectElement = await screen.findByRole<HTMLSelectElement>('combobox');
 
     expect(selectElement).toBeVisible();
     expect(talkers).toHaveLength(3);
-    expect(talker.selected).toBeTruthy();
+    expect(talker1.selected).toBeTruthy();
+    await userEvent.selectOptions(selectElement, talker2);
+    expect(talker2.selected).toBeTruthy();
+    expect(talker1.selected).toBeFalsy();
+  });
+
+  it('Should render a date picker', async () => {
+    jest.spyOn(api, 'get').mockResolvedValue({ data: { talkers: mockGetTalkersResponse } });
+    render(<LectureCardWithContext />);
+
+    const buttonElement = screen.getByRole<HTMLButtonElement>('button');
+    await userEvent.click(buttonElement);
+
+    const dateElement = await screen.findByTestId<HTMLInputElement>('date-picker');
+
+    expect(dateElement).toBeVisible();
+    expect(dateElement).toHaveValue('2023-08-24');
+    await userEvent.clear(dateElement);
+    await userEvent.type(dateElement, '2024-08-25');
+    expect(dateElement).toHaveValue('2024-08-25');
   });
 });
