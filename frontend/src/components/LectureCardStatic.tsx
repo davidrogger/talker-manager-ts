@@ -14,7 +14,6 @@ export default function LectureCardStatic(
   { lecture, setEditable }:LectureCardStaticProps,
 ) {
   const [isDeleteWarning, setDeleteWarning] = useState<boolean>(false);
-  const [wasDeleted, setDeleted] = useState<boolean>(false);
 
   async function editHandle() {
     setEditable(true);
@@ -35,12 +34,7 @@ export default function LectureCardStatic(
         deleteEntityById={deleteLectureById}
         entity={lecture}
         setDeleteWarning={setDeleteWarning}
-        setDeleted={setDeleted}
       />)}
-
-      {wasDeleted && (
-        <div className='absolute -inset-0.5 rounded z-10 bg-red-950 bg-opacity-80 transition-opacity duration-500  backdrop-grayscale'></div>
-      )}
 
       <LectureBtns>
         <UpdateBtns

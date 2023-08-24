@@ -24,6 +24,7 @@ export function LectureProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     async function loadLectures() {
       const { lectures, error } = await getAllLectures();
+      console.log('reload lecture context');
 
       if (lectures) {
         setDisplayedLectures(lectures);
@@ -35,9 +36,9 @@ export function LectureProvider({ children }: { children: ReactNode }) {
     }
 
     if (!isAuthenticated) authStoredToken();
-    if (ApiStatus.PENDING) loadLectures();
+    if (lectureApiStatus === ApiStatus.PENDING) loadLectures();
     //
-  }, [displayedLectures, authStoredToken, isAuthenticated]);
+  }, [displayedLectures, authStoredToken, isAuthenticated, lectureApiStatus]);
 
   const sharedContext = {
     displayedLectures,

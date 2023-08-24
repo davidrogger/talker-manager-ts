@@ -2,6 +2,7 @@
 
 import EditableModeBtns from '@/components/EditableModeBtns';
 import {
+  ApiStatus,
   ILecture, ITalker, LectureFields,
 } from '@/types';
 import { normalizeDateToApi, normizeDateToDatePicker } from '@/utils/dateHandler';
@@ -9,17 +10,18 @@ import {
   ChangeEvent, Dispatch, SetStateAction, useEffect, useState,
 } from 'react';
 import { getAllTalkers, updateLectureById } from '@/services/api';
+import { useLectureContext } from '@/contexts/Lectures';
 import LectureBtns from './LectureBtns';
 
 type LectureCardEditableProps = {
   setEditable: Dispatch<SetStateAction<boolean>>;
-  setDisplayedLecture: Dispatch<SetStateAction<ILecture>>;
   lecture: ILecture;
 }
 
 export default function LectureCardEditable(
-  { setEditable, lecture, setDisplayedLecture }:LectureCardEditableProps,
+  { setEditable, lecture }:LectureCardEditableProps,
 ) {
+  const { setLectureApiStatus } = useLectureContext();
   const [isModified, setModified] = useState<boolean>(false);
   const [talkers, setTalkers] = useState<ITalker[]>([]);
   const [lectureInputs, setLecturesInputs] = useState<ILecture>(
@@ -76,7 +78,7 @@ export default function LectureCardEditable(
       id, title, watchedAt, talker: { id: talkerId },
     } = lectureInputs;
     await updateLectureById(id, { title, watchedAt: normalizeDateToApi(watchedAt), talkerId });
-    setDisplayedLecture(lectureInputs);
+    setLectureApiStatus(ApiStatus.PENDING);
     setEditable(false);
   }
 

@@ -1,3 +1,5 @@
+import { useLectureContext } from '@/contexts/Lectures';
+import { ApiStatus } from '@/types';
 import { Dispatch, SetStateAction } from 'react';
 
 type DeleteWarningProps = {
@@ -7,7 +9,6 @@ type DeleteWarningProps = {
     title?:string,
   },
   setDeleteWarning: Dispatch<SetStateAction<boolean>>,
-  setDeleted: Dispatch<SetStateAction<boolean>>,
   deleteEntityById: (id:string) => Promise<void>;
 }
 
@@ -16,12 +17,12 @@ export default function DeleteWarning(
     entity,
     setDeleteWarning,
     deleteEntityById,
-    setDeleted,
   }: DeleteWarningProps,
 ) {
+  const { setLectureApiStatus } = useLectureContext();
   function deleteHandler() {
     deleteEntityById(entity.id);
-    setDeleted(true);
+    setLectureApiStatus(ApiStatus.PENDING);
     setDeleteWarning(false);
   }
 
