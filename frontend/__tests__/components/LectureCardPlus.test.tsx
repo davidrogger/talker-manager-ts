@@ -2,7 +2,7 @@ import LectureCardPlus from '@/components/LectureSection/LectureCardPlus';
 import { AuthContext, IAuthContext } from '@/contexts/Auth';
 import { LectureProvider } from '@/contexts/Lectures';
 import { api } from '@/services/api';
-import { findByTestId, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { mockGetTalkersResponse } from '../utils/_mockData';
 
@@ -89,5 +89,16 @@ describe('Testing Component <LectureCardPlus />', () => {
     await userEvent.clear(dateElement);
     await userEvent.type(dateElement, '2024-08-25');
     expect(dateElement).toHaveValue('2024-08-25');
+  });
+
+  it('Should render a "confirm" and "cancel" button', async () => {
+    jest.spyOn(api, 'get').mockResolvedValue({ data: { talkers: mockGetTalkersResponse } });
+    render(<LectureCardWithContext />);
+
+    const buttonElement = screen.getByRole<HTMLButtonElement>('button');
+    await userEvent.click(buttonElement);
+
+    expect(await screen.findByTestId('test-confirm-button')).toBeVisible();
+    expect(await screen.findByTestId('test-cancel-button')).toBeVisible();
   });
 });
