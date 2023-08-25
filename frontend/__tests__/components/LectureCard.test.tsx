@@ -1,8 +1,13 @@
-import LectureCard from '@/components/LectureCard';
 import { render, screen } from '@testing-library/react';
-import { AuthContext, IAuthContext } from '@/contexts/Auth';
 import userEvent from '@testing-library/user-event';
+
+import LectureCard from '@/components/LectureSection/LectureCard';
+
+import { AuthContext, IAuthContext } from '@/contexts/Auth';
+import { LectureProvider } from '@/contexts/Lectures';
+
 import { api } from '@/services/api';
+
 import { normizeDateToDatePicker } from '@/utils/dateHandler';
 import { expectedLectureUpdateRequest, mockGetTalkersResponse } from '../utils/_mockData';
 import {
@@ -12,7 +17,9 @@ import {
 describe('Testing <LectureCard />', () => {
   const RenderLectureCardAuthenticated = () => (
     <AuthContext.Provider value={ { isAuthenticated: true } as IAuthContext }>
-      <LectureCard lecture={lectureCardTestingProps} />
+      <LectureProvider>
+        <LectureCard lecture={lectureCardTestingProps} />
+      </LectureProvider>
     </AuthContext.Provider>
   );
 
@@ -52,7 +59,7 @@ describe('Testing <LectureCard />', () => {
       const editBtn = screen.getByTestId('test-edit-button');
       await userEvent.click(editBtn);
 
-      expect(screen.getAllByRole('option')).toHaveLength(3);
+      expect(await screen.findAllByRole('option')).toHaveLength(3);
       const talkerSelected = await screen.findByRole<HTMLOptionElement>('option', { name: talkerName });
       expect(talkerSelected.selected).toBeTruthy();
     });
