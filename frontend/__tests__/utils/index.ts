@@ -32,8 +32,8 @@ export async function changeTitle(newTitle:string = DEFAULT_TITLE_CHANGE) {
 }
 
 export async function changeTalker(changeDefaulTalker?:HTMLOptionElement) {
-  const talkerSelection = screen.getByRole('combobox');
-  const talkers = screen.getAllByRole<HTMLOptionElement>('option');
+  const talkerSelection = await screen.findByRole('combobox');
+  const talkers = await screen.findAllByRole<HTMLOptionElement>('option');
   const [jonasOption, davidOption, defaultOption] = talkers;
 
   const talker = changeDefaulTalker ?? defaultOption;
