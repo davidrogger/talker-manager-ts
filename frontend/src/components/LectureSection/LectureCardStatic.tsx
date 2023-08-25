@@ -10,11 +10,11 @@ import DeleteWarning from '@/components/DeleteWarning';
 
 type LectureCardStaticProps = {
   lecture: ILecture;
-  setEditable: Dispatch<SetStateAction<boolean>>
+  setVisible: Dispatch<SetStateAction<boolean>>
 }
 
 export default function LectureCardStatic(
-  { lecture, setEditable }:LectureCardStaticProps,
+  { lecture, setVisible: setEditable }:LectureCardStaticProps,
 ) {
   const [isDeleteWarning, setDeleteWarning] = useState<boolean>(false);
 

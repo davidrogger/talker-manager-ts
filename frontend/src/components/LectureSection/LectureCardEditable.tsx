@@ -20,13 +20,13 @@ import LectureBtns from '@/components/LectureSection/LectureBtns';
 import EditableModeBtns from '@/components/EditableModeBtns';
 
 type LectureCardEditableProps<T> = {
-  setEditable: Dispatch<SetStateAction<boolean>>;
+  setVisible: Dispatch<SetStateAction<boolean>>;
   lecture: ILecture;
   apiHandler: (params:T) => Promise<void>,
 }
 
 export default function LectureCardEditable<T>(
-  { setEditable, lecture, apiHandler }:LectureCardEditableProps<T>,
+  { setVisible: setEditable, lecture, apiHandler }:LectureCardEditableProps<T>,
 ) {
   const { setLectureApiStatus } = useLectureContext();
   const [isModified, setModified] = useState<boolean>(false);
