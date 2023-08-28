@@ -2,7 +2,7 @@
 
 ## Intro
 
-Inspirado no projeto [**Talker Manager**](https://github.com/davidrogger/trybe-project-talker-manager), realizado na trybe, usando typescript e desenvolvendo um frontend testando nextjs.
+Inspirado no projeto [**Talker Manager**](https://github.com/davidrogger/trybe-project-talker-manager), realizado na trybe, usando typescript e desenvolvendo um frontend com nextjs.
 
 ## Tecnologias e ferramentas
 
@@ -17,3 +17,9 @@ Inspirado no projeto [**Talker Manager**](https://github.com/davidrogger/trybe-p
 ![Jest](https://img.shields.io/badge/-Jest-C63D15?&logo=jest)
 ![React Testing Library](https://img.shields.io/badge/-RTL-242526?&logo=testing-library)
 ![MySQL](https://img.shields.io/badge/-MySQL-EAA221?&logo=mysql&logoColor=1e4c68)
+
+#
+
+| Versão | Descrição | Branch |
+| -- | -- | -- |
+| 00 | Estrutura básica inicial do projeto | [Link de Acesso](https://github.com/davidrogger/talker-manager-ts/tree/version-00)
