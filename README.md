@@ -28,7 +28,7 @@ Inspirado no projeto [**Talker Manager**](https://github.com/davidrogger/trybe-p
 
 ## Proposta do projeto
 
-Criar um painel onde é possível pessoas não logadas a consulta de título e datas de palestrar com o nome dos palestrantes, e pessoas cadastradas, podem criar,  ver, atualizar e remover palestrantes e palestras(CRUD).
+Criar um painel onde é possível pessoas não logadas a consulta de título e datas de palestras com o nome dos palestrantes, e pessoas cadastradas, podem criar,  ver, atualizar e remover palestrantes e palestras(CRUD).
 
 ## Escolha das tecnologias
 
