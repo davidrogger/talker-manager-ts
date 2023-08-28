@@ -17,3 +17,5 @@ Inspirado no projeto [**Talker Manager**](https://github.com/davidrogger/trybe-p
 ![Jest](https://img.shields.io/badge/-Jest-C63D15?&logo=jest)
 ![React Testing Library](https://img.shields.io/badge/-RTL-242526?&logo=testing-library)
 ![MySQL](https://img.shields.io/badge/-MySQL-EAA221?&logo=mysql&logoColor=1e4c68)
+
+## Versão 0
